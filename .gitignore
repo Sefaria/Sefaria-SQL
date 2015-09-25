@@ -25,3 +25,7 @@ proguard/
 
 # Log Files
 *.log
+
+#db files
+*.db
+UpdateForSefariaMobileDatabase.*
