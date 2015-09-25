@@ -2,6 +2,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
 import java.nio.ByteBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
@@ -27,7 +28,9 @@ import org.json.JSONObject;
 
 public class Node extends SQLite{
 
-
+	private static final int NODE_BRANCH = 1;
+	private static final int NODE_TEXTS = 2;
+	private static final int NODE_REFS = 3;
 
 	static String CREATE_NODE_TABLE = 
 			"CREATE TABLE " +  "Nodes " + "(\r\n" + 
@@ -36,18 +39,22 @@ public class Node extends SQLite{
 			"	parentNode INTEGER,\r\n" + 
 			"	nodeType INTEGER not null,\r\n" + 
 			"	siblingNum INTEGER not null,\r\n" + //0 means the first sibling 
-			"	nodeTitle TEXT,\r\n" + 
+			"	enTitle TEXT,\r\n" + 
+			"	heTitle TEXT,\r\n" + 
+
 			
 			//for support of altStructs
-			"	isPrimaryStruct BOOLEAN NOT NULL default 1,\r\n" + 
+			"	structNum INTEGER NOT NULL default 1,\r\n" + 
+			"	textDepth INTEGER,\r\n" + 
+
 			"	startTid INTEGER,\r\n" +  //maybe only used with refferences on alt structure
 			"	endTid INTEGER,\r\n" +  //maybe only used with refferences on alt structure
 			"	extraTids TEXT,\r\n" +  //maybe only used with refferences on alt structure ex. "[34-70,98-200]"
 //maybe some stuff like to display chap name and or number (ei. maybe add some displaying info)
 			
-			"	FOREIGN KEY (bid) \r\n" + 
-			"		REFERENCES Books (_id)\r\n" + 
-			"		ON DELETE CASCADE,\r\n" + 
+	//		"	FOREIGN KEY (bid) \r\n" + 
+	//		"		REFERENCES Books (_id)\r\n" + 
+	//		"		ON DELETE CASCADE,\r\n" + 
 			"	FOREIGN KEY (parentNode) \r\n" + 
 			"		REFERENCES Nodes (_id)\r\n" + 
 			"		ON DELETE CASCADE,\r\n" + 
@@ -57,131 +64,110 @@ public class Node extends SQLite{
 	
 
 
-	private static void textDontDisplayNum(Connection c, String title){
-		//Assuming that the whole book has the same rules (at least for this input method)
-		String sql = "UPDATE Texts set displayNumber = 0 WHERE bid in (SELECT B._id FROM Books B WHERE B.title = ?);" ;
-		PreparedStatement stmt = null;
-		try {
-			stmt = c.prepareStatement(sql);
-			stmt.setString(1, title);
-			stmt.executeUpdate();
-			stmt.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
-
 
 	protected static int addText(Connection c, JSONObject json) throws JSONException{
 
+		System.out.println("in add node.addText");
+
+		
 		int lang = returnLangNums(json.getString("language"));
 		String title = json.getString("title");
 		Boolean isFirstLang = true;
 		if(!booksInDB.containsKey(title)){
 			System.err.println("Don't have book in DB and trying to add text");
-			return -1;
+			//return -1;
 		}
-		int id = booksInDBbid.get(title);
-		int textDepth = booksInDBtextDepth.get(title);
-		int [] it = new int[MAX_LEVELS + 1];
-		int forLoopNum = 6;
-		if(forLoopNum != MAX_LEVELS)
-			System.err.println("ERROR: forLoopNum is not teh same as MAX_LEVELS");
-		boolean [] skipThisLoop = new boolean[forLoopNum + 1];
-		JSONArray [] jsonArray = new JSONArray[forLoopNum + 1];
+		int bid = 12345;//booksInDBbid.get(title);
+		int textDepth = 0;//booksInDBtextDepth.get(title);
+		JSONObject node = (JSONObject) json.get("schema");
+		JSONObject text = (JSONObject) json.get("text");
 
-		jsonArray[forLoopNum] = (JSONArray) json.get("text");
-
-
-		for(it[forLoopNum] = 0; !skipThisLoop[forLoopNum] && it[forLoopNum]<jsonArray[forLoopNum].length();it[forLoopNum]++){
-			if(textDepth >= forLoopNum)
-				try{
-					jsonArray[forLoopNum -1] = jsonArray[forLoopNum].getJSONArray(it[forLoopNum]);
-				}catch(Exception e){//MOST LIKELY THIS IS B/C THERE IS A 0 and not another level of JSON there.
-					continue;
-				}
-			else{
-				jsonArray[forLoopNum - 1] = jsonArray[forLoopNum];
-				skipThisLoop[forLoopNum] = true;
-			}
-			forLoopNum = 5;
-			for(it[forLoopNum] = 0; !skipThisLoop[forLoopNum] && it[forLoopNum]<jsonArray[forLoopNum].length();it[forLoopNum]++){
-				if(textDepth >= forLoopNum)
-					try{
-						jsonArray[forLoopNum -1] = jsonArray[forLoopNum].getJSONArray(it[forLoopNum]);
-					}catch(Exception e){//MOST LIKELY THIS IS B/C THERE IS A 0 and not another level of JSON there.
-						continue;
-					}
-				else{
-					jsonArray[forLoopNum - 1] = jsonArray[forLoopNum];
-					skipThisLoop[forLoopNum] = true;
-				}
-				forLoopNum = 4;
-				for(it[forLoopNum] = 0; !skipThisLoop[forLoopNum] && it[forLoopNum]<jsonArray[forLoopNum].length();it[forLoopNum]++){
-					if(textDepth >= forLoopNum)
-						try{
-							jsonArray[forLoopNum -1] = jsonArray[forLoopNum].getJSONArray(it[forLoopNum]);
-						}catch(Exception e){//MOST LIKELY THIS IS B/C THERE IS A 0 and not another level of JSON there.
-							continue;
-						}
-					else{
-						jsonArray[forLoopNum - 1] = jsonArray[forLoopNum];
-						skipThisLoop[forLoopNum] = true;
-					}
-					forLoopNum = 3;
-					for(it[forLoopNum] = 0; !skipThisLoop[forLoopNum] && it[forLoopNum]<jsonArray[forLoopNum].length();it[forLoopNum]++){
-						if(textDepth >= forLoopNum){
-							try{
-								jsonArray[forLoopNum -1] = jsonArray[forLoopNum].getJSONArray(it[forLoopNum]);
-							}catch(Exception e){//MOST LIKELY THIS IS B/C THERE IS A 0 and not another level of JSON there.
-								continue;
-							}
-
-						}
-						else{
-							jsonArray[forLoopNum - 1] = jsonArray[forLoopNum];
-							skipThisLoop[forLoopNum] = true;
-						}
-						forLoopNum = 2;
-						for(it[forLoopNum] = 0; !skipThisLoop[forLoopNum] && it[forLoopNum]<jsonArray[forLoopNum].length();it[forLoopNum]++){
-							if(textDepth >= forLoopNum){
-								try{
-									jsonArray[forLoopNum -1] = jsonArray[forLoopNum].getJSONArray(it[forLoopNum]);
-								}catch(Exception e){//MOST LIKELY THIS IS B/C THERE IS A 0 and not another level of JSON there.
-									continue;
-								}
-							}
-							else{
-								jsonArray[forLoopNum - 1] = jsonArray[forLoopNum];
-								skipThisLoop[forLoopNum] = true;
-							}
-							forLoopNum = 1;
-							for(it[forLoopNum] = 0; !skipThisLoop[forLoopNum] && it[forLoopNum]<jsonArray[forLoopNum].length();it[forLoopNum]++){
-								try{
-									insertValues(c, title, textDepth, id, jsonArray[forLoopNum], lang, it, isFirstLang);
-								}catch(Exception e){//MOST LIKELY THIS IS B/C THERE IS A 0 and not another level of JSON there.
-									continue;
-								}
-							}
-							forLoopNum = 2;
-						}
-						forLoopNum = 3;
-					}
-					forLoopNum = 4;
-				}
-				forLoopNum = 5;
-			}
-			forLoopNum = 6;
-		}
+		insertNode(c, node,text, 0,0,bid,0);
 		return 1; //it worked
 	}
 
+	private static int nodeCount = 0;
+	
+	private final static String INSERT_NODE = "INSERT INTO Nodes (" +
+			"_id,bid,parentNode,nodeType,siblingNum,enTitle,heTitle,structNum,textDepth,startTid,endTid,extraTids)"
+			+ "VALUES (?,?, ?, ?, ?, ?, ?, ?,?, ?, ?,?);";
+	private static int insertNode(Connection c, JSONObject node,JSONObject text,int depth, int siblingNum,int bid,int parentNode){
+		String heTitle = node.getString("heTitle");
+		String enTitle = node.getString("enTitle");
+		int nodeID = ++nodeCount;
+		int nodeType;
+		JSONArray nodes = null;
+		try{
+			nodes  =  (JSONArray) node.get("nodes");
+			if(depth >0)
+				text = (JSONObject) text.get(enTitle);
+			nodeType = NODE_BRANCH;
+		}catch(Exception e){
+			nodeType =NODE_TEXTS;//leaf
+		}
+		System.out.println(heTitle  + " " + enTitle);
+		
 
+		
+		PreparedStatement stmt = null;
+		try{
+			stmt = c.prepareStatement(INSERT_NODE);
+			stmt.setInt(1, nodeID);
+			stmt.setInt(2,bid); // Kbid
+			stmt.setInt(3,parentNode);
+			stmt.setInt(4,nodeType); //TODO will need to change
+			stmt.setInt(5,siblingNum);
+			stmt.setString(6,enTitle);
+			stmt.setString(7,heTitle);
+			stmt.setInt(8,1); //TODO will need changing 
+			//stmt.setInt(6,);
+			//stmt.setInt(6,);
+			stmt.executeUpdate();
+			stmt.close();
+		}catch(Exception e){
+			System.err.println(e);
+		}
+		if(nodeType == NODE_BRANCH){
+			for(int i =0;i<nodes.length();i++){
+				insertNode(c, (JSONObject) nodes.get(i),text,depth+1,i,bid,nodeID);
+			}
+		} else if(nodeType == NODE_TEXTS){
+			JSONArray textArray = (JSONArray) text.get(enTitle);
+			ArrayList<Integer> levels = new ArrayList<Integer>();
+			int textDepth = insertTextArray(textArray, levels);
+			System.out.println("textDepth: " + textDepth);
+		}
+		
+		return 0;
+	}
 
-	private static int  insertValues(Connection c, String title,int textDepth, int id, JSONArray jsonLevel1, int lang, int [] it, boolean isFirstLang) throws JSONException{
+	
+	private static int insertTextArray(JSONArray textArray,ArrayList<Integer> levels){
+		try{
+			JSONArray textArray2 = textArray.getJSONArray(0);
+			//if this worked that means thats there's more levels
+			int returnDepth = 0;
+			for(int i=0;i<textArray.length();i++){
+				ArrayList<Integer> levels2 = (ArrayList<Integer>) levels.clone();
+				levels2.add(i+1);
+				returnDepth = insertTextArray(textArray.getJSONArray(i),levels2);
+			}
+			return returnDepth;
+		}catch(Exception JSONException){
+			levels.add(0);
+			for(int i=0;i<textArray.length();i++){
+				levels.set(levels.size()-1, i+1);
+				String text = textArray.getString(i);
+				//Text.insertValues(c, title, textDepth, id, jsonLevel1, lang, it, isFirstLang);
+				System.out.println(" " + levels);
+				//TODO Text.insertValue
+			}
+			return levels.size();
+		}
+		
+	}
+	
+	private static int  insertNode1(Connection c, String title,int textDepth, int id, JSONArray jsonLevel1, int lang, int [] it, boolean isFirstLang) throws JSONException{
 		String theText;
 		try{
 			Object textObj = jsonLevel1.get(it[1]);

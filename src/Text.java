@@ -228,7 +228,7 @@ public class Text extends SQLite{
 
 
 
-	private static int  insertValues(Connection c, String title,int textDepth, int id, JSONArray jsonLevel1, int lang, int [] it, boolean isFirstLang) throws JSONException{
+	protected static int  insertValues(Connection c, String title,int textDepth, int id, JSONArray jsonLevel1, int lang, int [] it, boolean isFirstLang) throws JSONException{
 		String theText;
 		try{
 			Object textObj = jsonLevel1.get(it[1]);
@@ -250,8 +250,6 @@ public class Text extends SQLite{
 
 		PreparedStatement stmt = null;
 		try{
-
-
 			stmt = c.prepareStatement("INSERT INTO Texts ("
 					+ Kbid + ", " + KenText + ", " + KheText + ", " 
 					+ Klevel1 + ", " + Klevel2 + ", "+ Klevel3 + ", "+ Klevel4 + ", "+ Klevel5 + ", "+ Klevel6 + ")"
@@ -260,11 +258,7 @@ public class Text extends SQLite{
 			stmt.setInt(1,id); // Kbid
 			int useableLang = lang + 1;//english =1 -> 2 & hebrew = 2 ->3
 			//////////////////////
-
 			stmt.setString(useableLang,theText); // KenText or  KheText
-
-
-
 
 			final int LEVEL_IN_STATEMENT_START = 4;
 			for(int i = 1; i<= MAX_LEVELS; i++){

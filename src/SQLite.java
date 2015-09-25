@@ -108,6 +108,8 @@ public class SQLite {
 			createTables();
 			insertStuff();
 			
+			
+			
 			System.out.println("Good stuff");
 		}catch(Exception e){
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -180,6 +182,19 @@ public class SQLite {
 			List<String> lines=Files.readAllLines(Paths.get(fileList), Charset.forName("UTF-8"));
 			int count = 0;
 			int failedBooksCount = 0;
+			
+			//testing Node stuff
+			try{
+				JSONObject json = openJSON("Wikisource.json");
+				//Book.addBook(c, json);
+				Node.addText(c,json);
+				c.commit();
+			}catch(Exception e){
+				System.err.println("Error: " + e);
+				failedBooksCount++;
+			}
+			
+			
 			for(String line:lines){
 				System.out.println(String.valueOf(++count) + ". " + line);
 				//if(count == 21)
