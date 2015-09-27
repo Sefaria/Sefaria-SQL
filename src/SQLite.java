@@ -68,7 +68,7 @@ public class SQLite {
 	protected static int textsFailedToUpload = 0;
 	protected static int textsUploaded = 0;
 
-	protected static final String HAS_TEXT_SQL_ERROR = "[SQLITE_CONSTRAINT]  Abort due to constraint violation (UNIQUE constraint failed: Texts.bid, Texts.level1, Texts.level2, Texts.level3, Texts.level4, Texts.level5, Texts.level6)";
+	protected static final String HAS_TEXT_SQL_ERROR = "[SQLITE_CONSTRAINT]  Abort due to constraint violation (UNIQUE constraint failed: Texts.bid, Texts.level1, Texts.level2, Texts.level3, Texts.level4, Texts.level5, Texts.level6, Texts.parentNode)";
 
 
 	public static final String KconnType = "connType";
@@ -94,7 +94,9 @@ public class SQLite {
     public static final String KdisplayLevelType = "displayLevelType";
     
 
-	
+	public static void printer(String message){
+		System.out.println(message);
+	}
 	
     public static final String TABLE_HEADERS = "Headers";
 
@@ -142,6 +144,7 @@ public class SQLite {
 			stmt.executeUpdate(Header.CREATE_HEADES_TABLE);
 			stmt.executeUpdate(Link.CREATE_LINKS_SMALL);
 			stmt.executeUpdate(Node.CREATE_NODE_TABLE);
+			stmt.executeUpdate(Searching.CREATE_SEARCH);
 			stmt.executeUpdate("CREATE TABLE Settings (_id TEXT PRIMARY KEY, value INTEGER);");
 			stmt.executeUpdate(" INSERT INTO Settings (_id, value) VALUES ('version'," + DB_VERION_NUM + ")");
 			//not needed with new Links_small table
@@ -197,11 +200,9 @@ public class SQLite {
 			
 			for(String line:lines){
 				System.out.println(String.valueOf(++count) + ". " + line);
-				//if(count == 21)
-					////break;
 				try{
 					JSONObject json = openJSON("F:/Google Drive/Programs/sefaria/Sefaria-Data/export/json/" + line);
-					Book.addBook(c, json);
+					Book.addBook(c,json);
 					Text.addText(c,json);
 					c.commit();
 				}catch(Exception e){
@@ -214,7 +215,7 @@ public class SQLite {
 			
 			
 			Searching.putInCountWords(c);
-			
+			c.commit();
 			System.out.println("ADDING LINKS...");
 			CSVReader reader = new CSVReader(new InputStreamReader(new FileInputStream("5link0.csv")));
 			Link.addLinkFile(c, reader);
@@ -269,13 +270,16 @@ public class SQLite {
 		return object;
 	}
 
+	protected final static int LANG_HE = 2;
+	protected final static int LANG_EN = 1;
+	
 	static int returnLangNums(String langString){
-		int langs = 0;
 		if(langString.equals("en"))
-			langs = 1;
+			return LANG_EN;
 		else if(langString.equals("he"))
-			langs = 2;
-		return langs;
+			return LANG_HE;
+		System.err.println("unrecignized lang:" + langString);
+		return 0;
 
 	}
 

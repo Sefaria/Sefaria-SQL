@@ -1,3 +1,4 @@
+import java.awt.print.PrinterAbortException;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -43,8 +44,8 @@ public class Text extends SQLite{
 			"	level5 INTEGER DEFAULT 0,\r\n" + 
 			"	level6 INTEGER DEFAULT 0, \r\n" + 
 			"	displayNumber BOOLEAN DEFAULT 1, \r\n" +
-			"	hasLink BOOLEAN DEFAULT 0, " + 
-			"	parentNode INTEGER, " + 
+			"	hasLink BOOLEAN DEFAULT 0,  \r\n" + 
+			"	parentNode INTEGER DEFAULT 0,  \r\n" + 
 
 			//"	hid INTEGER,\r\n" + 
 			"	FOREIGN KEY (bid) \r\n" + 
@@ -56,7 +57,7 @@ public class Text extends SQLite{
 			//"	FOREIGN KEY (" + Khid + ") \r\n" + 
 			//"		REFERENCES " + Header.TABLE_HEADERS +"(" + Khid + ")\r\n" + 
 			//"		ON DELETE CASCADE,\r\n" + 
-			"	CONSTRAINT TextsUnique UNIQUE (bid, level1, level2, level3, level4, level5, level6)\r\n" + 
+			"	CONSTRAINT TextsUnique UNIQUE (bid, level1, level2, level3, level4, level5, level6,parentNode)\r\n" + 
 			//	"	PRIMARY KEY (bid, level1, level2, level3, level4, level5, level6)\r\n" + 
 
 				")";
@@ -126,7 +127,6 @@ public class Text extends SQLite{
 
 		int lang = returnLangNums(json.getString("language"));
 		String title = json.getString("title");
-		Boolean isFirstLang = true;
 		if(!booksInDB.containsKey(title)){
 			System.err.println("Don't have book in DB and trying to add text");
 			return -1;
@@ -208,7 +208,7 @@ public class Text extends SQLite{
 							forLoopNum = 1;
 							for(it[forLoopNum] = 0; !skipThisLoop[forLoopNum] && it[forLoopNum]<jsonArray[forLoopNum].length();it[forLoopNum]++){
 								try{
-									insertValues(c, title, textDepth, id, jsonArray[forLoopNum], lang, it, isFirstLang);
+									insertValues(c, title, textDepth, id, jsonArray[forLoopNum], lang, it,0);
 								}catch(Exception e){//MOST LIKELY THIS IS B/C THERE IS A 0 and not another level of JSON there.
 									continue;
 								}
@@ -227,8 +227,8 @@ public class Text extends SQLite{
 	}
 
 
-
-	protected static int  insertValues(Connection c, String title,int textDepth, int id, JSONArray jsonLevel1, int lang, int [] it, boolean isFirstLang) throws JSONException{
+	
+	protected static int  insertValues(Connection c, String title,int textDepth, int bid, JSONArray jsonLevel1, int lang, int [] it,int parentNodeID) throws JSONException{
 		String theText;
 		try{
 			Object textObj = jsonLevel1.get(it[1]);
@@ -252,12 +252,11 @@ public class Text extends SQLite{
 		try{
 			stmt = c.prepareStatement("INSERT INTO Texts ("
 					+ Kbid + ", " + KenText + ", " + KheText + ", " 
-					+ Klevel1 + ", " + Klevel2 + ", "+ Klevel3 + ", "+ Klevel4 + ", "+ Klevel5 + ", "+ Klevel6 + ")"
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);");
+					+ Klevel1 + ", " + Klevel2 + ", "+ Klevel3 + ", "+ Klevel4 + ", "+ Klevel5 + ", "+ Klevel6 + ", parentNode" + ")"
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 
-			stmt.setInt(1,id); // Kbid
+			stmt.setInt(1,bid); // Kbid
 			int useableLang = lang + 1;//english =1 -> 2 & hebrew = 2 ->3
-			//////////////////////
 			stmt.setString(useableLang,theText); // KenText or  KheText
 
 			final int LEVEL_IN_STATEMENT_START = 4;
@@ -267,10 +266,11 @@ public class Text extends SQLite{
 					num = it[i]+1;
 				stmt.setInt(LEVEL_IN_STATEMENT_START + i - 1,num);
 			}
+			stmt.setInt(LEVEL_IN_STATEMENT_START +MAX_LEVELS, parentNodeID);
 			stmt.executeUpdate();
 			stmt.close();
 			Searching.countWords(lang,theText, ++textsUploaded);
-
+			
 		}catch(SQLException e){
 			if(e.getMessage().equals(HAS_TEXT_SQL_ERROR)){ //this text has already been placed into the db, so now you just want to add the text in the new lang.
 				try{	
@@ -278,28 +278,33 @@ public class Text extends SQLite{
 					for(int i = 1; i<= textDepth; i++){
 						levels[i-1] = it[i] + 1;
 					}
-					String updateStatement = "UPDATE Texts set " + convertLangToLangText(lang) + " = ? WHERE " + whereClause(id, levels);
+					String updateStatement = "UPDATE Texts set " + convertLangToLangText(lang) + " = ? WHERE " + whereClause(bid, levels,parentNodeID);
 					stmt = c.prepareStatement(updateStatement);
 
 					stmt.setString(1, theText);
-					stmt.setInt(2, id); //bid
+					stmt.setInt(2, bid); //bid
 					final int LEVEL_IN_UPDATE_START = 3;
 					for(int i =1; i<=textDepth; i++){
 						stmt.setInt(LEVEL_IN_UPDATE_START + i - 1,it[i] + 1);
 					}
+					stmt.setInt(LEVEL_IN_UPDATE_START + textDepth,parentNodeID);
 					stmt.executeUpdate();
 					stmt.close();
 					///TODO currTID should be correct!!!
 
-					if(lang == 2){
-						String findTID = "SELECT _id FROM Texts WHERE " + whereClause(id, levels);
+					//count words for searching table
+					if(lang == LANG_HE){
+						String findTID = "SELECT _id FROM Texts WHERE " + whereClause(bid, levels,parentNodeID);
 						stmt = c.prepareStatement(findTID);
 						ResultSet rs;
-						stmt.setInt(1, id); //bid
+						stmt.setInt(1, bid); //bid
 						final int LEVEL_IN_UPDATE_START_2 = 2;
 						for(int i =1; i<=textDepth; i++){
 							stmt.setInt(LEVEL_IN_UPDATE_START_2 + i - 1,it[i] + 1);
+							System.out.println("levels:"+(it[i] + 1));
 						}
+						stmt.setInt(LEVEL_IN_UPDATE_START_2 + textDepth, parentNodeID);
+						System.out.println(findTID + "\n" + (LEVEL_IN_UPDATE_START_2 + textDepth) + ":"+ parentNodeID + ":"+ bid);
 						rs = stmt.executeQuery();
 						int tid = -1;
 						if ( rs.next() ) {
@@ -332,28 +337,32 @@ public class Text extends SQLite{
 		System.err.println( "sql_text_convertLang: Unknown lang");
 		return "";
 	}
+	
+	
 
 	protected static String convertLangToLangText(int lang){
-		if(lang == 1)
+		if(lang == LANG_EN)
 			return KenText;
-		else if(lang == 2)
+		else if(lang == LANG_HE)
 			return  KheText;
 		System.err.println( "sql_text_convertLang: Unknown lang");
 		return "";
 	}
 
 
-	protected static String whereClause(int bid, int[] levels){
+	protected static String whereClause(int bid, int[] levels, int parentNodeID){
 		String whereStatement = "bid = ? ";
 		for(int i = 0; i < levels.length; i++){
 			if(!(levels[i] == 0)){
 				whereStatement += " AND level" + String.valueOf(i + 1) + "=? ";
 			}
 		}
+		
+		whereStatement += " AND parentNode = ? ";
 		return whereStatement;
 	}
 
-	public static String bytesToHex(byte[] a) {
+	private static String bytesToHex(byte[] a) {
 		StringBuilder sb = new StringBuilder(a.length * 3);
 
 		for(int i =0 ; i< a.length; i++){
@@ -364,7 +373,7 @@ public class Text extends SQLite{
 	}
 
 
-	static boolean isValidUTF8(final byte[] bytes) {
+	static private boolean isValidUTF8(final byte[] bytes) {
 		try {
 			Charset.availableCharsets().get("UTF-8").newDecoder().decode(ByteBuffer.wrap(bytes));
 		} catch (CharacterCodingException e) {
@@ -376,7 +385,7 @@ public class Text extends SQLite{
 	static final int  NEXT_CHAR_IS_UNICODE_INT =  0xFA;
 	static final byte NEXT_CHAR_IS_UNICODE = (byte) NEXT_CHAR_IS_UNICODE_INT;
 
-	static String convertToJH8(String original) throws UnsupportedEncodingException{
+	static private String convertToJH8(String original) throws UnsupportedEncodingException{
 		ArrayList<Byte> newBytesList = new ArrayList <Byte> () ;  
 		byte [] orgbytes = original.getBytes(Charset.forName("UTF-8"));
 		//System.out.println(bytesToHex(orgbytes));
@@ -450,7 +459,7 @@ public class Text extends SQLite{
 	}
 
 
-	static String convertFromJH8(String jhString) throws UnsupportedEncodingException{
+	static private String convertFromJH8(String jhString) throws UnsupportedEncodingException{
 		ArrayList<Byte> newBytesList = new ArrayList <Byte> () ;  
 		byte [] jhBytes = jhString.getBytes(Charset.forName("ISO-8859-1"));
 		for(int i = 0 ; i < jhBytes.length; i++){
