@@ -109,9 +109,7 @@ public class SQLite {
 			Class.forName("org.sqlite.JDBC");
 			createTables();
 			insertStuff();
-			
-			
-			
+		
 			System.out.println("Good stuff");
 		}catch(Exception e){
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -170,9 +168,6 @@ public class SQLite {
 
 		Connection c = null;
 		try{
-
-
-
 			c = DriverManager.getConnection("jdbc:sqlite:" + DB_NAME);
 			c.setAutoCommit(false);
 
@@ -189,20 +184,20 @@ public class SQLite {
 			//testing Node stuff
 			try{
 				JSONObject json = openJSON("Wikisource.json");
-				//Book.addBook(c, json);
+				Book.addBook(c, json,true);
 				Node.addText(c,json);
 				c.commit();
 			}catch(Exception e){
 				System.err.println("Error: " + e);
 				failedBooksCount++;
 			}
-			
+			//
 			
 			for(String line:lines){
 				System.out.println(String.valueOf(++count) + ". " + line);
 				try{
 					JSONObject json = openJSON("F:/Google Drive/Programs/sefaria/Sefaria-Data/export/json/" + line);
-					Book.addBook(c,json);
+					Book.addBook(c,json,false);
 					Text.addText(c,json);
 					c.commit();
 				}catch(Exception e){

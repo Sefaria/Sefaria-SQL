@@ -143,7 +143,7 @@ public class Book extends SQLite{
 	};
 
 
-	public static void addBook(Connection c, JSONObject json) throws JSONException, SQLException {
+	public static void addBook(Connection c, JSONObject json,boolean complexText) throws JSONException, SQLException {
 
 
 		String title = json.getString(Ktitle );
@@ -172,6 +172,7 @@ public class Book extends SQLite{
 			stmt.setInt(1, id);//_id
 			String commentedOnBook = title.replaceFirst(".* on ", "");
 			int commentsOn = 0;
+			int textDepth = 0;
 			if(booksInDB.containsKey(commentedOnBook)){
 				commentsOn = booksInDBbid.get(commentedOnBook);
 				stmt.setInt(2, commentsOn); // KcommentsOn
@@ -179,22 +180,25 @@ public class Book extends SQLite{
 				commentsOn = booksInDBbid.get(title.replaceFirst("Onkelos ", ""));
 				stmt.setInt(2, commentsOn); // KcommentsOn
 			}
-			String sectionNames = json.get("sectionNames").toString().replace("\"\"", "\"Section\"");
-			String heSectionNames = sectionNames;
-			if(enSectionNamesList.length != heSectionNamesList.length){
-				System.err.println("section names list are different sizes");
-				System.exit(-1);
+			if(!complexText){//only simple texts have section names
+				String sectionNames = json.get("sectionNames").toString().replace("\"\"", "\"Section\"");
+				String heSectionNames = sectionNames;
+				if(enSectionNamesList.length != heSectionNamesList.length){
+					System.err.println("section names list are different sizes");
+					System.exit(-1);
+				}
+				for(int i = 0;i < enSectionNamesList.length; i++){//replace the en names with he ones
+					heSectionNames = heSectionNames.replace("\"" + enSectionNamesList[i] + "\"", "\"" + heSectionNamesList[i] + "\"");
+				}
+				textDepth = str2strArray(sectionNames).length;
+				if(str2strArray(heSectionNames).length != textDepth){
+					System.err.println("section names convertion problem:" + heSectionNames);
+					System.exit(-1);
+				}
+	
+				stmt.setString(3,sectionNames); // KsectionNames
+				stmt.setString(14, heSectionNames);
 			}
-			for(int i = 0;i < enSectionNamesList.length; i++){//replace the en names with he ones
-				heSectionNames = heSectionNames.replace("\"" + enSectionNamesList[i] + "\"", "\"" + heSectionNamesList[i] + "\"");
-			}
-			int textDepth = str2strArray(sectionNames).length; //json.getInt(KtextDepth );//They no longer have "textDepth" as a thing in teh db dump.
-			if(str2strArray(heSectionNames).length != textDepth){
-				System.err.println("section names convertion problem:" + heSectionNames);
-				System.exit(-1);
-			}
-
-			stmt.setString(3,sectionNames); // KsectionNames
 			stmt.setString(4, json.get("categories").toString().replace("\"Liturgy\"", "\"Tefillah\"")); // Kcategories
 
 
@@ -224,7 +228,7 @@ public class Book extends SQLite{
 			//stmt.setString(11, json.getString(KversionTitle )); // KversionTitle
 			//stmt.setString(12, json.getString(Kversions )); // Kversions
 			stmt.setInt(13,lang); // Klanguages
-			stmt.setString(14, heSectionNames);
+			//stmt.setString(14, heSectionNames) is in if statement above
 
 			stmt.executeUpdate();
 			stmt.close();

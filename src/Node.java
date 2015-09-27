@@ -72,13 +72,12 @@ public class Node extends SQLite{
 		
 		int lang = returnLangNums(json.getString("language"));
 		String title = json.getString("title");
-		Boolean isFirstLang = true;
+		printer(title);
 		if(!booksInDB.containsKey(title)){
 			System.err.println("Don't have book in DB and trying to add text");
-			//return -1;
+			return -1;
 		}
-		int bid = 12345;//booksInDBbid.get(title);
-		int textDepth = 0;//booksInDBtextDepth.get(title);
+		int bid = booksInDBbid.get(title);
 		JSONObject node = (JSONObject) json.get("schema");
 		JSONObject text = (JSONObject) json.get("text");
 
