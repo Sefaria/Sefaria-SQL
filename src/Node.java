@@ -32,6 +32,8 @@ public class Node extends SQLite{
 	private static final int NODE_TEXTS = 2;
 	private static final int NODE_REFS = 3;
 
+	private static int nodeCount = 0;
+	
 	static String CREATE_NODE_TABLE = 
 			"CREATE TABLE " +  "Nodes " + "(\r\n" + 
 			"	_id INTEGER PRIMARY KEY,\r\n" + 
@@ -41,6 +43,9 @@ public class Node extends SQLite{
 			"	siblingNum INTEGER not null,\r\n" + //0 means the first sibling 
 			"	enTitle TEXT,\r\n" + 
 			"	heTitle TEXT,\r\n" + 
+			
+			"	sectionNames TEXT,\r\n" + 
+			"	heSectionNames TEXT,\r\n" + 
 
 			
 			//for support of altStructs
@@ -58,7 +63,7 @@ public class Node extends SQLite{
 			"	FOREIGN KEY (parentNode) \r\n" + 
 			"		REFERENCES Nodes (_id)\r\n" + 
 			"		ON DELETE CASCADE,\r\n" + 
-			"	CONSTRAINT uniqSiblingNum UNIQUE (parentNode,siblingNum)\r\n" + 
+			"	CONSTRAINT uniqSiblingNum UNIQUE (bid,parentNode,siblingNum,structNum)\r\n" + //needs bid b/c otherwise parent is 0 for each root 
 
 				")";
 	
@@ -66,13 +71,9 @@ public class Node extends SQLite{
 
 
 	protected static int addText(Connection c, JSONObject json) throws JSONException{
-
-		System.out.println("in add node.addText");
-
-		
 		int lang = returnLangNums(json.getString("language"));
 		String title = json.getString("title");
-		printer(title);
+		//printer(title);
 		if(!booksInDB.containsKey(title)){
 			System.err.println("Don't have book in DB and trying to add text");
 			return -1;
@@ -85,7 +86,7 @@ public class Node extends SQLite{
 		return 1; //it worked
 	}
 
-	private static int nodeCount = 0;
+	
 	
 	private final static String INSERT_NODE = "INSERT INTO Nodes (" +
 			"_id,bid,parentNode,nodeType,siblingNum,enTitle,heTitle,structNum,textDepth,startTid,endTid,extraTids)"
@@ -98,16 +99,13 @@ public class Node extends SQLite{
 		int nodeType;
 		JSONArray nodes = null;
 		try{
-			nodes  =  (JSONArray) node.get("nodes");
+			nodes  =  node.getJSONArray("nodes");
 			if(depth >0)
-				text = (JSONObject) text.get(enTitle);
+				text = text.getJSONObject(enTitle); //this is the test to determine the Node type
 			nodeType = NODE_BRANCH;
 		}catch(Exception e){
 			nodeType =NODE_TEXTS;//leaf
 		}
-		System.out.println(heTitle  + " " + enTitle);
-		
-
 		
 		PreparedStatement stmt = null;
 		try{
@@ -115,17 +113,17 @@ public class Node extends SQLite{
 			stmt.setInt(1, nodeID);
 			stmt.setInt(2,bid); // Kbid
 			stmt.setInt(3,parentNode);
-			stmt.setInt(4,nodeType); //TODO will need to change
+			stmt.setInt(4,nodeType);
 			stmt.setInt(5,siblingNum);
 			stmt.setString(6,enTitle);
 			stmt.setString(7,heTitle);
-			stmt.setInt(8,1); //TODO will need changing 
+			stmt.setInt(8,1); //TODO will need changing //1=> default structure
 			//stmt.setInt(6,);
 			//stmt.setInt(6,);
 			stmt.executeUpdate();
 			stmt.close();
 		}catch(Exception e){
-			System.err.println(e);
+			System.err.println("Error3: " + e + "--" + nodeID);
 		}
 		if(nodeType == NODE_BRANCH){
 			for(int i =0;i<nodes.length();i++){
@@ -181,9 +179,73 @@ public class Node extends SQLite{
 		
 	}
 
+	private static int addNodes(Connection c, JSONArray nodes,int bid,int parentNode, int structNum) throws JSONException{
+		for(int j =0;j<nodes.length();j++){
+			JSONObject node = nodes.getJSONObject(j);
+			String enTitle = node.getString("title");
+			String heTitle = node.getString("heTitle");
+			String nodeTypeString =  node.getString("nodeType");
+			int nodeType = -1;
+			if(nodeTypeString.equals("ArrayMapNode")){
+				nodeType = NODE_REFS;
+			}
+			else{
+				System.err.println("Error not a ref");
+				return -1;
+			}
+			JSONArray sectionNames = node.getJSONArray("sectionNames");
+			JSONArray refs = node.getJSONArray("refs");
+			System.out.println(enTitle + " " +  heTitle + " " + nodeType + " " + sectionNames + refs);
+			int nodeID = ++nodeCount;
+			PreparedStatement stmt = null;
+			try{
+				stmt = c.prepareStatement(INSERT_NODE);
+				stmt.setInt(1, nodeID);
+				stmt.setInt(2,bid); // Kbid
+				stmt.setInt(3,parentNode);
+				stmt.setInt(4,nodeType);
+				stmt.setInt(5,j);
+				stmt.setString(6,enTitle);
+				stmt.setString(7,heTitle);
+				stmt.setInt(8,structNum); //TODO will need changing //1=> default structure
+				//stmt.setInt(6,);
+				//stmt.setInt(6,);
+				stmt.executeUpdate();
+				stmt.close();
+			}catch(Exception e){
+				System.err.println("Error3: " + e + "--" + nodeID);
+			}
+			
+		}
+		return 1;//worked
+	}
+	
+	protected static int addSchemas(Connection c, JSONObject schemas) throws JSONException{
+		try{
+			
+			JSONObject alts = schemas.getJSONObject("alts");
+			String bookTitle = schemas.getString("title");
+			int bid = booksInDBbid.get(bookTitle);
+			Object object;
+			String [] altNames = alts.getNames(alts);
+			for(int i=0;i<altNames.length;i++){
+				//System.out.println(altNames[i]);
+				JSONObject alt = alts.getJSONObject(altNames[i]);
+				JSONArray nodes = alt.getJSONArray("nodes");
+				int structNum = i+2;//1 is the default, so add 2 to the alt structs.
+				addNodes(c, nodes, bid,0,structNum);
+			}
+		}catch(JSONException e1){
+			if(!e1.toString().equals("org.json.JSONException: JSONObject[\"alts\"] not found.")){
+				throw e1;//I don't know what it is so throw it back out there
+			}
+			//else it only has a single structure 
+		}catch(Exception e){
+			System.err.println("Error (addSchemas): " + e);
+		}
+		
+		return 1; //it worked
+	}
 
-
-
-
-}
+}	
 

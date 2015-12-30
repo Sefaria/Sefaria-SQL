@@ -23,10 +23,11 @@ import org.json.JSONTokener;
 
 public class SQLite {
 
-	public static final String DB_NAME = "test_101.db";
+	public static final String DB_NAME = "api_only.db";
 	private static final boolean USE_TEST_FILES = false;
-	private static final int DB_VERION_NUM = 108;
-
+	private static final int DB_VERION_NUM = 110;
+	private static final boolean API_ONLY = true;
+	
 	protected static Map<String,Integer> booksInDB= new HashMap<String, Integer>(); 
 	protected static Map<String,Integer> booksInDBbid = new HashMap<String, Integer>();
 	protected static Map<String,Integer> booksInDBtextDepth = new HashMap<String, Integer>();
@@ -135,16 +136,23 @@ public class SQLite {
 			stmt.executeUpdate("DROP TABLE IF EXISTS " + "Searching");
 			stmt.executeUpdate("DROP TABLE IF EXISTS " + "Settings");
 			
-			
-			stmt.executeUpdate(Text.CREATE_TEXTS_TABLE);
+			if(!API_ONLY){
+				stmt.executeUpdate(Text.CREATE_TEXTS_TABLE);
+				stmt.executeUpdate(Link.CREATE_TABLE_LINKS);
+				stmt.executeUpdate(Link.CREATE_LINKS_SMALL);
+				stmt.executeUpdate(Node.CREATE_NODE_TABLE);
+				stmt.executeUpdate(Searching.CREATE_SEARCH);
+			}
 			stmt.executeUpdate(Book.CREATE_BOOKS_TABLE);
-			stmt.executeUpdate(Link.CREATE_TABLE_LINKS);
 			stmt.executeUpdate(Header.CREATE_HEADES_TABLE);
-			stmt.executeUpdate(Link.CREATE_LINKS_SMALL);
-			stmt.executeUpdate(Node.CREATE_NODE_TABLE);
-			stmt.executeUpdate(Searching.CREATE_SEARCH);
+
+			
 			stmt.executeUpdate("CREATE TABLE Settings (_id TEXT PRIMARY KEY, value INTEGER);");
 			stmt.executeUpdate(" INSERT INTO Settings (_id, value) VALUES ('version'," + DB_VERION_NUM + ")");
+			if(API_ONLY)
+				stmt.executeUpdate(" INSERT INTO Settings (_id, value) VALUES ('api',1)");
+			else
+				stmt.executeUpdate(" INSERT INTO Settings (_id, value) VALUES ('api',0)");
 			//not needed with new Links_small table
 			//stmt.execute("Create index LinksIndex on Links (bida, level1a, level2a)");
 
@@ -181,25 +189,38 @@ public class SQLite {
 			int count = 0;
 			int failedBooksCount = 0;
 			
-			//testing Node stuff
-			try{
-				JSONObject json = openJSON("Wikisource.json");
-				Book.addBook(c, json,true);
-				Node.addText(c,json);
-				c.commit();
-			}catch(Exception e){
-				System.err.println("Error: " + e);
-				failedBooksCount++;
-			}
-			//
-			
 			for(String line:lines){
 				System.out.println(String.valueOf(++count) + ". " + line);
+				String path = "F:/Google Drive/Programs/sefaria/data2/Sefaria-Data/export/";
+				String jsonPath = path + "json/" + line;
+				
+				boolean doComplex = true;
 				try{
-					JSONObject json = openJSON("F:/Google Drive/Programs/sefaria/Sefaria-Data/export/json/" + line);
-					Book.addBook(c,json,false);
-					Text.addText(c,json);
+					JSONObject json = openJSON(jsonPath);
+					String title = json.getString("title");
+					String schemaPath = path + "schemas/" + title.replaceAll(" ", "_") + ".json";
+					JSONObject schemas = openJSON(schemaPath);
+					try{
+						//non complex texts
+						Book.addBook(c,json,false);
+						if(!API_ONLY)
+							Text.addText(c,json);
+					}catch(JSONException e){
+						if(e.toString().equals("org.json.JSONException: JSONObject[\"sectionNames\"] not found.")
+								&& doComplex){
+							System.out.println("Complex Text");
+							Book.addBook(c, json,true);
+							if(!API_ONLY)
+								Node.addText(c,json);
+						}else{
+							System.err.println("Error2: " + e);
+							failedBooksCount++;
+						}
+					}
+					if(!API_ONLY)
+						Node.addSchemas(c, schemas);
 					c.commit();
+					
 				}catch(Exception e){
 					System.err.println("Error: " + e);
 					failedBooksCount++;
@@ -209,17 +230,19 @@ public class SQLite {
 			//System.out.println("TEXTS: en: " + Text.en + " he: " + Text.he + " u2: " + Text.u2 + " u3: " + Text.u3 + " u4: " + Text.u4);
 			
 			
-			Searching.putInCountWords(c);
-			c.commit();
-			System.out.println("ADDING LINKS...");
-			CSVReader reader = new CSVReader(new InputStreamReader(new FileInputStream("5link0.csv")));
-			Link.addLinkFile(c, reader);
-			c.commit();
+			if(!API_ONLY){
+				Searching.putInCountWords(c);
+				c.commit();
+				System.out.println("ADDING LINKS...");
+				CSVReader reader = new CSVReader(new InputStreamReader(new FileInputStream("5link0.csv")));
+				Link.addLinkFile(c, reader);
+				c.commit();
 			
-			System.out.println("CHANGING displayNum (on Texts)...");
-			Text.displayNum(c);
-			System.out.println("CHANGING hasLink (on Texts)...");
-			Text.setHasLink(c);
+				System.out.println("CHANGING displayNum (on Texts)...");
+				Text.displayNum(c);
+				System.out.println("CHANGING hasLink (on Texts)...");
+				Text.setHasLink(c);
+			}
 			System.out.println("CHANGING book commentary wherePage to 3...");
 			Book.convertCommWherePage(c);
 			System.out.println("setTidMinMax...");

@@ -198,11 +198,11 @@ public class Searching {
 			//stmt1.execute(
 			//stmt1.close();
 			System.out.println("created searching...");
-			FileWriter writer = new FileWriter("counts.csv"); 
+			FileWriter writer = new FileWriter(SQLite.DB_NAME + "_counts.csv"); 
 			stmt = c.prepareStatement("INSERT into Searching VALUES (?,?)");
 
 			for(String key: keys){
-				writer.append(key +": " + countText.get(key));
+				writer.append(key +"," + countText.get(key)+ "\n");
 				//if(key.equals("ברא") )//key.equals("גדול") || 
 				//	System.out.print("ok");
 				stmt.setString(1,key);
