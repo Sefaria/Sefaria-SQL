@@ -143,8 +143,8 @@ public class Book extends SQLite{
 	};
 
 
-	public static void addBook(Connection c, JSONObject enJSON, JSONObject heJSON,boolean complexText) throws JSONException, SQLException {
-
+	public static void addBook(Connection c, JSONObject enJSON, JSONObject heJSON,boolean complexText) throws JSONException, SQLException {		
+		
 		int langSum = 0;
 		JSONObject json;
 		if(enJSON != null && heJSON != null){
@@ -160,10 +160,15 @@ public class Book extends SQLite{
 			System.err.print("BOTH JSONs are null! :(");
 			return; 
 		}
-		
+		/**
+		 * this is to test if it's complex or not. If it is, it will throw an error
+		 */
+		if(!complexText)
+			json.get("sectionNames").toString().replace("\"\"", "\"Section\"");
 		
 		String title = json.getString(Ktitle );
-			
+					
+		
 		int id = ++idCount;
 
 		PreparedStatement stmt = c.prepareStatement("INSERT INTO Books ("
@@ -184,6 +189,7 @@ public class Book extends SQLite{
 			commentsOn = booksInDBbid.get(title.replaceFirst("Onkelos ", ""));
 			stmt.setInt(2, commentsOn); // KcommentsOn
 		}
+
 		if(!complexText){//only simple texts have section names
 			String sectionNames = json.get("sectionNames").toString().replace("\"\"", "\"Section\"");
 			String heSectionNames = sectionNames;

@@ -109,7 +109,7 @@ public class Text extends SQLite{
 		}
 
 	}
-	
+
 	static void setHasLink(Connection c){
 		String sql = "update Texts set hasLink=1 where _id in (select distinct tid1 from Links_small union select   distinct tid2 from Links_small)";
 		PreparedStatement stmt = null;
@@ -216,7 +216,7 @@ public class Text extends SQLite{
 							forLoopNum = 1;
 							for(it[forLoopNum] = 0; !skipThisLoop[forLoopNum] && it[forLoopNum]<jsonArray[forLoopNum].length();it[forLoopNum]++){
 								try{
-									insertValues(c, title, textDepth, id, jsonArray[forLoopNum], lang, it,0);
+									insertValues(c, title, textDepth, id, jsonArray[forLoopNum], lang, it,0,null);
 								}catch(Exception e){//MOST LIKELY THIS IS B/C THERE IS A 0 and not another level of JSON there.
 									continue;
 								}
@@ -235,22 +235,45 @@ public class Text extends SQLite{
 	}
 
 
-	
-	protected static int  insertValues(Connection c, String title,int textDepth, int bid, JSONArray jsonLevel1, int lang, int [] it,int parentNodeID) throws JSONException{
-		String theText;
+
+	protected static int  insertValues(Connection c, String title,int textDepth, int bid, JSONArray jsonLevel1, int lang, int [] it,int parentNodeID,JSONArray jsonLevel1ForEnJSONOfComplexText) throws JSONException{
+		String theText = "",theEnTextForComplex = "";
 		try{
-			Object textObj = jsonLevel1.get(it[1]);
-			if(!(jsonLevel1.get(it[1]) instanceof String)) //it's not text
-				return -1;	
-			theText = (String) textObj;
-			if(theText.length() < 1){ //this means that it's useless to try to add to the database.
-				return -1;
+
+			if(parentNodeID == 0){//it's a regular old text
+				Object textObj = jsonLevel1.get(it[1]);
+				if(!(jsonLevel1.get(it[1]) instanceof String)) //it's not text
+					return -1;	
+				theText = (String) textObj;
+				if(theText.length() < 1){ //this means that it's useless to try to add to the database.
+					return -1;
+				}
+			} else{ //	if(parentNodeID != 0){
+				if(jsonLevel1ForEnJSONOfComplexText != null){		
+					Object textObj = jsonLevel1ForEnJSONOfComplexText.get(it[1]);
+					if(!(jsonLevel1ForEnJSONOfComplexText.get(it[1]) instanceof String)) //it's not text
+						theEnTextForComplex = "";
+					else
+						theEnTextForComplex = (String) textObj;
+				}
+				if(jsonLevel1 != null){
+					Object textObj = jsonLevel1.get(it[1]);
+					if(!(jsonLevel1.get(it[1]) instanceof String)) //it's not text
+						theText = "";
+					else
+						theText = (String) textObj;
+				}
+				if(theEnTextForComplex.length() < 1 && theText.length() < 1){ //this means that it's useless to try to add to the database.
+					return -1;
+				}
+
 			}
 			//theText = convertToJH8(theText);////CONVERT FROM UTF8!!!!!!!
 			//convertFromJH8(theText);
 		}catch(Exception e){ //if there was a problem getting the text, then it probably wasn't text anyways so just leave the function.
 			System.err.println("Error: " + e);
 			System.err.println("sql_adding_text: Problem adding text " + title + " it[1] = " + it[1]);
+			println("" + jsonLevel1);
 			textsFailedToUpload++;
 			return -1;
 		}
@@ -264,9 +287,14 @@ public class Text extends SQLite{
 					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 
 			stmt.setInt(1,bid); // Kbid
-			int useableLang = lang + 1;//english =1 -> 2 & hebrew = 2 ->3
-			stmt.setString(useableLang,theText); // KenText or  KheText
+			if(parentNodeID == 0){//It's a regular text, so input the old way
+				int useableLang = lang + 1;//english =1 -> 2 & hebrew = 2 ->3
+				stmt.setString(useableLang,theText); // KenText or  KheText
 
+			}else{//It's a complex text, so input en/he at the same  time
+				stmt.setString(2, theEnTextForComplex);
+				stmt.setString(3,theText);
+			}
 			final int LEVEL_IN_STATEMENT_START = 4;
 			for(int i = 1; i<= MAX_LEVELS; i++){
 				int num = 0;
@@ -277,8 +305,13 @@ public class Text extends SQLite{
 			stmt.setInt(LEVEL_IN_STATEMENT_START +MAX_LEVELS, parentNodeID);
 			stmt.executeUpdate();
 			stmt.close();
-			Searching.countWords(lang,theText, ++textsUploaded);
-			
+			if(parentNodeID == 0){
+				Searching.countWords(lang,theText, ++textsUploaded);
+			}else{
+				Searching.countWords(2,theText, ++textsUploaded);
+				Searching.countWords(1,theEnTextForComplex, textsUploaded);
+			}
+
 		}catch(SQLException e){
 			if(e.getMessage().equals(HAS_TEXT_SQL_ERROR)){ //this text has already been placed into the db, so now you just want to add the text in the new lang.
 				try{	
@@ -345,8 +378,8 @@ public class Text extends SQLite{
 		System.err.println( "sql_text_convertLang: Unknown lang");
 		return "";
 	}
-	
-	
+
+
 
 	protected static String convertLangToLangText(int lang){
 		if(lang == LANG_EN)
@@ -365,7 +398,7 @@ public class Text extends SQLite{
 				whereStatement += " AND level" + String.valueOf(i + 1) + "=? ";
 			}
 		}
-		
+
 		whereStatement += " AND parentNode = ? ";
 		return whereStatement;
 	}

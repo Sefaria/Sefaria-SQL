@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
+import javax.swing.text.html.parser.Entity;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,22 +73,63 @@ public class Node extends SQLite{
 
 
 
-	protected static Map<String,Integer> booksWithNodesInsertedInToDB = new HashMap<String, Integer>();
 
-	protected static int addText(Connection c, JSONObject json) throws JSONException{
-		int lang = returnLangNums(json.getString("language"));
-		String title = json.getString("title");
-		//printer(title);
+	protected static int addText(Connection c, JSONObject enJSON, JSONObject heJSON) throws JSONException{
+		if(enJSON == null && heJSON == null){
+			System.err.print("Both JSONs are null in Node.addText()");
+			return -1;
+		}
+		int enLang =0,heLang=0;
+		String title ="";
+		JSONObject node = null;
+		if(enJSON != null){
+			enLang = returnLangNums(enJSON.getString("language"));
+			title = enJSON.getString("title");
+			node = (JSONObject) enJSON.get("schema");
+		}		
+		if(heJSON != null){
+			heLang = returnLangNums(heJSON.getString("language"));
+			title = heJSON.getString("title");
+			node = (JSONObject) heJSON.get("schema");
+		}
+		int lang = enLang + heLang;
+		/**
+		 * check for errors
+		 */
+		if((enLang != SQLite.LANG_EN  && enLang != 0)|| (heLang != SQLite.LANG_HE  && enLang != 0)){
+			System.err.println("not right lang numbers");
+			return -1;
+		}
+		if(title.equals("")){
+			System.err.println("no Title");
+			return -1;
+		}
+		if(enJSON != null && heJSON != null){
+			if(!heJSON.get("schema").toString().equals(enJSON.get("schema").toString())){
+				System.err.println("en and he JSONs schemas don't match\n");	
+				System.out.println(heJSON.get("schema"));
+				System.out.println(enJSON.get("schema"));
+				return -1;
+			}
+			if(!enJSON.getString("title").equals(heJSON.getString("title"))){
+				System.err.println("en and he JSONs title don't match" + enJSON.getString("title") + " - " + heJSON.getString("title"));
+				return -1;
+			}
+			
+		}
 		if(!booksInDB.containsKey(title)){
 			System.err.println("Don't have book in DB and trying to add text");
 			return -1;
 		}
-		int bid = booksInDBbid.get(title);
-		JSONObject node = (JSONObject) json.get("schema");
-		JSONObject text = (JSONObject) json.get("text");
-
-		insertNode(c, node,text, 0,0,bid,0,lang);
-		booksWithNodesInsertedInToDB.put(title,bid);
+		int bid = booksInDBbid.get(title); 
+		JSONObject enText = null, heText = null;
+		if(enJSON != null){
+			enText = (JSONObject) enJSON.get("text");
+		}
+		if(heJSON != null){
+			heText = (JSONObject) heJSON.get("text");
+		}
+		insertNode(c, node,enText,heText, 0,0,bid,0,lang);
 		return 1; //it worked
 	}
 
@@ -96,7 +139,11 @@ public class Node extends SQLite{
 			"_id,bid,parentNode,nodeType,siblingNum,enTitle,heTitle,structNum,textDepth,startTid,endTid,extraTids)"
 			+ "VALUES (?,?, ?, ?, ?, ?, ?, ?,?, ?, ?,?);";
 
-	private static int insertNode(Connection c, JSONObject node,JSONObject text,int depth, int siblingNum,int bid,int parentNode,int lang){
+	private static int insertNode(Connection c, JSONObject node,JSONObject enText,JSONObject heText,int depth, int siblingNum,int bid,int parentNode,int lang){
+		if(enText == null && heText == null){
+			System.err.println("Both JSONs are null in insertNode");
+			return -1;
+		}
 		String heTitle = node.getString("heTitle");
 		String enTitle = node.getString("enTitle");
 		int nodeID = ++nodeCount;
@@ -104,49 +151,51 @@ public class Node extends SQLite{
 		JSONArray nodes = null;
 		try{
 			nodes  =  node.getJSONArray("nodes");
-			if(depth >0)
-				text = text.getJSONObject(enTitle); //this is the test to determine the Node type
+			if(depth >0){
+				if(enText != null)
+					enText = enText.getJSONObject(enTitle); //this is the test to determine the Node type
+				if(heText != null)
+					heText = heText.getJSONObject(enTitle); //this is the test to determine the Node type
+			}
 			nodeType = NODE_BRANCH;
 		}catch(Exception e){
-			nodeType =NODE_TEXTS;//leaf
+			nodeType = NODE_TEXTS;//leaf
 		}
-
 		PreparedStatement stmt = null;
-		
-		/**
-		 *  else it's a book that already has it's tree inserted.
-		 *   This will usually be if the hebrew book was already inserted, and then the english is tried to go in
-		 */
-		if(!booksWithNodesInsertedInToDB.containsValue(bid)){
-			
-			try{
-				stmt = c.prepareStatement(INSERT_NODE);
-				stmt.setInt(1, nodeID);
-				stmt.setInt(2,bid); // Kbid
-				stmt.setInt(3,parentNode);
-				stmt.setInt(4,nodeType);
-				stmt.setInt(5,siblingNum);
-				stmt.setString(6,enTitle);
-				stmt.setString(7,heTitle);
-				stmt.setInt(8,1); //TODO will need changing //1=> default structure
-				//stmt.setInt(6,);
-				//stmt.setInt(6,);
-				stmt.executeUpdate();
-				stmt.close();
-			}catch(Exception e){
-				System.err.println("Error32132: " + e + "--" + nodeID);
 
 
-			}
+		try{
+			stmt = c.prepareStatement(INSERT_NODE);
+			stmt.setInt(1, nodeID);
+			stmt.setInt(2,bid); // Kbid
+			stmt.setInt(3,parentNode);
+			stmt.setInt(4,nodeType);
+			stmt.setInt(5,siblingNum);
+			stmt.setString(6,enTitle);
+			stmt.setString(7,heTitle);
+			stmt.setInt(8,1); //TODO will need changing //1=> default structure
+			//stmt.setInt(6,);
+			//stmt.setInt(6,);
+			stmt.executeUpdate();
+			stmt.close();
+		}catch(Exception e){
+			System.err.println("Error32132: " + e + "--" + nodeID);
+
+
 		}
+
 		if(nodeType == NODE_BRANCH){
 			for(int i =0;i<nodes.length();i++){
-				insertNode(c, (JSONObject) nodes.get(i),text,depth+1,i,bid,nodeID,lang);
+				insertNode(c, (JSONObject) nodes.get(i),enText,heText,depth+1,i,bid,nodeID,lang);
 			}
 		} else if(nodeType == NODE_TEXTS){
-			JSONArray textArray = (JSONArray) text.get(enTitle);
+			JSONArray enTextArray = null,heTextArray = null;
+			if(enText != null)
+				enTextArray = (JSONArray) enText.get(enTitle);
+			if(heText != null)
+				heTextArray = (JSONArray) heText.get(enTitle);
 			ArrayList<Integer> levels = new ArrayList<Integer>();
-			int textDepth = insertTextArray(c, textArray, levels,bid,lang,nodeID);
+			int textDepth = insertTextArray(c, enTextArray, heTextArray, levels,bid,lang,nodeID);
 			String updateStatement = "UPDATE Nodes set textDepth = ? WHERE _id = ?";
 			try {
 				stmt = c.prepareStatement(updateStatement);
@@ -164,7 +213,7 @@ public class Node extends SQLite{
 		return 0;
 	}
 
-	
+
 	/**
 	 * //TODO have to deal with only hebrew getting into db.  
 	 * @param connection
@@ -175,28 +224,46 @@ public class Node extends SQLite{
 	 * @param parentNodeID
 	 * @return textDepth
 	 */
-	private static int insertTextArray(Connection c, JSONArray textArray,ArrayList<Integer> levels,int bid,int lang,int parentNodeID){
+	private static int insertTextArray(Connection c, JSONArray enTextArray, JSONArray heTextArray,ArrayList<Integer> levels,int bid,int lang,int parentNodeID){
 		try{
-			JSONArray textArray2 = textArray.getJSONArray(0);
-			//if this worked that means thats there's more levels
+			if(enTextArray == null && heTextArray == null){
+				System.err.println("Both JSONs are null in Node.insertTextArray()");
+				return -1;
+			}
+			/***
+			 * if this worked that means thats there's more levels
+			 */
+			if(enTextArray != null){
+				JSONArray enTextArray2 = enTextArray.getJSONArray(0);
+			}
+			if(heTextArray != null){
+				JSONArray heTextArray2 = heTextArray.getJSONArray(0);
+			}
+			
 			int returnDepth = 0;
-			for(int i=0;i<textArray.length();i++){
+			if(heTextArray.length() != enTextArray.length()){
+				System.err.println("heTextArray.length() != heTextArray.length()");
+			}
+			for(int i=0;i<heTextArray.length();i++){
 				ArrayList<Integer> levels2 = (ArrayList<Integer>) levels.clone();
 				levels2.add(i);
-				returnDepth = insertTextArray(c, textArray.getJSONArray(i),levels2,bid,lang,parentNodeID);
+				returnDepth = insertTextArray(c, enTextArray.getJSONArray(i), heTextArray.getJSONArray(i),levels2,bid,lang,parentNodeID);
 			}
 			return returnDepth;
 		}catch(Exception JSONException){
 			levels.add(0);
 			String title = "complex text:" + bid;
 			int [] it = new int[MAX_LEVELS + 1];
-			for(int i=0;i<textArray.length();i++){
+			if(heTextArray.length() != heTextArray.length()){
+				System.err.println("heTextArray.length() != heTextArray.length()");
+			}
+			for(int i=0;i<heTextArray.length();i++){
 				levels.set(levels.size()-1, i);
 				for(int j=0;j<levels.size();j++)
 					it[j+1] = levels.get(levels.size()-j-1);
 				//String text = textArray.getString(i);
 				//System.out.println(" " + levels + "---" + it);
-				Text.insertValues(c, title, levels.size(), bid, textArray, lang, it,parentNodeID);
+				Text.insertValues(c, title, levels.size(), bid, heTextArray, lang, it,parentNodeID,enTextArray);
 
 			}
 			return levels.size();

@@ -96,7 +96,7 @@ public class SQLite {
     public static final String KdisplayLevelType = "displayLevelType";
     
 
-	public static void printer(String message){
+	public static void println(String message){
 		System.out.println(message);
 	}
 	
@@ -209,17 +209,16 @@ public class SQLite {
 					String title = "";
 					enJSON = EnHeJSONs[0];
 					heJSON = EnHeJSONs[1];
-					
 					if(enJSON != null && heJSON != null){
 						i++;//then both lines were used and we should skip the used line.
 						title = heJSON.getString("title");
-						print("he && en");
+						println("he && en");
 					}else if(enJSON == null && heJSON != null){
-						title = enJSON.getString("title");
-						print("he");
-					}else if(enJSON != null && heJSON == null){
 						title = heJSON.getString("title");
-						print("en");
+						println("he");
+					}else if(enJSON != null && heJSON == null){
+						title = enJSON.getString("title");
+						println("en");
 					}else{
 						System.err.print("BOTH JSONs are null! :(");
 						continue;
@@ -240,10 +239,9 @@ public class SQLite {
 						if(e.toString().equals("org.json.JSONException: JSONObject[\"sectionNames\"] not found.")
 								&& doComplex){
 							System.out.println("Complex Text");
-							
-							Book.addBook(c, enJSON, heJSON,true);
+							Book.addBook(c, enJSON, heJSON,true);							
 							if(!API_ONLY)
-								Node.addText(c, heJSON);//TODO add enJSON
+								Node.addText(c,enJSON,heJSON);//TODO add enJSON
 						}else{
 							System.err.println("Error2: " + e);
 							failedBooksCount++;
@@ -260,7 +258,6 @@ public class SQLite {
 			}
 			System.out.println("Good Books: " + String.valueOf(count - failedBooksCount) + "\nFailed Books: " + failedBooksCount);
 			//System.out.println("TEXTS: en: " + Text.en + " he: " + Text.he + " u2: " + Text.u2 + " u3: " + Text.u3 + " u4: " + Text.u4);
-			
 			
 			if(!API_ONLY){
 				Searching.putInCountWords(c);
@@ -338,10 +335,7 @@ public class SQLite {
 		}
 		return new JSONObject [] {enJSON,heJSON};
 	}
-	
-	private static void print(String str) {
-		System.out.println(str);
-	}
+
 
 	static String readFile(String path) throws IOException {
 
