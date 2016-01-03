@@ -24,12 +24,14 @@ import org.json.JSONTokener;
 
 public class SQLite {
 
-	public static final String DB_NAME = "testDBs/test2.db";
-	private static final boolean USE_TEST_FILES = true;
+	public static final String DB_NAME = "testDBs/test3.db";
+	private static final boolean USE_TEST_FILES = false;
 	private static final int DB_VERION_NUM = 110;
 	private static final boolean API_ONLY = false;
 	
-	protected static Map<String,Integer> booksInDB= new HashMap<String, Integer>(); 
+	final static boolean ignoreSchemaError = true;
+	
+	protected static Map<String,Integer> booksInDB = new HashMap<String, Integer>(); 
 	protected static Map<String,Integer> booksInDBbid = new HashMap<String, Integer>();
 	protected static Map<String,Integer> booksInDBtextDepth = new HashMap<String, Integer>();
 
@@ -252,7 +254,8 @@ public class SQLite {
 					c.commit();
 					
 				}catch(Exception e){
-					System.err.println("Error123: " + e);
+					if(!ignoreSchemaError || !(e.toString().contains("java.nio.file.NoSuchFileException: ") && e.toString().contains("schema")))
+						System.err.println("Error123: " + e);
 					failedBooksCount++;
 				}
 			}

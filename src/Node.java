@@ -96,8 +96,8 @@ public class Node extends SQLite{
 		/**
 		 * check for errors
 		 */
-		if((enLang != SQLite.LANG_EN  && enLang != 0)|| (heLang != SQLite.LANG_HE  && enLang != 0)){
-			System.err.println("not right lang numbers");
+		if((enLang != SQLite.LANG_EN  && enLang != 0)|| (heLang != SQLite.LANG_HE  && heLang != 0)){
+			System.err.println("Error in Node.addText(): not right lang numbers. enLang:" + enLang  + " heLang:" + heLang);
 			return -1;
 		}
 		if(title.equals("")){
@@ -189,13 +189,19 @@ public class Node extends SQLite{
 				insertNode(c, (JSONObject) nodes.get(i),enText,heText,depth+1,i,bid,nodeID,lang);
 			}
 		} else if(nodeType == NODE_TEXTS){
-			JSONArray enTextArray = null,heTextArray = null;
-			if(enText != null)
-				enTextArray = (JSONArray) enText.get(enTitle);
-			if(heText != null)
-				heTextArray = (JSONArray) heText.get(enTitle);
-			ArrayList<Integer> levels = new ArrayList<Integer>();
-			int textDepth = insertTextArray(c, enTextArray, heTextArray, levels,bid,lang,nodeID);
+			int enTextDepth = 0, heTextDepth = 0;
+			if(enText != null){
+				JSONArray textArray = (JSONArray) enText.get(enTitle);
+				ArrayList<Integer> levels = new ArrayList<Integer>();
+				enTextDepth = insertTextArray(c, textArray, levels,bid,LANG_EN,nodeID);
+			}
+			if(heText != null){
+				JSONArray textArray = (JSONArray) heText.get(enTitle);
+				ArrayList<Integer> levels = new ArrayList<Integer>();
+				heTextDepth = insertTextArray(c, textArray, levels,bid,LANG_HE,nodeID);
+			}
+			int textDepth = Math.max(enTextDepth, heTextDepth);
+			
 			String updateStatement = "UPDATE Nodes set textDepth = ? WHERE _id = ?";
 			try {
 				stmt = c.prepareStatement(updateStatement);
@@ -224,46 +230,27 @@ public class Node extends SQLite{
 	 * @param parentNodeID
 	 * @return textDepth
 	 */
-	private static int insertTextArray(Connection c, JSONArray enTextArray, JSONArray heTextArray,ArrayList<Integer> levels,int bid,int lang,int parentNodeID){
+	private static int insertTextArray(Connection c, JSONArray textArray,ArrayList<Integer> levels,int bid,int lang,int parentNodeID){
 		try{
-			if(enTextArray == null && heTextArray == null){
-				System.err.println("Both JSONs are null in Node.insertTextArray()");
-				return -1;
-			}
-			/***
-			 * if this worked that means thats there's more levels
-			 */
-			if(enTextArray != null){
-				JSONArray enTextArray2 = enTextArray.getJSONArray(0);
-			}
-			if(heTextArray != null){
-				JSONArray heTextArray2 = heTextArray.getJSONArray(0);
-			}
-			
 			int returnDepth = 0;
-			if(heTextArray.length() != enTextArray.length()){
-				System.err.println("heTextArray.length() != heTextArray.length()");
-			}
-			for(int i=0;i<heTextArray.length();i++){
+			for(int i=0;i<textArray.length();i++){
 				ArrayList<Integer> levels2 = (ArrayList<Integer>) levels.clone();
 				levels2.add(i);
-				returnDepth = insertTextArray(c, enTextArray.getJSONArray(i), heTextArray.getJSONArray(i),levels2,bid,lang,parentNodeID);
+				returnDepth = insertTextArray(c, textArray.getJSONArray(i),levels2,bid,lang,parentNodeID);
 			}
 			return returnDepth;
 		}catch(Exception JSONException){
 			levels.add(0);
 			String title = "complex text:" + bid;
 			int [] it = new int[MAX_LEVELS + 1];
-			if(heTextArray.length() != heTextArray.length()){
-				System.err.println("heTextArray.length() != heTextArray.length()");
-			}
-			for(int i=0;i<heTextArray.length();i++){
+			
+			for(int i=0;i<textArray.length();i++){
 				levels.set(levels.size()-1, i);
 				for(int j=0;j<levels.size();j++)
 					it[j+1] = levels.get(levels.size()-j-1);
 				//String text = textArray.getString(i);
 				//System.out.println(" " + levels + "---" + it);
-				Text.insertValues(c, title, levels.size(), bid, heTextArray, lang, it,parentNodeID,enTextArray);
+				Text.insertValues(c, title, levels.size(), bid, textArray, lang, it,parentNodeID);
 
 			}
 			return levels.size();
