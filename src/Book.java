@@ -143,105 +143,103 @@ public class Book extends SQLite{
 	};
 
 
-	public static void addBook(Connection c, JSONObject json,boolean complexText) throws JSONException, SQLException {
+	public static void addBook(Connection c, JSONObject enJSON, JSONObject heJSON,boolean complexText) throws JSONException, SQLException {
 
-
+		int langSum = 0;
+		JSONObject json;
+		if(enJSON != null && heJSON != null){
+			langSum = returnLangNums(enJSON.getString("language")) + returnLangNums(heJSON.getString("language"));
+			json = heJSON;
+		}else if(enJSON == null && heJSON != null){
+			json = heJSON;
+			langSum = returnLangNums(json.getString("language"));
+		}else if(enJSON != null && heJSON == null){
+			json = enJSON;
+			langSum = returnLangNums(json.getString("language"));
+		}else{
+			System.err.print("BOTH JSONs are null! :(");
+			return; 
+		}
+		
+		
 		String title = json.getString(Ktitle );
-		String langString = json.getString("language");
-		int lang;
-		if(booksInDB.containsKey(title)){ //it's an old book in the db.
-			lang = returnLangNums(langString) + (Integer) booksInDB.get(title);   //the updated langs value
-			PreparedStatement stmt = c.prepareStatement("UPDATE " + TABLE_BOOKS + " set " + Klanguages + " = ? WHERE " + Ktitle + "= ? ;");
-			stmt.setInt(1, lang);
-			stmt.setString(2, title);
-			stmt.executeUpdate();
-			stmt.close();
-		}
-		else{// it's a new book in the db
 			
-			int id = ++idCount;
-			lang = returnLangNums(langString);
+		int id = ++idCount;
 
-			PreparedStatement stmt = c.prepareStatement("INSERT INTO Books ("
-					+ "_id" + ", "
-					+ KcommentsOn + ", " + KsectionNames + ","  + Kcategories + ", " + KtextDepth + ", " 
-					+ KwherePage + "," + Klengths + "," + Ktitle + ", " + KheTitle + ", "
-					+ KversionTitle + ", " + KdataVersion +", " + Kversions + ", " + Klanguages  + ", heSectionNames "+ ") "
-					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+		PreparedStatement stmt = c.prepareStatement("INSERT INTO Books ("
+				+ "_id" + ", "
+				+ KcommentsOn + ", " + KsectionNames + ","  + Kcategories + ", " + KtextDepth + ", " 
+				+ KwherePage + "," + Klengths + "," + Ktitle + ", " + KheTitle + ", "
+				+ KversionTitle + ", " + KdataVersion +", " + Kversions + ", " + Klanguages  + ", heSectionNames "+ ") "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 
-			stmt.setInt(1, id);//_id
-			String commentedOnBook = title.replaceFirst(".* on ", "");
-			int commentsOn = 0;
-			int textDepth = 0;
-			if(booksInDB.containsKey(commentedOnBook)){
-				commentsOn = booksInDBbid.get(commentedOnBook);
-				stmt.setInt(2, commentsOn); // KcommentsOn
-			} else if(booksInDB.containsKey(title.replaceFirst("Onkelos ", ""))){ //added in so that Onkelos would be considered a commentary
-				commentsOn = booksInDBbid.get(title.replaceFirst("Onkelos ", ""));
-				stmt.setInt(2, commentsOn); // KcommentsOn
-			}
-			if(!complexText){//only simple texts have section names
-				String sectionNames = json.get("sectionNames").toString().replace("\"\"", "\"Section\"");
-				String heSectionNames = sectionNames;
-				if(enSectionNamesList.length != heSectionNamesList.length){
-					System.err.println("section names list are different sizes");
-					System.exit(-1);
-				}
-				for(int i = 0;i < enSectionNamesList.length; i++){//replace the en names with he ones
-					heSectionNames = heSectionNames.replace("\"" + enSectionNamesList[i] + "\"", "\"" + heSectionNamesList[i] + "\"");
-				}
-				textDepth = str2strArray(sectionNames).length;
-				if(str2strArray(heSectionNames).length != textDepth){
-					System.err.println("section names convertion problem:" + heSectionNames);
-					System.exit(-1);
-				}
-	
-				stmt.setString(3,sectionNames); // KsectionNames
-				stmt.setString(14, heSectionNames);
-			}
-			stmt.setString(4, json.get("categories").toString().replace("\"Liturgy\"", "\"Tefillah\"")); // Kcategories
-
-
-
-			if(textDepth >= 4)
-				System.out.println("4!!!");
-			//System.out.println("\t" + textDepth);
-			stmt.setInt(5,textDepth); // KtextDepth
-
-
-
-			int wherePageNum = 0;
-			if(textDepth == 1) 	
-				wherePageNum = 1;
-			else
-				wherePageNum = DEFAULT_WHERE_PAGE;
-			stmt.setInt(6, wherePageNum); // KwherePage
-			//stmt.setString(7, json.getString(Klengths )); // Klengths
-
-			stmt.setString(8,title); // Ktitle
-			try{
-				stmt.setString(9, json.getString(KheTitle )); // KheTitle
-			}catch(JSONException e){
-				stmt.setString(9, title); // KheTitle
-			}
-			//stmt.setString(10, json.getString(KdataVersion )); // KdataVersion
-			//stmt.setString(11, json.getString(KversionTitle )); // KversionTitle
-			//stmt.setString(12, json.getString(Kversions )); // Kversions
-			stmt.setInt(13,lang); // Klanguages
-			//stmt.setString(14, heSectionNames) is in if statement above
-
-			stmt.executeUpdate();
-			stmt.close();
-			booksInDBbid.put(title,id);
-			booksInDBtextDepth.put(title,textDepth);
-
+		stmt.setInt(1, id);//_id
+		String commentedOnBook = title.replaceFirst(".* on ", "");
+		int commentsOn = 0;
+		int textDepth = 0;
+		if(booksInDB.containsKey(commentedOnBook)){
+			commentsOn = booksInDBbid.get(commentedOnBook);
+			stmt.setInt(2, commentsOn); // KcommentsOn
+		} else if(booksInDB.containsKey(title.replaceFirst("Onkelos ", ""))){ //added in so that Onkelos would be considered a commentary
+			commentsOn = booksInDBbid.get(title.replaceFirst("Onkelos ", ""));
+			stmt.setInt(2, commentsOn); // KcommentsOn
 		}
+		if(!complexText){//only simple texts have section names
+			String sectionNames = json.get("sectionNames").toString().replace("\"\"", "\"Section\"");
+			String heSectionNames = sectionNames;
+			if(enSectionNamesList.length != heSectionNamesList.length){
+				System.err.println("section names list are different sizes");
+				System.exit(-1);
+			}
+			for(int i = 0;i < enSectionNamesList.length; i++){//replace the en names with he ones
+				heSectionNames = heSectionNames.replace("\"" + enSectionNamesList[i] + "\"", "\"" + heSectionNamesList[i] + "\"");
+			}
+			textDepth = str2strArray(sectionNames).length;
+			if(str2strArray(heSectionNames).length != textDepth){
+				System.err.println("section names convertion problem:" + heSectionNames);
+				System.exit(-1);
+			}
 
-		booksInDB.put(title, lang); //make sure we have a good list of which books are in the db (for when we try to add a second language).
+			stmt.setString(3,sectionNames); // KsectionNames
+			stmt.setString(14, heSectionNames);
+		}
+		stmt.setString(4, json.get("categories").toString().replace("\"Liturgy\"", "\"Tefillah\"")); // Kcategories
 
 
+
+		if(textDepth >= 4)
+			System.out.println("4!!!");
+		//System.out.println("\t" + textDepth);
+		stmt.setInt(5,textDepth); // KtextDepth
+
+
+
+		int wherePageNum = 0;
+		if(textDepth == 1) 	
+			wherePageNum = 1;
+		else
+			wherePageNum = DEFAULT_WHERE_PAGE;
+		stmt.setInt(6, wherePageNum); // KwherePage
+		//stmt.setString(7, json.getString(Klengths )); // Klengths
+
+		stmt.setString(8,title); // Ktitle
+		try{
+			stmt.setString(9, json.getString(KheTitle )); // KheTitle
+		}catch(JSONException e){
+			stmt.setString(9, title); // KheTitle
+		}
+		//stmt.setString(10, json.getString(KdataVersion )); // KdataVersion
+		//stmt.setString(11, json.getString(KversionTitle )); // KversionTitle
+		//stmt.setString(12, json.getString(Kversions )); // Kversions
+		stmt.setInt(13,langSum); // Klanguages
+		//stmt.setString(14, heSectionNames) is in if statement above
+
+		stmt.executeUpdate();
+		stmt.close();
 		c.commit();
-
+		booksInDBbid.put(title,id);
+		booksInDBtextDepth.put(title,textDepth);
+		booksInDB.put(title, langSum); //make sure we have a good list of which books are in the db (for when we try to add a second language).
 		return;
 
 	}

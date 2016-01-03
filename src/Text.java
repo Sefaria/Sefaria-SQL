@@ -123,6 +123,14 @@ public class Text extends SQLite{
 		}
 	}
 
+	//This is really bad code that should be done recursively. 
+	/**
+	 * 
+	 * @param c
+	 * @param json
+	 * @return
+	 * @throws JSONException
+	 */
 	protected static int addText(Connection c, JSONObject json) throws JSONException{
 
 		int lang = returnLangNums(json.getString("language"));

@@ -2,6 +2,7 @@
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.FileInputStream;
+import java.io.ObjectInputStream.GetField;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -23,10 +24,10 @@ import org.json.JSONTokener;
 
 public class SQLite {
 
-	public static final String DB_NAME = "api_only.db";
-	private static final boolean USE_TEST_FILES = false;
+	public static final String DB_NAME = "testDBs/test2.db";
+	private static final boolean USE_TEST_FILES = true;
 	private static final int DB_VERION_NUM = 110;
-	private static final boolean API_ONLY = true;
+	private static final boolean API_ONLY = false;
 	
 	protected static Map<String,Integer> booksInDB= new HashMap<String, Integer>(); 
 	protected static Map<String,Integer> booksInDBbid = new HashMap<String, Integer>();
@@ -172,46 +173,77 @@ public class SQLite {
 		}
 	}
 
+	public static List<String> getFileLines() throws IOException{
+		String fileList;
+		if(USE_TEST_FILES)
+			fileList = "fileList_test.txt";
+		else
+			fileList = "fileList1.txt";
+		return Files.readAllLines(Paths.get(fileList), Charset.forName("UTF-8"));
+	}
+	
 	public static void insertStuff(){
 
 		Connection c = null;
 		try{
 			c = DriverManager.getConnection("jdbc:sqlite:" + DB_NAME);
 			c.setAutoCommit(false);
-
-			String fileList;
-			if(USE_TEST_FILES)
-				fileList = "fileList_test.txt";
-			else
-				fileList = "fileList1.txt";
 			
-			List<String> lines=Files.readAllLines(Paths.get(fileList), Charset.forName("UTF-8"));
+			
 			int count = 0;
 			int failedBooksCount = 0;
-			
-			for(String line:lines){
+			List<String> lines= getFileLines();
+			for(int i =0;i<lines.size();i++){
+				String line = lines.get(i);
 				System.out.println(String.valueOf(++count) + ". " + line);
 				String path = "F:/Google Drive/Programs/sefaria/data2/Sefaria-Data/export/";
-				String jsonPath = path + "json/" + line;
 				
 				boolean doComplex = true;
 				try{
-					JSONObject json = openJSON(jsonPath);
-					String title = json.getString("title");
+					String tempLine = "";
+					if(i+1<lines.size()){
+						tempLine = lines.get(i+1);
+					}
+					JSONObject [] EnHeJSONs = getEnHeJSONs(line,tempLine,path);
+					JSONObject enJSON,heJSON;
+					String title = "";
+					enJSON = EnHeJSONs[0];
+					heJSON = EnHeJSONs[1];
+					
+					if(enJSON != null && heJSON != null){
+						i++;//then both lines were used and we should skip the used line.
+						title = heJSON.getString("title");
+						print("he && en");
+					}else if(enJSON == null && heJSON != null){
+						title = enJSON.getString("title");
+						print("he");
+					}else if(enJSON != null && heJSON == null){
+						title = heJSON.getString("title");
+						print("en");
+					}else{
+						System.err.print("BOTH JSONs are null! :(");
+						continue;
+					}
+					
 					String schemaPath = path + "schemas/" + title.replaceAll(" ", "_") + ".json";
 					JSONObject schemas = openJSON(schemaPath);
 					try{
 						//non complex texts
-						Book.addBook(c,json,false);
-						if(!API_ONLY)
-							Text.addText(c,json);
-					}catch(JSONException e){
+						Book.addBook(c,enJSON,heJSON,false);
+						if(!API_ONLY){
+							if(heJSON != null)
+								Text.addText(c,heJSON);
+							if(enJSON != null)
+								Text.addText(c,enJSON);
+						}
+					}catch(JSONException e){ //IT's a COMPLEX TEXT
 						if(e.toString().equals("org.json.JSONException: JSONObject[\"sectionNames\"] not found.")
 								&& doComplex){
 							System.out.println("Complex Text");
-							Book.addBook(c, json,true);
+							
+							Book.addBook(c, enJSON, heJSON,true);
 							if(!API_ONLY)
-								Node.addText(c,json);
+								Node.addText(c, heJSON);//TODO add enJSON
 						}else{
 							System.err.println("Error2: " + e);
 							failedBooksCount++;
@@ -222,7 +254,7 @@ public class SQLite {
 					c.commit();
 					
 				}catch(Exception e){
-					System.err.println("Error: " + e);
+					System.err.println("Error123: " + e);
 					failedBooksCount++;
 				}
 			}
@@ -266,6 +298,49 @@ public class SQLite {
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 		}
 
+	}
+
+	private static JSONObject openJSON(String line, String pathToJSONs) throws IOException{
+		String jsonPath = pathToJSONs + "json/" +line;
+		return openJSON(jsonPath);	
+	}
+	private static JSONObject [] getEnHeJSONs(String line, String tempLine, String path) throws IOException{
+		if(!
+				tempLine.replace("English/merged.json", "").replace("Hebrew/merged.json", "")
+				.equals(
+				line.replace("English/merged.json", "").replace("Hebrew/merged.json", ""))
+			){
+				tempLine = "";//They are not equal so don't use tempLine
+			}
+		
+		String heLine = "";
+		String enLine = "";
+		if(line.contains("Hebrew/merged.json")){
+			heLine = line;
+		}else if(line.contains("English/merged.json")){
+			enLine = line;
+		}
+		else{
+			System.err.println("I don't know what the line type is");
+		}
+		if(tempLine.contains("Hebrew/merged.json")){
+			heLine = tempLine;
+		}else if(tempLine.contains("English/merged.json")){
+			enLine = tempLine;
+		}
+		
+		JSONObject enJSON = null ,heJSON = null;
+		if(!enLine.equals("")){
+			enJSON = openJSON(enLine,path);
+		}
+		if(!heLine.equals("")){
+			heJSON = openJSON(heLine,path);
+		}
+		return new JSONObject [] {enJSON,heJSON};
+	}
+	
+	private static void print(String str) {
+		System.out.println(str);
 	}
 
 	static String readFile(String path) throws IOException {

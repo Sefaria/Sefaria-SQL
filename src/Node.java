@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
@@ -33,21 +34,21 @@ public class Node extends SQLite{
 	private static final int NODE_REFS = 3;
 
 	private static int nodeCount = 0;
-	
+
 	static String CREATE_NODE_TABLE = 
 			"CREATE TABLE " +  "Nodes " + "(\r\n" + 
-			"	_id INTEGER PRIMARY KEY,\r\n" + 
-			"	bid INTEGER NOT NULL,\r\n" + 
-			"	parentNode INTEGER,\r\n" + 
-			"	nodeType INTEGER not null,\r\n" + 
-			"	siblingNum INTEGER not null,\r\n" + //0 means the first sibling 
-			"	enTitle TEXT,\r\n" + 
-			"	heTitle TEXT,\r\n" + 
-			
+					"	_id INTEGER PRIMARY KEY,\r\n" + 
+					"	bid INTEGER NOT NULL,\r\n" + 
+					"	parentNode INTEGER,\r\n" + 
+					"	nodeType INTEGER not null,\r\n" + 
+					"	siblingNum INTEGER not null,\r\n" + //0 means the first sibling 
+					"	enTitle TEXT,\r\n" + 
+					"	heTitle TEXT,\r\n" + 
+
 			"	sectionNames TEXT,\r\n" + 
 			"	heSectionNames TEXT,\r\n" + 
 
-			
+
 			//for support of altStructs
 			"	structNum INTEGER NOT NULL default 1,\r\n" + 
 			"	textDepth INTEGER,\r\n" + 
@@ -55,20 +56,22 @@ public class Node extends SQLite{
 			"	startTid INTEGER,\r\n" +  //maybe only used with refferences on alt structure
 			"	endTid INTEGER,\r\n" +  //maybe only used with refferences on alt structure
 			"	extraTids TEXT,\r\n" +  //maybe only used with refferences on alt structure ex. "[34-70,98-200]"
-//maybe some stuff like to display chap name and or number (ei. maybe add some displaying info)
-			
+			//maybe some stuff like to display chap name and or number (ei. maybe add some displaying info)
+
 	//		"	FOREIGN KEY (bid) \r\n" + 
 	//		"		REFERENCES Books (_id)\r\n" + 
 	//		"		ON DELETE CASCADE,\r\n" + 
-			"	FOREIGN KEY (parentNode) \r\n" + 
-			"		REFERENCES Nodes (_id)\r\n" + 
-			"		ON DELETE CASCADE,\r\n" + 
-			"	CONSTRAINT uniqSiblingNum UNIQUE (bid,parentNode,siblingNum,structNum)\r\n" + //needs bid b/c otherwise parent is 0 for each root 
+	"	FOREIGN KEY (parentNode) \r\n" + 
+	"		REFERENCES Nodes (_id)\r\n" + 
+	"		ON DELETE CASCADE,\r\n" + 
+	"	CONSTRAINT uniqSiblingNum UNIQUE (bid,parentNode,siblingNum,structNum)\r\n" + //needs bid b/c otherwise parent is 0 for each root 
 
 				")";
-	
 
 
+
+
+	protected static Map<String,Integer> booksWithNodesInsertedInToDB = new HashMap<String, Integer>();
 
 	protected static int addText(Connection c, JSONObject json) throws JSONException{
 		int lang = returnLangNums(json.getString("language"));
@@ -83,15 +86,16 @@ public class Node extends SQLite{
 		JSONObject text = (JSONObject) json.get("text");
 
 		insertNode(c, node,text, 0,0,bid,0,lang);
+		booksWithNodesInsertedInToDB.put(title,bid);
 		return 1; //it worked
 	}
 
-	
-	
+
+
 	private final static String INSERT_NODE = "INSERT INTO Nodes (" +
 			"_id,bid,parentNode,nodeType,siblingNum,enTitle,heTitle,structNum,textDepth,startTid,endTid,extraTids)"
 			+ "VALUES (?,?, ?, ?, ?, ?, ?, ?,?, ?, ?,?);";
-	
+
 	private static int insertNode(Connection c, JSONObject node,JSONObject text,int depth, int siblingNum,int bid,int parentNode,int lang){
 		String heTitle = node.getString("heTitle");
 		String enTitle = node.getString("enTitle");
@@ -106,24 +110,34 @@ public class Node extends SQLite{
 		}catch(Exception e){
 			nodeType =NODE_TEXTS;//leaf
 		}
-		
+
 		PreparedStatement stmt = null;
-		try{
-			stmt = c.prepareStatement(INSERT_NODE);
-			stmt.setInt(1, nodeID);
-			stmt.setInt(2,bid); // Kbid
-			stmt.setInt(3,parentNode);
-			stmt.setInt(4,nodeType);
-			stmt.setInt(5,siblingNum);
-			stmt.setString(6,enTitle);
-			stmt.setString(7,heTitle);
-			stmt.setInt(8,1); //TODO will need changing //1=> default structure
-			//stmt.setInt(6,);
-			//stmt.setInt(6,);
-			stmt.executeUpdate();
-			stmt.close();
-		}catch(Exception e){
-			System.err.println("Error3: " + e + "--" + nodeID);
+		
+		/**
+		 *  else it's a book that already has it's tree inserted.
+		 *   This will usually be if the hebrew book was already inserted, and then the english is tried to go in
+		 */
+		if(!booksWithNodesInsertedInToDB.containsValue(bid)){
+			
+			try{
+				stmt = c.prepareStatement(INSERT_NODE);
+				stmt.setInt(1, nodeID);
+				stmt.setInt(2,bid); // Kbid
+				stmt.setInt(3,parentNode);
+				stmt.setInt(4,nodeType);
+				stmt.setInt(5,siblingNum);
+				stmt.setString(6,enTitle);
+				stmt.setString(7,heTitle);
+				stmt.setInt(8,1); //TODO will need changing //1=> default structure
+				//stmt.setInt(6,);
+				//stmt.setInt(6,);
+				stmt.executeUpdate();
+				stmt.close();
+			}catch(Exception e){
+				System.err.println("Error32132: " + e + "--" + nodeID);
+
+
+			}
 		}
 		if(nodeType == NODE_BRANCH){
 			for(int i =0;i<nodes.length();i++){
@@ -141,15 +155,26 @@ public class Node extends SQLite{
 				stmt.executeUpdate();
 				stmt.close();
 			} catch (SQLException e) {
-				e.printStackTrace();
+				System.err.println("Error 1 in InsertNode: " + e);
+
 			}
 
 		}
-		
+
 		return 0;
 	}
 
 	
+	/**
+	 * //TODO have to deal with only hebrew getting into db.  
+	 * @param connection
+	 * @param textArray
+	 * @param levels
+	 * @param bid
+	 * @param lang
+	 * @param parentNodeID
+	 * @return textDepth
+	 */
 	private static int insertTextArray(Connection c, JSONArray textArray,ArrayList<Integer> levels,int bid,int lang,int parentNodeID){
 		try{
 			JSONArray textArray2 = textArray.getJSONArray(0);
@@ -176,10 +201,20 @@ public class Node extends SQLite{
 			}
 			return levels.size();
 		}
-		
+
 	}
 
-	private static int addNodes(Connection c, JSONArray nodes,int bid,int parentNode, int structNum) throws JSONException{
+	/**
+	 * add Nodes for alt structures.
+	 * @param c
+	 * @param nodes
+	 * @param bid
+	 * @param parentNode
+	 * @param structNum
+	 * @return
+	 * @throws JSONException
+	 */
+	private static int addSchemaNodes(Connection c, JSONArray nodes,int bid,int parentNode, int structNum) throws JSONException{
 		for(int j =0;j<nodes.length();j++){
 			JSONObject node = nodes.getJSONObject(j);
 			String enTitle = node.getString("title");
@@ -195,7 +230,8 @@ public class Node extends SQLite{
 			}
 			JSONArray sectionNames = node.getJSONArray("sectionNames");
 			JSONArray refs = node.getJSONArray("refs");
-			System.out.println(enTitle + " " +  heTitle + " " + nodeType + " " + sectionNames + refs);
+			//if (depth == 0) use wholeRef and it's not a grid 
+			//System.out.println(enTitle + " " +  heTitle + " " + nodeType + " " + sectionNames + refs);
 			int nodeID = ++nodeCount;
 			PreparedStatement stmt = null;
 			try{
@@ -213,16 +249,16 @@ public class Node extends SQLite{
 				stmt.executeUpdate();
 				stmt.close();
 			}catch(Exception e){
-				System.err.println("Error3: " + e + "--" + nodeID);
+				System.err.println("Error3765: " + e + "--" + nodeID);
 			}
-			
+
 		}
 		return 1;//worked
 	}
-	
+
 	protected static int addSchemas(Connection c, JSONObject schemas) throws JSONException{
 		try{
-			
+
 			JSONObject alts = schemas.getJSONObject("alts");
 			String bookTitle = schemas.getString("title");
 			int bid = booksInDBbid.get(bookTitle);
@@ -233,7 +269,7 @@ public class Node extends SQLite{
 				JSONObject alt = alts.getJSONObject(altNames[i]);
 				JSONArray nodes = alt.getJSONArray("nodes");
 				int structNum = i+2;//1 is the default, so add 2 to the alt structs.
-				addNodes(c, nodes, bid,0,structNum);
+				addSchemaNodes(c, nodes, bid,0,structNum);
 			}
 		}catch(JSONException e1){
 			if(!e1.toString().equals("org.json.JSONException: JSONObject[\"alts\"] not found.")){
@@ -243,7 +279,7 @@ public class Node extends SQLite{
 		}catch(Exception e){
 			System.err.println("Error (addSchemas): " + e);
 		}
-		
+
 		return 1; //it worked
 	}
 
