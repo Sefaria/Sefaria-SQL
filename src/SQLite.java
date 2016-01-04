@@ -24,12 +24,12 @@ import org.json.JSONTokener;
 
 public class SQLite {
 
-	public static final String DB_NAME = "testDBs/test3.db";
+	public static final String DB_NAME = "test6.db";
 	private static final boolean USE_TEST_FILES = false;
-	private static final int DB_VERION_NUM = 110;
+	private static final int DB_VERION_NUM = 113;
 	private static final boolean API_ONLY = false;
 	
-	final static boolean ignoreSchemaError = true;
+	final static boolean ignoreSchemaError = false;
 	
 	protected static Map<String,Integer> booksInDB = new HashMap<String, Integer>(); 
 	protected static Map<String,Integer> booksInDBbid = new HashMap<String, Integer>();

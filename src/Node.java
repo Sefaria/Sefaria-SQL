@@ -115,7 +115,7 @@ public class Node extends SQLite{
 				System.err.println("en and he JSONs title don't match" + enJSON.getString("title") + " - " + heJSON.getString("title"));
 				return -1;
 			}
-			
+
 		}
 		if(!booksInDB.containsKey(title)){
 			System.err.println("Don't have book in DB and trying to add text");
@@ -134,10 +134,38 @@ public class Node extends SQLite{
 	}
 
 
+	private static void insertSingleNodeToDB(Connection c, Integer nid, Integer bid, Integer parentNode,Integer nodeType, Integer siblingNum,
+			String enTitle, String heTitle, Integer structNum, Integer textDepth, Integer startTid, Integer endTid,
+			String extraTids, String sectionNames, String heSectionNames
+			){
+		final String INSERT_NODE = "INSERT INTO Nodes (" +
+				"_id,bid,parentNode,nodeType,siblingNum,enTitle,heTitle,structNum,textDepth,startTid,endTid,extraTids,sectionNames,heSectionNames)"
+				+ "VALUES (?,?, ?, ?, ?, ?, ?, ?,?, ?, ?,?,?,?);";
 
-	private final static String INSERT_NODE = "INSERT INTO Nodes (" +
-			"_id,bid,parentNode,nodeType,siblingNum,enTitle,heTitle,structNum,textDepth,startTid,endTid,extraTids)"
-			+ "VALUES (?,?, ?, ?, ?, ?, ?, ?,?, ?, ?,?);";
+		PreparedStatement stmt;
+		try {
+			stmt = c.prepareStatement(INSERT_NODE);
+			if(nid != null) stmt.setInt(1, nid);
+			if(bid != null) stmt.setInt(2,bid);
+			if(parentNode != null) stmt.setInt(3,parentNode);
+			if(nodeType != null) stmt.setInt(4,nodeType);
+			if(siblingNum != null) stmt.setInt(5,siblingNum);
+			if(enTitle != null) stmt.setString(6,enTitle);
+			if(heTitle != null) stmt.setString(7,heTitle);
+			if(structNum != null) stmt.setInt(8,structNum); 
+			if(startTid != null) stmt.setInt(10,startTid);
+			if(endTid != null) stmt.setInt(11,endTid);
+			if(extraTids != null) stmt.setString(12,extraTids);
+			if(sectionNames != null) stmt.setString(13,sectionNames);
+			if(heSectionNames != null) stmt.setString(14,heSectionNames);
+			stmt.executeUpdate();
+			stmt.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 
 	private static int insertNode(Connection c, JSONObject node,JSONObject enText,JSONObject heText,int depth, int siblingNum,int bid,int parentNode,int lang){
 		if(enText == null && heText == null){
@@ -161,29 +189,9 @@ public class Node extends SQLite{
 		}catch(Exception e){
 			nodeType = NODE_TEXTS;//leaf
 		}
-		PreparedStatement stmt = null;
-
-
-		try{
-			stmt = c.prepareStatement(INSERT_NODE);
-			stmt.setInt(1, nodeID);
-			stmt.setInt(2,bid); // Kbid
-			stmt.setInt(3,parentNode);
-			stmt.setInt(4,nodeType);
-			stmt.setInt(5,siblingNum);
-			stmt.setString(6,enTitle);
-			stmt.setString(7,heTitle);
-			stmt.setInt(8,1); //TODO will need changing //1=> default structure
-			//stmt.setInt(6,);
-			//stmt.setInt(6,);
-			stmt.executeUpdate();
-			stmt.close();
-		}catch(Exception e){
-			System.err.println("Error32132: " + e + "--" + nodeID);
-
-
-		}
-
+		insertSingleNodeToDB(c, nodeID, bid, parentNode, nodeType, siblingNum, enTitle, heTitle, 1,
+				null, null, null, null, null, null);
+	
 		if(nodeType == NODE_BRANCH){
 			for(int i =0;i<nodes.length();i++){
 				insertNode(c, (JSONObject) nodes.get(i),enText,heText,depth+1,i,bid,nodeID,lang);
@@ -201,10 +209,10 @@ public class Node extends SQLite{
 				heTextDepth = insertTextArray(c, textArray, levels,bid,LANG_HE,nodeID);
 			}
 			int textDepth = Math.max(enTextDepth, heTextDepth);
-			
+
 			String updateStatement = "UPDATE Nodes set textDepth = ? WHERE _id = ?";
 			try {
-				stmt = c.prepareStatement(updateStatement);
+				PreparedStatement stmt = c.prepareStatement(updateStatement);
 				stmt.setInt(1, textDepth);
 				stmt.setInt(2, nodeID);
 				stmt.executeUpdate();
@@ -243,7 +251,7 @@ public class Node extends SQLite{
 			levels.add(0);
 			String title = "complex text:" + bid;
 			int [] it = new int[MAX_LEVELS + 1];
-			
+
 			for(int i=0;i<textArray.length();i++){
 				levels.set(levels.size()-1, i);
 				for(int j=0;j<levels.size();j++)
@@ -276,34 +284,36 @@ public class Node extends SQLite{
 			String nodeTypeString =  node.getString("nodeType");
 			int nodeType = -1;
 			if(nodeTypeString.equals("ArrayMapNode")){
-				nodeType = NODE_REFS;
+				nodeType = NODE_BRANCH;//NODE_REFS;
 			}
 			else{
 				System.err.println("Error not a ref");
 				return -1;
 			}
-			JSONArray sectionNames = node.getJSONArray("sectionNames");
+
+			String sectionNames = node.getJSONArray("sectionNames").toString().replace("\"\"", "\"Section\"");
+			String heSectionNames = sectionNames;//node.getJSONArray("heSectionNames").toString().replace("\"\"", "\"Section\"");
+			//TODO get real heSection names
 			JSONArray refs = node.getJSONArray("refs");
-			//if (depth == 0) use wholeRef and it's not a grid 
+			//if (depth == 0) use wholeRef and it's not a grid //TODO 
 			//System.out.println(enTitle + " " +  heTitle + " " + nodeType + " " + sectionNames + refs);
 			int nodeID = ++nodeCount;
-			PreparedStatement stmt = null;
-			try{
-				stmt = c.prepareStatement(INSERT_NODE);
-				stmt.setInt(1, nodeID);
-				stmt.setInt(2,bid); // Kbid
-				stmt.setInt(3,parentNode);
-				stmt.setInt(4,nodeType);
-				stmt.setInt(5,j);
-				stmt.setString(6,enTitle);
-				stmt.setString(7,heTitle);
-				stmt.setInt(8,structNum); //TODO will need changing //1=> default structure
-				//stmt.setInt(6,);
-				//stmt.setInt(6,);
-				stmt.executeUpdate();
-				stmt.close();
-			}catch(Exception e){
-				System.err.println("Error3765: " + e + "--" + nodeID);
+			
+			insertSingleNodeToDB(c, nodeID, bid, parentNode, nodeType, j, enTitle, heTitle, structNum,
+					null, null, null, null, sectionNames, heSectionNames);
+			
+			if(nodeTypeString.equals("ArrayMapNode")){
+				int subParentNode = nodeID;
+				for(int i=0;i<refs.length();i++){
+					String ref = refs.getString(i);
+					nodeID = ++nodeCount;
+					nodeType = NODE_REFS;
+					int startTID = -1;
+					int endTID = -2;
+					insertSingleNodeToDB(c, nodeID, bid, subParentNode, nodeType,
+							i, "", "", structNum, null, startTID, endTID, ref,
+							sectionNames, heSectionNames);
+				}
 			}
 
 		}
@@ -316,14 +326,19 @@ public class Node extends SQLite{
 			JSONObject alts = schemas.getJSONObject("alts");
 			String bookTitle = schemas.getString("title");
 			int bid = booksInDBbid.get(bookTitle);
-			Object object;
 			String [] altNames = alts.getNames(alts);
 			for(int i=0;i<altNames.length;i++){
 				//System.out.println(altNames[i]);
 				JSONObject alt = alts.getJSONObject(altNames[i]);
-				JSONArray nodes = alt.getJSONArray("nodes");
+				Integer nodeID = ++nodeCount;
 				int structNum = i+2;//1 is the default, so add 2 to the alt structs.
-				addSchemaNodes(c, nodes, bid,0,structNum);
+				String enTitle =  altNames[i];
+				String heTitle = enTitle; //TODO make real heTitle
+				insertSingleNodeToDB(c, nodeID, bid, 0, NODE_BRANCH, 0,enTitle , heTitle, structNum,
+						null, null, null, null, null, null);
+				JSONArray nodes = alt.getJSONArray("nodes");
+				
+				addSchemaNodes(c, nodes, bid,nodeID,structNum);
 			}
 		}catch(JSONException e1){
 			if(!e1.toString().equals("org.json.JSONException: JSONObject[\"alts\"] not found.")){
