@@ -305,24 +305,7 @@ public class Text extends SQLite{
 
 					//count words for searching table
 					if(lang == LANG_HE){
-						String findTID = "SELECT _id FROM Texts WHERE " + whereClause(bid, levels,parentNodeID);
-						stmt = c.prepareStatement(findTID);
-						ResultSet rs;
-						stmt.setInt(1, bid); //bid
-						final int LEVEL_IN_UPDATE_START_2 = 2;
-						for(int i =1; i<=textDepth; i++){
-							stmt.setInt(LEVEL_IN_UPDATE_START_2 + i - 1,it[i] + 1);
-							//System.out.println("levels:"+(it[i] + 1));
-						}
-						stmt.setInt(LEVEL_IN_UPDATE_START_2 + textDepth, parentNodeID);
-						//System.out.println(findTID + "\n" + (LEVEL_IN_UPDATE_START_2 + textDepth) + ":"+ parentNodeID + ":"+ bid);
-						rs = stmt.executeQuery();
-						int tid = -1;
-						if ( rs.next() ) {
-							tid = rs.getInt(1);
-						}
-						else
-							System.err.println("couldn't find tid");
+						int tid = getTid(c, bid, levels, parentNodeID,textDepth,false,it);
 						Searching.countWords(lang,theText, tid);
 					}
 
@@ -339,6 +322,45 @@ public class Text extends SQLite{
 		return 0;
 	}
 
+	/**
+	 * for a normal tid lookup, set useRealLevels = true and it = null
+	 * 
+	 * @param c
+	 * @param bid
+	 * @param levels
+	 * @param parentNodeID
+	 * @param textDepth
+	 * @param useRealLevels
+	 * @param it
+	 * @return
+	 * @throws SQLException
+	 */
+	public static int getTid(Connection c, int bid, int [] levels, int parentNodeID, int textDepth,boolean useRealLevels,int[] it) throws SQLException{
+		String findTID = "SELECT _id FROM Texts WHERE " + whereClause(bid, levels,parentNodeID);
+		PreparedStatement stmt = c.prepareStatement(findTID);
+		ResultSet rs;
+		stmt.setInt(1, bid); //bid
+		final int LEVEL_IN_UPDATE_START_2 = 2;
+		if(!useRealLevels){
+			for(int i =1; i<=textDepth; i++){
+				stmt.setInt(LEVEL_IN_UPDATE_START_2 + i - 1,it[i] + 1);
+			}
+		}else{
+			for(int i =0; i<textDepth; i++){
+				stmt.setInt(LEVEL_IN_UPDATE_START_2 + i,levels[i]);
+			}
+		}
+		stmt.setInt(LEVEL_IN_UPDATE_START_2 + textDepth, parentNodeID);
+		//System.out.println(findTID + "\n" + (LEVEL_IN_UPDATE_START_2 + textDepth) + ":"+ parentNodeID + ":"+ bid);
+		rs = stmt.executeQuery();
+		int tid = -1;
+		if ( rs.next() ) {
+			tid = rs.getInt(1);
+		}
+		else
+			System.err.println("couldn't find tid");
+		return tid;
+	}
 
 	private static String convertLangToLangText(String lang){
 		if(lang.equals("en"))

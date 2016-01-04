@@ -245,6 +245,7 @@ public class Book extends SQLite{
 		stmt.executeUpdate();
 		stmt.close();
 		c.commit();
+		booksInDBbid2Title.put(id,title);
 		booksInDBbid.put(title,id);
 		booksInDBtextDepth.put(title,textDepth);
 		booksInDB.put(title, langSum); //make sure we have a good list of which books are in the db (for when we try to add a second language).

@@ -24,18 +24,21 @@ import org.json.JSONTokener;
 
 public class SQLite {
 
-	public static final String DB_NAME = "test8.db" ;//"testDBs/test7.db";
-	private static final boolean USE_TEST_FILES = false;
+	public static final String DB_NAME = "test10.db" ;//"testDBs/test7.db";
+	private static final boolean USE_TEST_FILES = true;
 	private static final int DB_VERION_NUM = 113;
 	private static final boolean API_ONLY = false;
 
 	final static boolean ignoreSchemaError = false;
+	
+	final static String exportPath = "F:/Google Drive/Programs/sefaria/Sefaria-Export/";
 
 	protected static Map<String,Integer> booksInDB = new HashMap<String, Integer>(); 
 	protected static Map<String,Integer> booksInDBbid = new HashMap<String, Integer>();
 	protected static Map<String,Integer> booksInDBtextDepth = new HashMap<String, Integer>();
+	protected static Map<Integer,String> booksInDBbid2Title = new HashMap<Integer,String>();
 
-
+	
 	protected static final String TABLE_TEXTS = "Texts";
 	protected static final String LINKS_SMALL = "Links_small";
 
@@ -196,7 +199,7 @@ public class SQLite {
 			for(int i =0;i<lines.size();i++){
 				String line = lines.get(i);
 				System.out.println(String.valueOf(++count) + ". " + line);
-				String path = "F:/Google Drive/Programs/sefaria/data2/Sefaria-Data/export/";
+				
 
 				boolean doComplex = true;
 				try{
@@ -204,7 +207,7 @@ public class SQLite {
 					if(i+1<lines.size()){
 						tempLine = lines.get(i+1);
 					}
-					JSONObject [] EnHeJSONs = getEnHeJSONs(line,tempLine,path);
+					JSONObject [] EnHeJSONs = getEnHeJSONs(line,tempLine,exportPath);
 					JSONObject enJSON,heJSON;
 					String title = "";
 					enJSON = EnHeJSONs[0];
@@ -247,7 +250,7 @@ public class SQLite {
 					}
 					try{
 						if(!API_ONLY){
-							String schemaPath = path + "schemas/" + title.replaceAll(" ", "_") + ".json";
+							String schemaPath = exportPath + "schemas/" + title.replaceAll(" ", "_") + ".json";
 							JSONObject schemas = openJSON(schemaPath);
 							Node.addSchemas(c, schemas);
 						}
@@ -288,7 +291,7 @@ public class SQLite {
 			Header.addAllHeaders(c, folderName);
 
 
-
+			c.commit();
 			c.close();
 			System.out.println("Records created successfully\nTextUploaded: " + textsUploaded + "\nTextFailed: " + textsFailedToUpload);
 		}catch(Exception e){

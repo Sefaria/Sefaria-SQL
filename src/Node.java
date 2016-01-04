@@ -306,10 +306,11 @@ public class Node extends SQLite{
 				int subParentNode = nodeID;
 				for(int i=0;i<refs.length();i++){
 					String ref = refs.getString(i);
+					int [] startEndTids = ref2Tids(c,ref, bid);
 					nodeID = ++nodeCount;
 					nodeType = NODE_REFS;
-					int startTID = -1;
-					int endTID = -2;
+					int startTID = startEndTids[0];
+					int endTID = startEndTids[1];
 					insertSingleNodeToDB(c, nodeID, bid, subParentNode, nodeType,
 							i, "", "", structNum, null, startTID, endTID, ref,
 							sectionNames, heSectionNames);
@@ -320,6 +321,40 @@ public class Node extends SQLite{
 		return 1;//worked
 	}
 
+	private static int [] halfRef2Levels(String ref){
+		String [] levelsStr  = ref.replace(" ", "").split(":");
+		println("levelsStr:" +levelsStr[0]+","+levelsStr[1] + "... " + ref);
+		int [] levels = new int [levelsStr.length];
+		for(int i=0;i<levelsStr.length;i++){
+			levels[i] = Integer.valueOf(levelsStr[levelsStr.length-i-1]);
+		}
+		
+		return levels;
+	}
+	
+	private static int [] ref2Tids(Connection c, String ref, int bid){
+		String title = booksInDBbid2Title.get(bid);
+		int textDepth = booksInDBtextDepth.get(title);
+		println("ref: " + ref + " title: " + title);
+		String [] startStop = ref.replace(title, "").split("-");
+		int [] start = halfRef2Levels(startStop[0]);
+		int [] stop = halfRef2Levels(startStop[1]);
+		if(textDepth != start.length || textDepth != stop.length){
+			System.err.println("Error in ref2Tids: wrong textDepth.");
+		}
+		int startTid = 0,endTid =0;
+		try {
+			startTid = Text.getTid(c, bid, start, 0, textDepth,true,null);
+			endTid = Text.getTid(c, bid, stop, 0, textDepth,true,null);
+		} catch (Exception e) {
+			System.err.println("Error in ref2Tids: problem getting Tids");
+		}
+		
+		
+		return new int [] {startTid,endTid};
+	}
+	
+	
 	protected static int addSchemas(Connection c, JSONObject schemas) throws JSONException{
 		try{
 
