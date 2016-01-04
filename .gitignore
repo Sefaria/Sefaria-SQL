@@ -33,3 +33,6 @@ UpdateForSefariaMobileDatabase.*
 
 #links file
 scripts/links/links*.csv
+
+#log files
+logs/*
