@@ -16,7 +16,7 @@ def main():
 				ofile.close()
 			except:
 				pass
-			filew = links + str(numberOfLines/numberOfLinesPerFile) + '.csv'
+			filew = 'links' + str(numberOfLines/numberOfLinesPerFile) + '.csv'
 			ofile = open(filew, 'wb');
 			writer = csv.writer(ofile);
 			

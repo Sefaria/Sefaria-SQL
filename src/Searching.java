@@ -198,7 +198,7 @@ public class Searching {
 			//stmt1.execute(
 			//stmt1.close();
 			System.out.println("created searching...");
-			FileWriter writer = new FileWriter(SQLite.DB_NAME + "_counts.csv"); 
+			FileWriter writer = new FileWriter("wordCounts/" + SQLite.DB_NAME_PART + "_counts.csv"); 
 			stmt = c.prepareStatement("INSERT into Searching VALUES (?,?)");
 
 			for(String key: keys){

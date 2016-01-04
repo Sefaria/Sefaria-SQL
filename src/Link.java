@@ -58,7 +58,7 @@ public class Link extends SQLite{
 		
 
 		try{
-			PrintWriter writer = new PrintWriter("linkErrors_" + SQLite.DB_NAME + ".txt", "UTF-8");
+			PrintWriter writer = new PrintWriter("logs/linkErrors_" + SQLite.DB_NAME_PART + ".txt", "UTF-8");
 			while(true) {
 				next = reader.readNext();
 				if(next != null) {

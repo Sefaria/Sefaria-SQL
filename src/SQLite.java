@@ -1,8 +1,12 @@
 
+import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream.GetField;
+import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -24,14 +28,16 @@ import org.json.JSONTokener;
 
 public class SQLite {
 
-	public static final String DB_NAME = "test10.db" ;//"testDBs/test7.db";
+	public static final String DB_NAME_PART = "test11";
+	public static final String DB_NAME_FULL = "testDBs/" + DB_NAME_PART + ".db";
 	private static final boolean USE_TEST_FILES = true;
 	private static final int DB_VERION_NUM = 113;
 	private static final boolean API_ONLY = false;
 
 	final static boolean ignoreSchemaError = false;
 	
-	final static String exportPath = "F:/Google Drive/Programs/sefaria/Sefaria-Export/";
+	final static String exportPath = "../Sefaria-Export/";
+	
 
 	protected static Map<String,Integer> booksInDB = new HashMap<String, Integer>(); 
 	protected static Map<String,Integer> booksInDBbid = new HashMap<String, Integer>();
@@ -109,7 +115,6 @@ public class SQLite {
 	{
 		System.out.println("I'm starting this up...");
 
-
 		try {
 			Class.forName("org.sqlite.JDBC");
 			createTables();
@@ -127,7 +132,7 @@ public class SQLite {
 		Connection c = null;
 		try{
 
-			c = DriverManager.getConnection("jdbc:sqlite:" + DB_NAME);
+			c = DriverManager.getConnection("jdbc:sqlite:" + DB_NAME_FULL);
 			System.out.println("Opened database successfully");
 			Statement stmt = c.createStatement();
 			stmt.executeUpdate("DROP TABLE IF EXISTS " + "\"android_metadata\"");
@@ -177,11 +182,12 @@ public class SQLite {
 	}
 
 	public static List<String> getFileLines() throws IOException{
+		final String fileListPath = "scripts/fileList/";
 		String fileList;
 		if(USE_TEST_FILES)
-			fileList = "fileList_test.txt";
+			fileList = fileListPath + "fileList_test.txt";
 		else
-			fileList = "fileList1.txt";
+			fileList = fileListPath + "fileList.txt";
 		return Files.readAllLines(Paths.get(fileList), Charset.forName("UTF-8"));
 	}
 
@@ -189,7 +195,7 @@ public class SQLite {
 
 		Connection c = null;
 		try{
-			c = DriverManager.getConnection("jdbc:sqlite:" + DB_NAME);
+			c = DriverManager.getConnection("jdbc:sqlite:" + DB_NAME_FULL);
 			c.setAutoCommit(false);
 
 
@@ -272,7 +278,7 @@ public class SQLite {
 				Searching.putInCountWords(c);
 				c.commit();
 				System.out.println("ADDING LINKS...");
-				CSVReader reader = new CSVReader(new InputStreamReader(new FileInputStream("5link0.csv")));
+				CSVReader reader = new CSVReader(new InputStreamReader(new FileInputStream("scripts/links/links0.csv")));
 				Link.addLinkFile(c, reader);
 				c.commit();
 
@@ -287,7 +293,7 @@ public class SQLite {
 			Book.setTidMinMax(c);
 			c.commit();
 			System.out.println("ADDING HEADERS:");
-			String folderName = "headers/";
+			String folderName = "scripts/headers/headers/";
 			Header.addAllHeaders(c, folderName);
 
 

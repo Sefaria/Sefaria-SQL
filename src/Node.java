@@ -323,7 +323,7 @@ public class Node extends SQLite{
 
 	private static int [] halfRef2Levels(String ref){
 		String [] levelsStr  = ref.replace(" ", "").split(":");
-		println("levelsStr:" +levelsStr[0]+","+levelsStr[1] + "... " + ref);
+		//println("levelsStr:" +levelsStr[0]+","+levelsStr[1] + "... " + ref);
 		int [] levels = new int [levelsStr.length];
 		for(int i=0;i<levelsStr.length;i++){
 			levels[i] = Integer.valueOf(levelsStr[levelsStr.length-i-1]);
@@ -335,7 +335,7 @@ public class Node extends SQLite{
 	private static int [] ref2Tids(Connection c, String ref, int bid){
 		String title = booksInDBbid2Title.get(bid);
 		int textDepth = booksInDBtextDepth.get(title);
-		println("ref: " + ref + " title: " + title);
+		//println("ref: " + ref + " title: " + title);
 		String [] startStop = ref.replace(title, "").split("-");
 		int [] start = halfRef2Levels(startStop[0]);
 		int [] stop = halfRef2Levels(startStop[1]);

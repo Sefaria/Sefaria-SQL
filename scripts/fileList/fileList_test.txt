@@ -1,0 +1,9 @@
+Tanach/Torah/Genesis/Hebrew/merged.json
+Tanach/Torah/Genesis/English/merged.json
+Tanach/Torah/Exodus/Hebrew/merged.json
+Tanach/Torah/Exodus/English/merged.json
+Philosophy/Guide for the Perplexed/Hebrew/merged.json
+Philosophy/Guide for the Perplexed/English/merged.json
+Philosophy/Orot/Hebrew/merged.json
+Midrash/Aggadic Midrash/Ein Yaakov/Hebrew/merged.json
+Midrash/Aggadic Midrash/Ein Yaakov/English/merged.json
