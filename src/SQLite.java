@@ -24,18 +24,16 @@ import org.json.JSONTokener;
 
 public class SQLite {
 
-	public static final String DB_NAME = "test6.db";
+	public static final String DB_NAME = "test8.db" ;//"testDBs/test7.db";
 	private static final boolean USE_TEST_FILES = false;
 	private static final int DB_VERION_NUM = 113;
 	private static final boolean API_ONLY = false;
-	
+
 	final static boolean ignoreSchemaError = false;
-	
+
 	protected static Map<String,Integer> booksInDB = new HashMap<String, Integer>(); 
 	protected static Map<String,Integer> booksInDBbid = new HashMap<String, Integer>();
 	protected static Map<String,Integer> booksInDBtextDepth = new HashMap<String, Integer>();
-
-	protected static int idCount = 0;
 
 
 	protected static final String TABLE_TEXTS = "Texts";
@@ -92,17 +90,17 @@ public class SQLite {
 	public static final String Klevel6b = "level6b";
 
 	public static final String TABLE_LINKS = "Links" ;
-	
+
 	public static final String Kheader = "header";
-    public static final String KdisplayNum = "displayNum";
-    public static final String KdisplayLevelType = "displayLevelType";
-    
+	public static final String KdisplayNum = "displayNum";
+	public static final String KdisplayLevelType = "displayLevelType";
+
 
 	public static void println(String message){
 		System.out.println(message);
 	}
-	
-    public static final String TABLE_HEADERS = "Headers";
+
+	public static final String TABLE_HEADERS = "Headers";
 
 	public static void main( String args[] )
 	{
@@ -113,7 +111,7 @@ public class SQLite {
 			Class.forName("org.sqlite.JDBC");
 			createTables();
 			insertStuff();
-		
+
 			System.out.println("Good stuff");
 		}catch(Exception e){
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -138,7 +136,7 @@ public class SQLite {
 			stmt.executeUpdate("DROP TABLE IF EXISTS " + "Nodes");
 			stmt.executeUpdate("DROP TABLE IF EXISTS " + "Searching");
 			stmt.executeUpdate("DROP TABLE IF EXISTS " + "Settings");
-			
+
 			if(!API_ONLY){
 				stmt.executeUpdate(Text.CREATE_TEXTS_TABLE);
 				stmt.executeUpdate(Link.CREATE_TABLE_LINKS);
@@ -149,7 +147,7 @@ public class SQLite {
 			stmt.executeUpdate(Book.CREATE_BOOKS_TABLE);
 			stmt.executeUpdate(Header.CREATE_HEADES_TABLE);
 
-			
+
 			stmt.executeUpdate("CREATE TABLE Settings (_id TEXT PRIMARY KEY, value INTEGER);");
 			stmt.executeUpdate(" INSERT INTO Settings (_id, value) VALUES ('version'," + DB_VERION_NUM + ")");
 			if(API_ONLY)
@@ -183,15 +181,15 @@ public class SQLite {
 			fileList = "fileList1.txt";
 		return Files.readAllLines(Paths.get(fileList), Charset.forName("UTF-8"));
 	}
-	
+
 	public static void insertStuff(){
 
 		Connection c = null;
 		try{
 			c = DriverManager.getConnection("jdbc:sqlite:" + DB_NAME);
 			c.setAutoCommit(false);
-			
-			
+
+
 			int count = 0;
 			int failedBooksCount = 0;
 			List<String> lines= getFileLines();
@@ -199,7 +197,7 @@ public class SQLite {
 				String line = lines.get(i);
 				System.out.println(String.valueOf(++count) + ". " + line);
 				String path = "F:/Google Drive/Programs/sefaria/data2/Sefaria-Data/export/";
-				
+
 				boolean doComplex = true;
 				try{
 					String tempLine = "";
@@ -225,9 +223,7 @@ public class SQLite {
 						System.err.print("BOTH JSONs are null! :(");
 						continue;
 					}
-					
-					String schemaPath = path + "schemas/" + title.replaceAll(" ", "_") + ".json";
-					JSONObject schemas = openJSON(schemaPath);
+
 					try{
 						//non complex texts
 						Book.addBook(c,enJSON,heJSON,false);
@@ -249,19 +245,26 @@ public class SQLite {
 							failedBooksCount++;
 						}
 					}
-					if(!API_ONLY)
-						Node.addSchemas(c, schemas);
+					try{
+						if(!API_ONLY){
+							String schemaPath = path + "schemas/" + title.replaceAll(" ", "_") + ".json";
+							JSONObject schemas = openJSON(schemaPath);
+							Node.addSchemas(c, schemas);
+						}
+					}catch(Exception e){
+						if(!ignoreSchemaError || !(e.toString().contains("java.nio.file.NoSuchFileException: ") && e.toString().contains("schema")))
+							System.err.println("Error adding Schema: " + e);
+					}
 					c.commit();
-					
+
 				}catch(Exception e){
-					if(!ignoreSchemaError || !(e.toString().contains("java.nio.file.NoSuchFileException: ") && e.toString().contains("schema")))
-						System.err.println("Error123: " + e);
+					System.err.println("Error123: " + e);
 					failedBooksCount++;
 				}
 			}
 			System.out.println("Good Books: " + String.valueOf(count - failedBooksCount) + "\nFailed Books: " + failedBooksCount);
 			//System.out.println("TEXTS: en: " + Text.en + " he: " + Text.he + " u2: " + Text.u2 + " u3: " + Text.u3 + " u4: " + Text.u4);
-			
+
 			if(!API_ONLY){
 				Searching.putInCountWords(c);
 				c.commit();
@@ -269,7 +272,7 @@ public class SQLite {
 				CSVReader reader = new CSVReader(new InputStreamReader(new FileInputStream("5link0.csv")));
 				Link.addLinkFile(c, reader);
 				c.commit();
-			
+
 				System.out.println("CHANGING displayNum (on Texts)...");
 				Text.displayNum(c);
 				System.out.println("CHANGING hasLink (on Texts)...");
@@ -283,9 +286,9 @@ public class SQLite {
 			System.out.println("ADDING HEADERS:");
 			String folderName = "headers/";
 			Header.addAllHeaders(c, folderName);
-			
-			
-			
+
+
+
 			c.close();
 			System.out.println("Records created successfully\nTextUploaded: " + textsUploaded + "\nTextFailed: " + textsFailedToUpload);
 		}catch(Exception e){
@@ -308,11 +311,11 @@ public class SQLite {
 		if(!
 				tempLine.replace("English/merged.json", "").replace("Hebrew/merged.json", "")
 				.equals(
-				line.replace("English/merged.json", "").replace("Hebrew/merged.json", ""))
-			){
-				tempLine = "";//They are not equal so don't use tempLine
-			}
-		
+						line.replace("English/merged.json", "").replace("Hebrew/merged.json", ""))
+				){
+			tempLine = "";//They are not equal so don't use tempLine
+		}
+
 		String heLine = "";
 		String enLine = "";
 		if(line.contains("Hebrew/merged.json")){
@@ -328,7 +331,7 @@ public class SQLite {
 		}else if(tempLine.contains("English/merged.json")){
 			enLine = tempLine;
 		}
-		
+
 		JSONObject enJSON = null ,heJSON = null;
 		if(!enLine.equals("")){
 			enJSON = openJSON(enLine,path);
@@ -362,7 +365,7 @@ public class SQLite {
 
 	protected final static int LANG_HE = 2;
 	protected final static int LANG_EN = 1;
-	
+
 	static int returnLangNums(String langString){
 		if(langString.equals("en"))
 			return LANG_EN;

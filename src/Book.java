@@ -143,6 +143,8 @@ public class Book extends SQLite{
 	};
 
 
+	protected static int idCount = 0;
+	
 	public static void addBook(Connection c, JSONObject enJSON, JSONObject heJSON,boolean complexText) throws JSONException, SQLException {		
 		
 		int langSum = 0;

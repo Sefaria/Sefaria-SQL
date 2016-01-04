@@ -2,51 +2,15 @@ Tanach/Torah/Genesis/Hebrew/merged.json
 Tanach/Torah/Genesis/English/merged.json
 Tanach/Torah/Exodus/Hebrew/merged.json
 Tanach/Torah/Exodus/English/merged.json
-Tanach/Torah/Leviticus/Hebrew/merged.json
-Tanach/Torah/Leviticus/English/merged.json
-Tanach/Torah/Numbers/Hebrew/merged.json
-Tanach/Torah/Numbers/English/merged.json
-Tanach/Torah/Deuteronomy/Hebrew/merged.json
-Tanach/Torah/Deuteronomy/English/merged.json
-Tanach/Prophets/Joshua/Hebrew/merged.json
-Talmud/Bavli/Seder Zeraim/Berakhot/Hebrew/merged.json
-Talmud/Bavli/Seder Zeraim/Berakhot/English/merged.json
-Talmud/Bavli/Seder Moed/Shabbat/Hebrew/merged.json
-Talmud/Bavli/Seder Moed/Shabbat/English/merged.json
-Talmud/Bavli/Seder Moed/Eruvin/Hebrew/merged.json
-Commentary/Tanach/Torah/Genesis/Daat Zkenim on Genesis/Hebrew/merged.json
-Commentary/Tanach/Torah/Genesis/Haamek Davar on Genesis/Hebrew/merged.json
-Commentary/Tanach/Torah/Genesis/Haamek Davar on Genesis/English/merged.json
+Philosophy/Guide for the Perplexed/Hebrew/merged.json
+Philosophy/Guide for the Perplexed/English/merged.json
+Philosophy/Orot/Hebrew/merged.json
+Midrash/Aggadic Midrash/Ein Yaakov/Hebrew/merged.json
+Midrash/Aggadic Midrash/Ein Yaakov/English/merged.json
+Parshanut/Shelah/English/merged.json
+Commentary/Apocrypha/Seder Olam Rabbah/Meir Ayin on Seder Olam Rabbah/Hebrew/merged.json
+Other/Commentary2/Mishnah/Tosafot Yom Tov/Tosafot Yom Tov on Mishnah Berakhot/Hebrew/merged.json
+Other/Commentary2/Mishnah/Tosafot Yom Tov/Tosafot Yom Tov on Mishnah Demai/Hebrew/merged.json
 Commentary/Tanach/Torah/Genesis/Abravanel on Genesis/English/merged.json
+Commentary/Tanach/Prophets/II Kings/Abravanel on II Kings/English/merged.json
 Commentary/Tanach/Torah/Genesis/Baal HaTurim on Genesis/Hebrew/merged.json
-Commentary/Tanach/Torah/Genesis/Baal HaTurim on Genesis/English/merged.json
-Commentary/Tanach/Torah/Genesis/Penei Dovid on Genesis/Hebrew/merged.json
-Commentary/Tanach/Torah/Genesis/Sepher Torat Elohim on Genesis/Hebrew/merged.json
-Commentary/Tanach/Torah/Genesis/Shadal on Genesis/Hebrew/merged.json
-Commentary/Tanach/Torah/Genesis/Toldot Aharon on Genesis/Hebrew/merged.json
-Commentary/Tanach/Torah/Exodus/Daat Zkenim on Exodus/Hebrew/merged.json
-Commentary/Tanach/Torah/Exodus/Haamek Davar on Exodus/Hebrew/merged.json
-Commentary/Tanach/Torah/Exodus/Ibn Ezra on Exodus/Hebrew/merged.json
-Commentary/Tanach/Torah/Exodus/Ibn Ezra on Exodus/English/merged.json
-Commentary/Tanach/Torah/Exodus/Ikar Siftei Hachamim on Exodus/Hebrew/merged.json
-Commentary/Tanach/Torah/Exodus/Kitzur Baal Haturim on Exodus/Hebrew/merged.json
-Commentary/Tanach/Torah/Exodus/Kli Yakar on Exodus/Hebrew/merged.json
-Commentary/Tanach/Torah/Exodus/Or HaChaim on Exodus/Hebrew/merged.json
-Commentary/Tanach/Torah/Exodus/Rabbeinu Chananel on Exodus/English/merged.json
-Commentary/Tanach/Torah/Exodus/Ramban on Exodus/Hebrew/merged.json
-Commentary/Tanach/Torah/Exodus/Ramban on Exodus/English/merged.json
-Commentary/Tanach/Torah/Numbers/Kli Yakar on Numbers/Hebrew/merged.json
-Commentary/Tanach/Torah/Numbers/Or HaChaim on Numbers/Hebrew/merged.json
-Commentary/Tanach/Torah/Numbers/Rabbeinu Chananel on Numbers/English/merged.json
-Commentary/Tanach/Torah/Numbers/Ramban on Numbers/Hebrew/merged.json
-Commentary/Tanach/Torah/Numbers/Rashbam on Numbers/Hebrew/merged.json
-Commentary/Tanach/Torah/Numbers/Rashbam on Numbers/English/merged.json
-Commentary/Tanach/Torah/Numbers/Rashi on Numbers/Hebrew/merged.json
-Commentary/Tanach/Torah/Numbers/Rashi on Numbers/English/merged.json
-Commentary/Tanach/Torah/Numbers/Sforno on Numbers/Hebrew/merged.json
-Commentary/Tanach/Torah/Numbers/Sforno on Numbers/English/merged.json
-Commentary/Tanach/Torah/Numbers/Chizkuni on Numbers/Hebrew/merged.json
-Commentary/Tanach/Torah/Numbers/Shadal on Numbers/English/merged.json
-Commentary/Tanach/Torah/Deuteronomy/Daat Zkenim on Deuteronomy/Hebrew/merged.json
-Commentary/Tanach/Torah/Deuteronomy/Daat Zkenim on Deuteronomy/English/merged.json
-Commentary/Tanach/Torah/Deuteronomy/Ibn Ezra on Deuteronomy/Hebrew/merged.json
