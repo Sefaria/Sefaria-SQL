@@ -7,3 +7,4 @@ Philosophy/Guide for the Perplexed/English/merged.json
 Philosophy/Orot/Hebrew/merged.json
 Midrash/Aggadic Midrash/Ein Yaakov/Hebrew/merged.json
 Midrash/Aggadic Midrash/Ein Yaakov/English/merged.json
+Kabbalah/Tikkunei Zohar/Hebrew/merged.json

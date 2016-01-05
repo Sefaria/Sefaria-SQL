@@ -30,11 +30,6 @@ import org.json.JSONObject;
 
 
 public class Node extends SQLite{
-
-	private static final int NODE_BRANCH = 1;
-	private static final int NODE_TEXTS = 2;
-	private static final int NODE_REFS = 3;
-
 	private static int nodeCount = 0;
 
 	static String CREATE_NODE_TABLE = 
@@ -133,6 +128,31 @@ public class Node extends SQLite{
 		return 1; //it worked
 	}
 
+	private static final int IS_COMPLEX = 2;
+	private static final int IS_TEXT_SECTION = 4;
+	private static final int IS_GRID_ITEM = 8;
+	private static final int IS_REF = 16;
+	/***
+	 * returns an int which represents the nodeType using boolean flags
+	 * @param isComplex
+	 * @param isTextSection
+	 * @param isGridItem
+	 * @param isRef
+	 * @return nodeType
+	 */
+	private static int getNodeType(boolean isComplex,boolean isTextSection,boolean isGridItem, boolean isRef ){
+		int nodeType = 1; //start off with something that isn't 0, so that 0 is reserved for when it's got no info
+		if(isComplex)
+			nodeType += IS_COMPLEX;
+		if(isTextSection)
+			nodeType += IS_TEXT_SECTION;
+		if(isGridItem)
+			nodeType += IS_GRID_ITEM;
+		if(isRef)
+			nodeType += IS_REF;
+
+		return nodeType;
+	}
 
 	private static void insertSingleNodeToDB(Connection c, Integer nid, Integer bid, Integer parentNode,Integer nodeType, Integer siblingNum,
 			String enTitle, String heTitle, Integer structNum, Integer textDepth, Integer startTid, Integer endTid,
@@ -185,18 +205,18 @@ public class Node extends SQLite{
 				if(heText != null)
 					heText = heText.getJSONObject(enTitle); //this is the test to determine the Node type
 			}
-			nodeType = NODE_BRANCH;
+			nodeType = getNodeType(true, false, false, false);
 		}catch(Exception e){
-			nodeType = NODE_TEXTS;//leaf
+			nodeType = getNodeType(true, true, false, false);
 		}
 		insertSingleNodeToDB(c, nodeID, bid, parentNode, nodeType, siblingNum, enTitle, heTitle, 1,
 				null, null, null, null, null, null);
-	
-		if(nodeType == NODE_BRANCH){
+
+		if((nodeType & IS_TEXT_SECTION) == 0){ //it's a branch and not a TEXT_SECTION
 			for(int i =0;i<nodes.length();i++){
 				insertNode(c, (JSONObject) nodes.get(i),enText,heText,depth+1,i,bid,nodeID,lang);
 			}
-		} else if(nodeType == NODE_TEXTS){
+		} else{// if(nodeType == NODE_TEXTS){
 			int enTextDepth = 0, heTextDepth = 0;
 			if(enText != null){
 				JSONArray textArray = (JSONArray) enText.get(enTitle);
@@ -282,39 +302,49 @@ public class Node extends SQLite{
 			String enTitle = node.getString("title");
 			String heTitle = node.getString("heTitle");
 			String nodeTypeString =  node.getString("nodeType");
-			int nodeType = -1;
-			if(nodeTypeString.equals("ArrayMapNode")){
-				nodeType = NODE_BRANCH;//NODE_REFS;
-			}
-			else{
+			int nodeType;
+			if(!nodeTypeString.equals("ArrayMapNode")){
 				System.err.println("Error not a ref");
-				return -1;
+				return -1;	
 			}
-
 			String sectionNames = node.getJSONArray("sectionNames").toString().replace("\"\"", "\"Section\"");
 			String heSectionNames = sectionNames;//node.getJSONArray("heSectionNames").toString().replace("\"\"", "\"Section\"");
 			//TODO get real heSection names
-			JSONArray refs = node.getJSONArray("refs");
-			//if (depth == 0) use wholeRef and it's not a grid //TODO 
-			//System.out.println(enTitle + " " +  heTitle + " " + nodeType + " " + sectionNames + refs);
-			int nodeID = ++nodeCount;
-			
-			insertSingleNodeToDB(c, nodeID, bid, parentNode, nodeType, j, enTitle, heTitle, structNum,
-					null, null, null, null, sectionNames, heSectionNames);
-			
-			if(nodeTypeString.equals("ArrayMapNode")){
+
+			int depth = node.getInt("depth");
+			JSONArray refs;
+			if (depth != 0){
+				int nodeID = ++nodeCount;
+				nodeType = getNodeType(true, false, false, false);//NODE_REFS;
+				refs = node.getJSONArray("refs");
+				insertSingleNodeToDB(c, nodeID, bid, parentNode, nodeType, j, enTitle, heTitle, structNum,
+						null, null, null, null, sectionNames, heSectionNames);
+
+				//System.out.println(enTitle + " " +  heTitle + " " + nodeType + " " + sectionNames + refs);
 				int subParentNode = nodeID;
 				for(int i=0;i<refs.length();i++){
 					String ref = refs.getString(i);
-					int [] startEndTids = ref2Tids(c,ref, bid);
+					if(ref.equals("")) continue;
 					nodeID = ++nodeCount;
-					nodeType = NODE_REFS;
+					nodeType = getNodeType(true, true, true, true);
+					int [] startEndTids = ref2Tids(c,ref, bid);
 					int startTID = startEndTids[0];
 					int endTID = startEndTids[1];
 					insertSingleNodeToDB(c, nodeID, bid, subParentNode, nodeType,
 							i, "", "", structNum, null, startTID, endTID, ref,
 							sectionNames, heSectionNames);
 				}
+			}else{//It's (depth == 0) so the refs aren't in a grid
+				int nodeID = ++nodeCount;
+				String ref = node.getString("wholeRef");
+				if(ref.equals("")) continue;
+				nodeType = getNodeType(true, true, false, true);
+				int [] startEndTids = ref2Tids(c,ref, bid);
+				int startTID = startEndTids[0];
+				int endTID = startEndTids[1];
+				insertSingleNodeToDB(c, nodeID, bid, parentNode, nodeType,
+						j, enTitle, heTitle, structNum, null, startTID, endTID, ref,
+						sectionNames, heSectionNames);
 			}
 
 		}
@@ -326,53 +356,85 @@ public class Node extends SQLite{
 		//println("levelsStr:" +levelsStr[0]+","+levelsStr[1] + "... " + ref);
 		int [] levels = new int [levelsStr.length];
 		for(int i=0;i<levelsStr.length;i++){
-			levels[i] = Integer.valueOf(levelsStr[levelsStr.length-i-1]);
+			levels[i] = Link.catchDafs(levelsStr[levelsStr.length-i-1]);
 		}
-		
+
 		return levels;
 	}
-	
+
 	private static int [] ref2Tids(Connection c, String ref, int bid){
 		String title = booksInDBbid2Title.get(bid);
 		int textDepth = booksInDBtextDepth.get(title);
 		//println("ref: " + ref + " title: " + title);
-		String [] startStop = ref.replace(title, "").split("-");
-		int [] start = halfRef2Levels(startStop[0]);
-		int [] stop = halfRef2Levels(startStop[1]);
-		if(textDepth != start.length || textDepth != stop.length){
-			System.err.println("Error in ref2Tids: wrong textDepth.");
-		}
 		int startTid = 0,endTid =0;
 		try {
+			String [] startStop = ref.replace(title, "").split("-");
+			int [] start = halfRef2Levels(startStop[0]);
+			int [] stop = start;
+			if(startStop.length == 2)
+				stop = halfRef2Levels(startStop[1]);
+			else if(startStop.length == 1)
+				stop = start;
+			else{
+				System.err.println("Error in Node.Schema.ref2Tids: wrong number of startStop. ref:" + ref);
+			}
+			if(textDepth != start.length || textDepth != stop.length){
+				if(stop.length < start.length){
+					int [] tempStop = new int [start.length];
+					for(int i=0;i<stop.length;i++){
+						tempStop[i] = stop[i];
+					}
+					for(int i=stop.length;i<start.length;i++){
+						tempStop[i] = start[i];
+					}
+					stop = tempStop;
+					//println("ref:" + ref + "__" + start[0] + "," + start[1]+ "___"+ stop[0] + "," + stop[1]);
+				}
+				else
+					System.err.println("Error in ref2Tids: wrong textDepth. ref:" + ref);
+			}
+			
+
 			startTid = Text.getTid(c, bid, start, 0, textDepth,true,null);
 			endTid = Text.getTid(c, bid, stop, 0, textDepth,true,null);
 		} catch (Exception e) {
-			System.err.println("Error in ref2Tids: problem getting Tids");
+			System.err.println("Error in Node.Schema.ref2Tids: problem getting Tids. ref:" + ref);
 		}
-		
-		
+
+
 		return new int [] {startTid,endTid};
 	}
-	
-	
+
+
 	protected static int addSchemas(Connection c, JSONObject schemas) throws JSONException{
 		try{
-
 			JSONObject alts = schemas.getJSONObject("alts");
 			String bookTitle = schemas.getString("title");
+			String default_struct = "__UNUSED__"; //didn't leave it blank in case 2 sturcts both have no name and I push them together.
+			try{
+				default_struct = schemas.getString("default_struct");
+			}catch(Exception e){
+				;
+			}
 			int bid = booksInDBbid.get(bookTitle);
-			String [] altNames = alts.getNames(alts);
+			String [] altNames = JSONObject.getNames(alts);
 			for(int i=0;i<altNames.length;i++){
 				//System.out.println(altNames[i]);
-				JSONObject alt = alts.getJSONObject(altNames[i]);
+				String altName = altNames[i];
+				JSONObject alt = alts.getJSONObject(altName);
 				Integer nodeID = ++nodeCount;
-				int structNum = i+2;//1 is the default, so add 2 to the alt structs.
-				String enTitle =  altNames[i];
+				int structNum;
+				if(altName.equals(default_struct))
+					structNum = 0; //this is even b/f the rigid one which is at number 1
+				else
+					structNum = i+2;//1 is the rigid one, so add 2 to the alt structs.
+				String enTitle =  altName;
 				String heTitle = enTitle; //TODO make real heTitle
-				insertSingleNodeToDB(c, nodeID, bid, 0, NODE_BRANCH, 0,enTitle , heTitle, structNum,
+				int nodeType = getNodeType(true, false, false, false);
+				insertSingleNodeToDB(c, nodeID, bid, 0, nodeType, 0,enTitle , heTitle, structNum,
 						null, null, null, null, null, null);
 				JSONArray nodes = alt.getJSONArray("nodes");
-				
+
 				addSchemaNodes(c, nodes, bid,nodeID,structNum);
 			}
 		}catch(JSONException e1){
@@ -381,7 +443,8 @@ public class Node extends SQLite{
 			}
 			//else it only has a single structure 
 		}catch(Exception e){
-			System.err.println("Error (addSchemas): " + e);
+			System.err.println("Error (addSchemas): " + e.toString());
+			e.printStackTrace();
 		}
 
 		return 1; //it worked

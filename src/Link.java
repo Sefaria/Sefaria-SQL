@@ -200,7 +200,7 @@ public class Link extends SQLite{
 	}
 	
 	
-	static int catchDafs(String input){
+	public static int catchDafs(String input){
 		
 		String test = new String ();
 		test = input.replaceAll("-.+", ""); //replace 56-87 (it will only link to the first thing (for now). //TODO

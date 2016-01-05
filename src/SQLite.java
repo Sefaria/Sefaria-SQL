@@ -28,7 +28,7 @@ import org.json.JSONTokener;
 
 public class SQLite {
 
-	public static final String DB_NAME_PART = "test11";
+	public static final String DB_NAME_PART = "test13";
 	
 	public static final String DB_NAME_FULL = "testDBs/" + DB_NAME_PART + ".db";
 	private static final boolean USE_TEST_FILES = true;
