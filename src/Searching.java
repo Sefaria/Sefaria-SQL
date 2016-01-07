@@ -1,5 +1,6 @@
 import java.io.ByteArrayInputStream;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -184,25 +185,33 @@ public class Searching {
 		}
 		return bits;
 	}
-	
+
 	public static final String CREATE_SEARCH = "CREATE table Searching (_id TEXT PRIMARY KEY, chunks BLOB)";//, packCount INTEGER, count INTEGER, , chunkstring TEXT)"); //, isNeg BOOLEAN
 
 	public static void putInCountWords(Connection c){
 		System.out.println("HashTable size: " + countText.size() +  "... NOW MAKING IT>>>> (IF YOU DON'T WANT IT IN THERE, REMOVE IT NOW!!");
 
 		Set<String> keys = countText.keySet();
-		PreparedStatement stmt = null;
 
+
+		System.out.println("creating wordCounts...");
+		FileWriter writer;
 		try {
-			//Statement stmt1 = c.createStatement();
-			//stmt1.execute(
-			//stmt1.close();
-			System.out.println("created searching...");
-			FileWriter writer = new FileWriter("wordCounts/" + SQLite.DB_NAME_PART + "_counts.csv"); 
-			stmt = c.prepareStatement("INSERT into Searching VALUES (?,?)");
-
+			writer = new FileWriter("wordCounts/" + SQLite.DB_NAME_PART + "_counts.csv");
 			for(String key: keys){
 				writer.append(key +"," + countText.get(key)+ "\n");
+			}
+			writer.flush();
+			writer.close();	
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		} 
+
+		PreparedStatement stmt = null;
+		try {
+			System.out.println("creating searching...");
+			stmt = c.prepareStatement("INSERT into Searching VALUES (?,?)");
+			for(String key: keys){
 				//if(key.equals("ברא") )//key.equals("גדול") || 
 				//	System.out.print("ok");
 				stmt.setString(1,key);
@@ -214,17 +223,12 @@ public class Searching {
 				//stmt.setInt(3, 1);
 				stmt.execute();
 			}
-			 writer.flush();
-			 writer.close();	
 			stmt.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		catch (Exception e){
 			e.printStackTrace();
 		}
-		
+
 
 	}
 

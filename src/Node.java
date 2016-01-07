@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.BitSet;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
@@ -307,13 +308,13 @@ public class Node extends SQLite{
 				System.err.println("Error not a ref");
 				return -1;	
 			}
+			
+			
 			String sectionNames = node.getJSONArray("sectionNames").toString().replace("\"\"", "\"Section\"");
 			String heSectionNames = sectionNames;//node.getJSONArray("heSectionNames").toString().replace("\"\"", "\"Section\"");
-			//TODO get real heSection names
-
 			int depth = node.getInt("depth");
 			JSONArray refs;
-			if (depth != 0){
+			if (depth == 1){
 				int nodeID = ++nodeCount;
 				nodeType = getNodeType(true, false, false, false);//NODE_REFS;
 				refs = node.getJSONArray("refs");
@@ -334,17 +335,21 @@ public class Node extends SQLite{
 							i, "", "", structNum, null, startTID, endTID, ref,
 							sectionNames, heSectionNames);
 				}
-			}else{//It's (depth == 0) so the refs aren't in a grid
+			}else if(depth == 0){ //so the refs aren't in a grid
 				int nodeID = ++nodeCount;
+				nodeType = getNodeType(true, true, false, true);
+				//TODO get real heSection names
 				String ref = node.getString("wholeRef");
 				if(ref.equals("")) continue;
-				nodeType = getNodeType(true, true, false, true);
 				int [] startEndTids = ref2Tids(c,ref, bid);
 				int startTID = startEndTids[0];
 				int endTID = startEndTids[1];
+				
 				insertSingleNodeToDB(c, nodeID, bid, parentNode, nodeType,
 						j, enTitle, heTitle, structNum, null, startTID, endTID, ref,
 						sectionNames, heSectionNames);
+			}else{
+				System.err.println("Node.addSchemaNodes(): I don't know how to deal with this depth:" + depth);
 			}
 
 		}
@@ -389,12 +394,10 @@ public class Node extends SQLite{
 					}
 					stop = tempStop;
 					//println("ref:" + ref + "__" + start[0] + "," + start[1]+ "___"+ stop[0] + "," + stop[1]);
-				}
-				else
-					System.err.println("Error in ref2Tids: wrong textDepth. ref:" + ref);
+				}			
+				start = add1sForMissingLevels(start, textDepth);
+				stop = add1sForMissingLevels(stop, textDepth);
 			}
-			
-
 			startTid = Text.getTid(c, bid, start, 0, textDepth,true,null);
 			endTid = Text.getTid(c, bid, stop, 0, textDepth,true,null);
 		} catch (Exception e) {
@@ -404,7 +407,23 @@ public class Node extends SQLite{
 
 		return new int [] {startTid,endTid};
 	}
-
+		
+	static private int [] add1sForMissingLevels(int [] levels,int textDepth){
+		if(levels.length < textDepth){
+			int [] tempLevels = new int [textDepth];
+			int diff = textDepth - levels.length;
+			for(int i=0;i<diff;i++){
+				tempLevels[i] = 1; //I just have to assume that it's referring to the 1st object
+			}
+			for(int i= diff;i<tempLevels.length;i++){
+				tempLevels[i] = levels[i-diff];
+			}
+			return tempLevels;
+		}else{
+			return levels;
+		}
+		
+	}
 
 	protected static int addSchemas(Connection c, JSONObject schemas) throws JSONException{
 		try{
@@ -431,10 +450,18 @@ public class Node extends SQLite{
 				String enTitle =  altName;
 				String heTitle = enTitle; //TODO make real heTitle
 				int nodeType = getNodeType(true, false, false, false);
+				String sectionNames = "[\"" + altName + "\"]";
+				String heSectionNames = sectionNames;
 				insertSingleNodeToDB(c, nodeID, bid, 0, nodeType, 0,enTitle , heTitle, structNum,
-						null, null, null, null, null, null);
-				JSONArray nodes = alt.getJSONArray("nodes");
-
+						null, null, null, null, sectionNames, heSectionNames);
+				JSONArray nodes;
+				try{
+					nodes = alt.getJSONArray("nodes");
+				}catch(JSONException e){
+					JSONObject [] altArray = new JSONObject [] {alt};
+					nodes = new JSONArray(altArray);
+				}
+				
 				addSchemaNodes(c, nodes, bid,nodeID,structNum);
 			}
 		}catch(JSONException e1){

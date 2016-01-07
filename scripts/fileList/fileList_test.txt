@@ -1,3 +1,8 @@
+Talmud/Bavli/Seder Zeraim/Berakhot/Hebrew/merged.json
+Talmud/Bavli/Seder Zeraim/Berakhot/English/merged.json
+Kabbalah/Zohar/Hebrew/merged.json
+Kabbalah/Zohar/English/merged.json
+
 Tanach/Torah/Genesis/Hebrew/merged.json
 Tanach/Torah/Genesis/English/merged.json
 Tanach/Torah/Exodus/Hebrew/merged.json
