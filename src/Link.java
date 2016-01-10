@@ -45,7 +45,9 @@ public class Link extends SQLite{
 			"		REFERENCES Text (_id)\r\n" + 
 			"		ON DELETE CASCADE\r\n" + 
 			
-			")"
+			");"+
+	
+	"CREATE INDEX tid2 ON " + LINKS_SMALL + " (tid2)"
 			;
 
 	

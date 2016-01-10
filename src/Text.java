@@ -111,12 +111,27 @@ public class Text extends SQLite{
 	}
 
 	static void setHasLink(Connection c){
-		String sql = "update Texts set hasLink=1 where _id in (select distinct tid1 from Links_small union select   distinct tid2 from Links_small)";
-		PreparedStatement stmt = null;
+		String sql = "Select tid, count(*) as linkCount FROM (select tid1 as tid from Links_small UNION ALL select tid2 as tid from Links_small) GROUP BY tid";
+		
+		Statement stmt = null;
 		try {
-			stmt = c.prepareStatement(sql);
-			stmt.executeUpdate();
+			stmt = c.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			
+			//stmt.executeUpdate();
+			PreparedStatement preparedStatement = null;
+			while (rs.next()) {
+				  int tid = rs.getInt("tid");
+				  int linkCount = rs.getInt("linkCount");
+				  //System.out.println("counts: " + tid + " " + linkCount);
+				  String updateSql = "UPDATE Texts set hasLink=" + linkCount + " where _id =" + tid;
+				  preparedStatement = c.prepareStatement(updateSql);
+				  preparedStatement.execute();
+			}
 			stmt.close();
+			preparedStatement.close();
+			c.commit();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
