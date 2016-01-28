@@ -28,11 +28,11 @@ import org.json.JSONTokener;
 
 public class SQLite {
 
-	public static final String DB_NAME_PART = "test14";
+	public static final String DB_NAME_PART = "test16";
 	
 	public static final String DB_NAME_FULL = "testDBs/" + DB_NAME_PART + ".db";
 	private static final boolean USE_TEST_FILES = false;
-	private static final int DB_VERION_NUM = 114;
+	private static final int DB_VERION_NUM = 116;
 	private static final boolean API_ONLY = false;
 
 	final static boolean ignoreSchemaError = false;

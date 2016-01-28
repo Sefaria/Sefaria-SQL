@@ -67,6 +67,7 @@ public class Text extends SQLite{
 		displayNumCat(c,0, "[\"Liturgy\"%");
 		displayNumCat(c,0, "[\"Tefillah\"%");
 		displayNumCat(c,1, "[\"Commentary\",%");
+		displayNumCat(c,0, "[\"Commentary\",%",true);
 		displayNumCat(c,1, "[\"Mishnah\",%");
 		displayNumCat(c,1, "[\"Tanach\",%");
 		displayNumCat(c,1, "[\"Tosefta\",%");
@@ -95,12 +96,21 @@ public class Text extends SQLite{
 	}
 
 	static void displayNumCat(Connection c, int displayNumber, String likeCategories){
-		String sql = "UPDATE Texts set displayNumber = ? WHERE bid in (SELECT B._id FROM Books B WHERE B.categories LIKE ? )" ;
+		displayNumCat(c, displayNumber, likeCategories, false);
+	}
+	static void displayNumCat(Connection c, int displayNumber, String likeCategories, boolean commentSection){
+		String sql;
+		if(!commentSection)
+			sql = "UPDATE Texts set displayNumber = ? WHERE bid in (SELECT B._id FROM Books B WHERE B.categories LIKE ? )" ;
+		else
+			sql = "UPDATE Texts set displayNumber = ? WHERE bid in (SELECT B._id FROM Books B WHERE B.categories LIKE ? AND B.sectionNames LIKE ? )" ;
 		PreparedStatement stmt = null;
 		try {
 			stmt = c.prepareStatement(sql);
 			stmt.setInt(1, displayNumber);
 			stmt.setString(2, likeCategories);
+			if(commentSection)
+				stmt.setString(3,"%\"Comment\"]");
 			stmt.executeUpdate();
 			stmt.close();
 		} catch (SQLException e) {
