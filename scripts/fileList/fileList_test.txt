@@ -1,15 +1,9 @@
 Talmud/Bavli/Seder Zeraim/Berakhot/Hebrew/merged.json
 Talmud/Bavli/Seder Zeraim/Berakhot/English/merged.json
-Kabbalah/Zohar/Hebrew/merged.json
-Kabbalah/Zohar/English/merged.json
-
+Talmud/Rif/Seder Zeraim/Rif Berakhot/Hebrew/merged.json
 Tanach/Torah/Genesis/Hebrew/merged.json
 Tanach/Torah/Genesis/English/merged.json
-Tanach/Torah/Exodus/Hebrew/merged.json
-Tanach/Torah/Exodus/English/merged.json
-Philosophy/Guide for the Perplexed/Hebrew/merged.json
-Philosophy/Guide for the Perplexed/English/merged.json
-Philosophy/Orot/Hebrew/merged.json
-Midrash/Aggadic Midrash/Ein Yaakov/Hebrew/merged.json
-Midrash/Aggadic Midrash/Ein Yaakov/English/merged.json
-Kabbalah/Tikkunei Zohar/Hebrew/merged.json
+Commentary/Tanach/Rashi/Rashi on Genesis/Hebrew/merged.json
+Commentary/Tanach/Rashi/Rashi on Genesis/English/merged.json
+Tanach/Targum/Onkelos Genesis/Hebrew/merged.json
+Tanach/Targum/Onkelos Genesis/English/merged.json

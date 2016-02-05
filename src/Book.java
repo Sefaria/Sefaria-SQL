@@ -187,8 +187,8 @@ public class Book extends SQLite{
 		if(booksInDB.containsKey(commentedOnBook)){
 			commentsOn = booksInDBbid.get(commentedOnBook);
 			stmt.setInt(2, commentsOn); // KcommentsOn
-		} else if(booksInDB.containsKey(title.replaceFirst("Onkelos ", ""))){ //added in so that Onkelos would be considered a commentary
-			commentsOn = booksInDBbid.get(title.replaceFirst("Onkelos ", ""));
+		} else if(booksInDB.containsKey(title.replaceFirst("^Onkelos ", "").replaceFirst("^Rif ", ""))){ //added in so that Onkelos would be considered a commentary
+			commentsOn = booksInDBbid.get(title.replaceFirst("^Onkelos ", "").replaceFirst("^Rif ", ""));
 			stmt.setInt(2, commentsOn); // KcommentsOn
 		}
 
