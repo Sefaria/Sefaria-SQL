@@ -67,7 +67,7 @@ public class SQLite {
 			//Huffman.test();
 			Class.forName("org.sqlite.JDBC");
 			if(ONLY_COPY_DB){
-				copyNewDB("testDBs/test121.db","testDBs/copy_test121.db", true);
+				copyNewDB("testDBs/117/UpdateForSefariaMobileDatabase.db","testDBs/117/copy_UpdateForSefariaMobileDatabase.db", true);
 				return;
 			}
 			createTables();
