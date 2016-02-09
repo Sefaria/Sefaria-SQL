@@ -131,7 +131,6 @@ public class Searching {
 		//packet =: byte { packNum, MSB,.., LSB}
 		//ex. 47 = 24 + 23 -> {1 (=24/24), 0xA0,0x00,0x00}
 		ArrayList<Byte> blob = new ArrayList<Byte>(); 
-		byte packNum = 0;
 		for(byte i = 0; i< MAX_PACKET_COUNT; i++){
 			BitSet packBits = new BitSet(BITS_PER_PACKET);
 			boolean usingPacket = false;
@@ -149,7 +148,6 @@ public class Searching {
 				}
 			}
 		}
-		int j=0;
 		byte [] bytes = new byte[blob.size()];
 		for(int i = 0; i<blob.size(); i++)
 			bytes[i] = blob.get(i);

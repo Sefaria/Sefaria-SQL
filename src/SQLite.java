@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.Date;
 
 import org.json.JSONException;
 import org.json.JSONArray;
@@ -28,112 +29,67 @@ import org.json.JSONTokener;
 
 public class SQLite {
 
-	public static final String DB_NAME_PART = "test117";
-	
+	private static final int DB_VERION_NUM = 121;
+	public static final String DB_NAME_PART = "test" + DB_VERION_NUM;
 	public static final String DB_NAME_FULL = "testDBs/" + DB_NAME_PART + ".db";
-	private static final boolean USE_TEST_FILES = false;
-	private static final int DB_VERION_NUM = 117;
+	private static final String COPY_DB_NAME = "testDBs/" + "copy_" + DB_NAME_PART + ".db";
+	private static final boolean USE_TEST_FILES = true;
+	
 	private static final boolean API_ONLY = false;
+	private static final boolean ONLY_COPY_DB = true;
 
 	final static boolean ignoreSchemaError = false;
-	
+
 	final static String exportPath = "../Sefaria-Export/";
-	
 
 	protected static Map<String,Integer> booksInDB = new HashMap<String, Integer>(); 
 	protected static Map<String,Integer> booksInDBbid = new HashMap<String, Integer>();
 	protected static Map<String,Integer> booksInDBtextDepth = new HashMap<String, Integer>();
 	protected static Map<Integer,String> booksInDBbid2Title = new HashMap<Integer,String>();
 
-	
-	protected static final String TABLE_TEXTS = "Texts";
-	protected static final String LINKS_SMALL = "Links_small";
 
 
-
-	public static final String TABLE_BOOKS = "Books";
-	public static final String KcommentsOn = "commentsOn";
-	public static final String KsectionNames = "sectionNames";
-	public static final String Kcategories = "categories";
-	public static final String KtextDepth = "textDepth";
-	public static final String KwherePage = "wherePage";
-	public static final String Klengths = "lengths";
-	public static final String Ktitle = "title";
-	public static final String KheTitle = "heTitle";
-	public static final String KdataVersion = "dataVersion";
-	public static final String KversionTitle = "versionTitle";
-	public static final String Kversions = "versions";
-	public static final String Klanguages = "languages"; // en is 1, he is 2, both is 3.
-	protected static final int DEFAULT_WHERE_PAGE = 2;
-
-	public static final String Kbid = "bid";
-	public static final String KenText = "enText";
-	public static final String KheText = "heText";
-	public static final String Klevel1 = "level1";
-	public static final String Klevel2 = "level2";
-	public static final String Klevel3 = "level3";
-	public static final String Klevel4 = "level4";
-	public static final String Klevel5 = "level5";
-	public static final String Klevel6 = "level6";
 
 	protected static final int MAX_LEVELS = 6;
 	protected static int textsFailedToUpload = 0;
 	protected static int textsUploaded = 0;
 
-	protected static final String HAS_TEXT_SQL_ERROR = "[SQLITE_CONSTRAINT]  Abort due to constraint violation (UNIQUE constraint failed: Texts.bid, Texts.level1, Texts.level2, Texts.level3, Texts.level4, Texts.level5, Texts.level6, Texts.parentNode)";
-
-
-	public static final String KconnType = "connType";
-	public static final String Kbida = "bid" + "a";
-	public static final String Klevel1a = "level1a";
-	public static final String Klevel2a = "level2a";
-	public static final String Klevel3a = "level3a";
-	public static final String Klevel4a = "level4a";
-	public static final String Klevel5a = "level5a";
-	public static final String Klevel6a = "level6a";
-	public static final String Kbidb = "bid" + "b";
-	public static final String Klevel1b = "level1b";
-	public static final String Klevel2b = "level2b";
-	public static final String Klevel3b = "level3b";
-	public static final String Klevel4b = "level4b";
-	public static final String Klevel5b = "level5b";
-	public static final String Klevel6b = "level6b";
-
-	public static final String TABLE_LINKS = "Links" ;
-
-	public static final String Kheader = "header";
-	public static final String KdisplayNum = "displayNum";
-	public static final String KdisplayLevelType = "displayLevelType";
-
-
+	
 	public static void println(String message){
 		System.out.println(message);
 	}
-
-	public static final String TABLE_HEADERS = "Headers";
 
 	public static void main( String args[] )
 	{
 		System.out.println("I'm starting this up...");
 
 		try {
+			//Huffman.test();
 			Class.forName("org.sqlite.JDBC");
+			if(ONLY_COPY_DB){
+				copyNewDB("testDBs/test121.db","testDBs/copy_test121.db", true);
+				return;
+			}
 			createTables();
 			insertStuff();
-
+			copyNewDB(DB_NAME_FULL,COPY_DB_NAME, false);
 			System.out.println("Good stuff");
 		}catch(Exception e){
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-			System.exit(0);
+			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
-
+	
+	private final static String CREATE_TABLE_SETTINGS = "CREATE TABLE Settings (_id TEXT PRIMARY KEY, value INTEGER);";
+	private final static String CREATE_TABLE_METADATA = " CREATE TABLE \"android_metadata\" (\"locale\" TEXT DEFAULT 'en_US')";
+	
 	public static void createTables(){
 
 		Connection c = null;
 		try{
 
-			c = DriverManager.getConnection("jdbc:sqlite:" + DB_NAME_FULL);
+			c = getDBConnection(DB_NAME_FULL);
 			System.out.println("Opened database successfully");
 			Statement stmt = c.createStatement();
 			stmt.executeUpdate("DROP TABLE IF EXISTS " + "\"android_metadata\"");
@@ -157,7 +113,7 @@ public class SQLite {
 			stmt.executeUpdate(Header.CREATE_HEADES_TABLE);
 
 
-			stmt.executeUpdate("CREATE TABLE Settings (_id TEXT PRIMARY KEY, value INTEGER);");
+			stmt.executeUpdate(CREATE_TABLE_SETTINGS);
 			stmt.executeUpdate(" INSERT INTO Settings (_id, value) VALUES ('version'," + DB_VERION_NUM + ")");
 			if(API_ONLY)
 				stmt.executeUpdate(" INSERT INTO Settings (_id, value) VALUES ('api',1)");
@@ -166,7 +122,7 @@ public class SQLite {
 			//not needed with new Links_small table
 			//stmt.execute("Create index LinksIndex on Links (bida, level1a, level2a)");
 
-			stmt.executeUpdate(" CREATE TABLE \"android_metadata\" (\"locale\" TEXT DEFAULT 'en_US')");
+			stmt.executeUpdate(CREATE_TABLE_METADATA);
 			stmt.executeUpdate(" INSERT INTO \"android_metadata\" VALUES ('en_US')");
 
 			stmt.close();
@@ -192,11 +148,72 @@ public class SQLite {
 		return Files.readAllLines(Paths.get(fileList), Charset.forName("UTF-8"));
 	}
 
+	private static Connection getDBConnection(String dbName) throws SQLException{
+		return DriverManager.getConnection("jdbc:sqlite:" + dbName);
+	}
+	
+	private static void copyTable(Connection c, String tableName, String create, String newDB) throws SQLException{
+		Statement stmt = c.createStatement();
+		stmt.executeUpdate("DROP TABLE IF EXISTS \"" + newDB + "." + tableName + "\";");
+		stmt.executeUpdate(create);
+		stmt.close();
+		c.prepareStatement("INSERT INTO " + tableName + " SELECT * FROM oldDB." + tableName).execute();
+	}
+	
+	private static void copyTextTable(Connection newDBConnection, String oldDB, boolean makeFreshHuffman) throws SQLException{
+		Statement stmt = newDBConnection.createStatement();
+		stmt.executeUpdate(Text.CREATE_COMPRESS_TEXTS_TABLE);
+		stmt.close();
+		
+		String columns = "_id,bid,level1,level2,level3,level4," +
+				//"level5,level6," +
+				"displayNumber,hasLink,parentNode";
+		newDBConnection.prepareStatement("INSERT INTO Texts (" + columns + ") SELECT " + columns + " FROM oldDB.Texts").execute();
+		if(makeFreshHuffman){
+			Connection oldDBConnection = getDBConnection(oldDB);
+			Huffman.addAllTexts(oldDBConnection, true);
+			
+			PreparedStatement preparedStatement = newDBConnection.prepareStatement("INSERT INTO Settings (_id,value) VALUES (\"commpress\",?)");
+			preparedStatement.setString(1,Huffman.getDeflatedTree());
+			preparedStatement.execute();
+			newDBConnection.setAutoCommit(false);
+			Huffman.compressAndMoveAllTexts(oldDBConnection, newDBConnection);
+			newDBConnection.commit();
+		}
+		
+	}
+	
+	private static void copyNewDB(String oldDB, String newDB, boolean makeFreshHuffman){
+		System.out.println("Copying DB");
+		try {
+			Connection c = getDBConnection(newDB);
+			c.prepareStatement("ATTACH DATABASE \"" + oldDB + "\" AS oldDB").execute();
+			copyTable(c, "Books", Book.CREATE_BOOKS_TABLE, newDB);
+			copyTable(c, "Links_small", Link.CREATE_LINKS_SMALL, newDB);
+			copyTable(c, "Nodes", Node.CREATE_NODE_TABLE, newDB);
+			//copyTable(c, "Texts", Text.CREATE_TEXTS_TABLE, newDB);
+			//copyTable(c, "Headers", Header.CREATE_HEADES_TABLE, newDB);
+			//copyTable(c, "Links", Link.CREATE_TABLE_LINKS, newDB);
+			
+			copyTable(c, "android_metadata", CREATE_TABLE_METADATA, newDB);
+			copyTable(c, "Settings", CREATE_TABLE_SETTINGS, newDB);
+			copyTable(c, "Searching", Searching.CREATE_SEARCH, newDB);
+			copyTextTable(c, oldDB, makeFreshHuffman);
+			c.close();
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Finished Copying DB");
+	}
+	
 	public static void insertStuff(){
 
 		Connection c = null;
 		try{
-			c = DriverManager.getConnection("jdbc:sqlite:" + DB_NAME_FULL);
+			c = getDBConnection(DB_NAME_FULL);
 			c.setAutoCommit(false);
 
 
@@ -274,7 +291,11 @@ public class SQLite {
 			}
 			System.out.println("Good Books: " + String.valueOf(count - failedBooksCount) + "\nFailed Books: " + failedBooksCount);
 			//System.out.println("TEXTS: en: " + Text.en + " he: " + Text.he + " u2: " + Text.u2 + " u3: " + Text.u3 + " u4: " + Text.u4);
-
+			
+			
+			Huffman.compressEverything(c);
+			
+			
 			if(!API_ONLY){
 				Searching.putInCountWords(c);
 				c.commit();
@@ -288,19 +309,21 @@ public class SQLite {
 				System.out.println("CHANGING hasLink (on Texts)...");
 				Text.setHasLink(c);
 			}
+			
 			System.out.println("CHANGING book commentary wherePage to 3...");
 			Book.convertCommWherePage(c);
 			System.out.println("setTidMinMax...");
 			Book.setTidMinMax(c);
 			c.commit();
-			System.out.println("ADDING HEADERS:");
-			String folderName = "scripts/headers/headers/";
-			Header.addAllHeaders(c, folderName);
-
+			//System.out.println("ADDING HEADERS:");
+			//String folderName = "scripts/headers/headers/";
+			//Header.addAllHeaders(c, folderName);
+			
 
 			c.commit();
 			c.close();
 			System.out.println("Records created successfully\nTextUploaded: " + textsUploaded + "\nTextFailed: " + textsFailedToUpload);
+			
 		}catch(Exception e){
 			try {
 				c.close();
@@ -385,5 +408,65 @@ public class SQLite {
 		return 0;
 
 	}
+	
+
+	public static final String TABLE_BOOKS = "Books";
+	public static final String KcommentsOn = "commentsOn";
+	public static final String KsectionNames = "sectionNames";
+	public static final String Kcategories = "categories";
+	public static final String KtextDepth = "textDepth";
+	public static final String KwherePage = "wherePage";
+	public static final String Klengths = "lengths";
+	public static final String Ktitle = "title";
+	public static final String KheTitle = "heTitle";
+	public static final String KdataVersion = "dataVersion";
+	public static final String KversionTitle = "versionTitle";
+	public static final String Kversions = "versions";
+	public static final String Klanguages = "languages"; // en is 1, he is 2, both is 3.
+	protected static final int DEFAULT_WHERE_PAGE = 2;
+
+	public static final String Kbid = "bid";
+	public static final String KenText = "enText";
+	public static final String KheText = "heText";
+	public static final String Klevel1 = "level1";
+	public static final String Klevel2 = "level2";
+	public static final String Klevel3 = "level3";
+	public static final String Klevel4 = "level4";
+	public static final String Klevel5 = "level5";
+	public static final String Klevel6 = "level6";
+	
+
+
+	public static final String KconnType = "connType";
+	public static final String Kbida = "bid" + "a";
+	public static final String Klevel1a = "level1a";
+	public static final String Klevel2a = "level2a";
+	public static final String Klevel3a = "level3a";
+	public static final String Klevel4a = "level4a";
+	public static final String Klevel5a = "level5a";
+	public static final String Klevel6a = "level6a";
+	public static final String Kbidb = "bid" + "b";
+	public static final String Klevel1b = "level1b";
+	public static final String Klevel2b = "level2b";
+	public static final String Klevel3b = "level3b";
+	public static final String Klevel4b = "level4b";
+	public static final String Klevel5b = "level5b";
+	public static final String Klevel6b = "level6b";
+
+	public static final String TABLE_LINKS = "Links" ;
+
+	public static final String Kheader = "header";
+	public static final String KdisplayNum = "displayNum";
+	public static final String KdisplayLevelType = "displayLevelType";
+	
+	
+	protected static final String TABLE_TEXTS = "Texts";
+	protected static final String LINKS_SMALL = "Links_small";
+
+	protected static final String HAS_TEXT_SQL_ERROR = "[SQLITE_CONSTRAINT]  Abort due to constraint violation (UNIQUE constraint failed: Texts.bid, Texts.level1, Texts.level2, Texts.level3, Texts.level4, Texts.level5, Texts.level6, Texts.parentNode)";
+	public static final String TABLE_HEADERS = "Headers";
+
+
+
 
 }

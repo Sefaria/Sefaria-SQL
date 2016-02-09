@@ -3,7 +3,3 @@ Talmud/Bavli/Seder Zeraim/Berakhot/English/merged.json
 Talmud/Rif/Seder Zeraim/Rif Berakhot/Hebrew/merged.json
 Tanach/Torah/Genesis/Hebrew/merged.json
 Tanach/Torah/Genesis/English/merged.json
-Commentary/Tanach/Rashi/Rashi on Genesis/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Genesis/English/merged.json
-Tanach/Targum/Onkelos Genesis/Hebrew/merged.json
-Tanach/Targum/Onkelos Genesis/English/merged.json

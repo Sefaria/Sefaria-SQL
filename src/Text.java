@@ -29,6 +29,37 @@ import org.json.JSONObject;
 public class Text extends SQLite{
 
 
+	static String CREATE_COMPRESS_TEXTS_TABLE = "CREATE TABLE " + TABLE_TEXTS + "(\r\n" + 
+			"	_id INTEGER PRIMARY KEY,\r\n" + 
+			"	bid INTEGER NOT NULL,\r\n" + 
+			"	enTextCompress BLOB,\r\n" + 
+			"	heTextCompress BLOB,\r\n" + 
+			"	level1 INTEGER DEFAULT 0,\r\n" + 
+			"	level2 INTEGER DEFAULT 0,\r\n" + 
+			"	level3 INTEGER DEFAULT 0,\r\n" + 
+			"	level4 INTEGER DEFAULT 0,\r\n" + 
+			"	level5 INTEGER DEFAULT 0,\r\n" + 
+			"	level6 INTEGER DEFAULT 0, \r\n" +
+			"	displayNumber BOOLEAN DEFAULT 1, \r\n" +
+			"	hasLink BOOLEAN DEFAULT 0,  \r\n" + 
+			"	parentNode INTEGER DEFAULT 0,  \r\n" + 
+			"	bitLength INTEGER, \n" + 
+			//"	hid INTEGER,\r\n" + 
+			"	FOREIGN KEY (bid) \r\n" + 
+			"		REFERENCES Books (_id)\r\n" + 
+			"		ON DELETE CASCADE,\r\n" + 
+			"	FOREIGN KEY (parentNode) \r\n" + 
+			"		REFERENCES Nodes (_id)\r\n" + 
+			"		ON DELETE CASCADE,\r\n" + 
+			//"	FOREIGN KEY (" + Khid + ") \r\n" + 
+			//"		REFERENCES " + Header.TABLE_HEADERS +"(" + Khid + ")\r\n" + 
+			//"		ON DELETE CASCADE,\r\n" + 
+			"	CONSTRAINT TextsUnique UNIQUE (bid, level1, level2, level3, level4," +
+			//" level5, level6," +
+			"parentNode)\r\n" + 
+			//	"	PRIMARY KEY (bid, level1, level2, level3, level4, level5, level6)\r\n" + 
+
+				")";
 
 	static String CREATE_TEXTS_TABLE = 
 			//"CREATE VIRTUAL TABLE " + TABLE_TEXTS + " USING fts3 " + "(\r\n" + 
@@ -282,7 +313,7 @@ public class Text extends SQLite{
 			return -1;
 		}
 
-
+		Huffman.addTextCount(theText);
 		PreparedStatement stmt = null;
 		try{
 			stmt = c.prepareStatement("INSERT INTO Texts ("
