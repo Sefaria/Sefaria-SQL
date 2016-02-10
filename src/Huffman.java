@@ -1,5 +1,9 @@
 import java.io.ByteArrayInputStream;
+import java.io.FileOutputStream;
 import java.io.ObjectInputStream.GetField;
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -67,10 +71,9 @@ public class Huffman {
 		}
 	}
 
-	public static void addAllTexts(Connection c, boolean freshStart){
+	public static void addAllTexts(Connection c){
 		System.out.println((new Date()).getTime() + " adding All texts...");
-		if(freshStart)
-			totalCounts = new HashMap<String, Huffman>();
+		totalCounts = new HashMap<String, Huffman>();
 		String sql = "Select _id, enText,heText from Texts";
 		String testStr = "";
 		Statement stmt = null;
@@ -91,20 +94,18 @@ public class Huffman {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		if(freshStart){
-			makeTree();
-			System.out.println((new Date()).getTime() + "finished adding");
-			List<Boolean> compressedTest = encode(testStr); 
-			String deflated = Huffman.getDeflatedTree();
-			System.out.println((new Date()).getTime() + "finished deflating");
-			System.out.println("deflated size:"+ Huffman.utf8Length(deflated));
-			huffmanRoot = Huffman.enflateTree(deflated);
-			System.out.println((new Date()).getTime() + "finished enflating");
-			if(testStr.equals(decode(compressedTest))){
-				System.out.println("Good: " + testStr + "\n" + testStr);
-			}else
-				System.err.println("Problem decoding:\n" + testStr  + "\n" + testStr);
-		}
+		makeTree();
+		System.out.println((new Date()).getTime() + "finished adding");
+		List<Boolean> compressedTest = encode(testStr); 
+		String deflated = Huffman.getDeflatedTree();
+		System.out.println((new Date()).getTime() + "finished deflating");
+		System.out.println("deflated size:"+ Huffman.utf8Length(deflated));
+		huffmanRoot = Huffman.enflateTree(deflated);
+		System.out.println((new Date()).getTime() + "finished enflating");
+		if(testStr.equals(decode(compressedTest))){
+			System.out.println("Good: decoding");
+		}else
+			System.err.println("Problem decoding:\n" + testStr  + "\n" + testStr);
 		return;
 	}
 
@@ -123,29 +124,21 @@ public class Huffman {
 		return bytes;
 	}
 
+	
 	public static void compressAndMoveAllTexts(Connection oldDBConnection, Connection newDBConnection){
 
 		try {
-			Huffman.addAllTexts(oldDBConnection, true);
-			PreparedStatement preparedStatement = newDBConnection.prepareStatement("INSERT INTO Settings (_id,value) VALUES (\"huffman\",?)");
+			Huffman.addAllTexts(oldDBConnection);
+			String path = "testDBs/SefariaHuffmanDeflated.txt";
 			String deflated  = Huffman.getDeflatedTree();
-			preparedStatement.setString(1,deflated);
-			preparedStatement.execute();
-			//Testing getting deflated:
-			Statement getDeflated = newDBConnection.createStatement();
-			ResultSet resultSet = getDeflated.executeQuery("SELECT value FROM Settings WHERE _id= 'huffman'");
-			if(resultSet.next()){
-				String deflatedFromDB = resultSet.getString("value");
-				
-				if(!deflated.equals(deflatedFromDB)){
-					System.err.println("not match:\n" );
-				}else{
-					System.out.println("match!!");
+			Writer out = new BufferedWriter(new OutputStreamWriter(
+				    new FileOutputStream(path), "UTF-8"));
+				try {
+				    out.write(deflated);
+				} finally {
+				    out.close();
 				}
-			}
-			
-			
-
+		
 			//adding texts
 			newDBConnection.setAutoCommit(false);
 			Statement stmt = null;

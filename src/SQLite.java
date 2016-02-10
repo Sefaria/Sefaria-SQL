@@ -30,12 +30,11 @@ import org.json.JSONTokener;
 
 public class SQLite {
 
-	private static final int DB_VERION_NUM = 122;
+	private static final int DB_VERION_NUM = 124;
 	public static final String DB_NAME_PART = "test" + DB_VERION_NUM;
 	public static final String DB_NAME_FULL = "testDBs/" + DB_NAME_PART + ".db";
-	private static final String COPY_DB_NAME = "testDBs/" + "copy_" + DB_NAME_PART + ".db";
+	
 	private static final boolean USE_TEST_FILES = true;
-
 	private static final boolean API_ONLY = false;
 	private static final boolean ONLY_COPY_DB = true;
 
@@ -68,8 +67,8 @@ public class SQLite {
 			Class.forName("org.sqlite.JDBC");
 			if(ONLY_COPY_DB){
 				//Huffman.test();
-				String newDB = "testDBs/copy_123.db"; //
-				String oldDB = "testDBs/117/UpdateForSefariaMobileDatabase.db";//"testDBs/test123.db";//
+				String newDB = "testDBs/copy_129.db"; //
+				String oldDB = "testDBs/117/UpdateForSefariaMobileDatabase.db";//"testDBs/test124.db";//
 				copyNewDB(oldDB,newDB);
 				return;
 			}else{
