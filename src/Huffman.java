@@ -36,9 +36,9 @@ public class Huffman {
 		this.plainText = plainText;
 		this.count = count;
 	}
-	
+
 	public Huffman(){
-		
+
 	}
 
 	public Huffman(Huffman h1, Huffman h2){
@@ -66,7 +66,7 @@ public class Huffman {
 			}
 		}
 	}
-	
+
 	public static void addAllTexts(Connection c, boolean freshStart){
 		System.out.println((new Date()).getTime() + " adding All texts...");
 		if(freshStart)
@@ -122,44 +122,77 @@ public class Huffman {
 		}
 		return bytes;
 	}
-	
+
 	public static void compressAndMoveAllTexts(Connection oldDBConnection, Connection newDBConnection){
-		Statement stmt = null;
-		PreparedStatement statement2 = null;
-		String sql = "Select _id, enText,heText from Texts";
+
 		try {
+			Huffman.addAllTexts(oldDBConnection, true);
+			PreparedStatement preparedStatement = newDBConnection.prepareStatement("INSERT INTO Settings (_id,value) VALUES (\"huffman\",?)");
+			String deflated  = Huffman.getDeflatedTree();
+			preparedStatement.setString(1,deflated);
+			preparedStatement.execute();
+			//Testing getting deflated:
+			Statement getDeflated = newDBConnection.createStatement();
+			ResultSet resultSet = getDeflated.executeQuery("SELECT value FROM Settings WHERE _id= 'huffman'");
+			if(resultSet.next()){
+				String deflatedFromDB = resultSet.getString("value");
+				
+				if(!deflated.equals(deflatedFromDB)){
+					System.err.println("not match:\n" );
+				}else{
+					System.out.println("match!!");
+				}
+			}
+			
+			
+
+			//adding texts
+			newDBConnection.setAutoCommit(false);
+			Statement stmt = null;
+			PreparedStatement statement2 = null;
+			String sql = "Select _id,enText,heText,displayNumber from Texts";
+
 			stmt = oldDBConnection.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
-			int bitLengths = 0;
+			
+			
 			while (rs.next()) {
-				statement2 = newDBConnection.prepareStatement("UPDATE Texts SET enTextCompress = ?, heTextCompress= ?,bitLength=? where _id = ?");
+				statement2 = newDBConnection.prepareStatement("UPDATE Texts SET enTextCompress = ?, heTextCompress= ?,flags=? where _id = ?");
 				int tid = rs.getInt("_id");
-				if(tid % 10000 == 0)
+				if(tid % 10000 == 0){
 					System.out.println("tid:" + tid);
+					newDBConnection.commit();
+				}
 				String enText = rs.getString("enText");
 				String heText = rs.getString("heText");
+				int displayNumber = rs.getInt("displayNumber");
+				int enBitLength = 0;
+				int heBitLength = 0;
 				if(enText != null){
 					List<Boolean> compressed = encode(enText);
 					byte [] bytes = bools2Bytes(compressed);
 					statement2.setBinaryStream(1,new ByteArrayInputStream(bytes),bytes.length);
-					bitLengths = bytes.length;
+					enBitLength = compressed.size() % 8;
 				}
 				if(heText != null){
 					List<Boolean> compressed = encode(heText);
 					byte [] bytes = bools2Bytes(compressed);
 					statement2.setBinaryStream(2,new ByteArrayInputStream(bytes),bytes.length);
+					heBitLength = compressed.size() % 8;
 				}
-				statement2.setInt(3,bitLengths);
+				int flags = displayNumber + (enBitLength*2) + (heBitLength*16);
+				statement2.setInt(3,flags);
 				statement2.setInt(4,tid);
-				
+
 				statement2.executeUpdate();
 			}
 			stmt.close();
 			statement2.close();
+			newDBConnection.commit();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	private static void makeTree(){
@@ -186,7 +219,7 @@ public class Huffman {
 			Huffman newNode = new Huffman(huffman1,huffman2);
 			heap.add(newNode);
 		}
-
+		
 	}
 
 	private static void printTree(Huffman node, String tabs){
@@ -210,7 +243,7 @@ public class Huffman {
 		System.out.println(str);
 		if(true)
 			return str;
-		*/
+		 */
 		if(i<text.length()-nGram){
 			String str = "";
 			for(int j=0;j<nGram;j++){
@@ -225,7 +258,7 @@ public class Huffman {
 	@Override
 	public String toString() {
 		if(plainText == null)
-			return hashCode() + "_" + count;
+			return "" + count;
 		return plainText + ": " + count;
 	}
 
@@ -321,7 +354,6 @@ public class Huffman {
 		String text ="the";//"the one thisa \the one thisa adsufh alksdjfh\na akdsfjhak dflakdfh aiudslfhaddfa pse87riau gsf87adsfj alhdsf kjb akuldshfhaldskjf gg adshfkjadsfh kaldsf adshfkajesdfh aksdjfadskfh akjjdsfh akdsjfhliuefjakldsfm adsfkla dsfjk";//"this is the place that you do things"
 		addTextCount(text);
 		makeTree();
-		//printTree(huffmanRoot, "");
 		List<Boolean> encodedText = encode(text);
 		System.out.println(decode(encodedText));
 		String defalted = getDeflatedTree();
@@ -333,7 +365,7 @@ public class Huffman {
 		else{
 			System.out.println("\nGood Work!!\n" + decode(encodedText));
 		}
-		
+
 		System.exit(1);
 	}
 	private static String decode(List<Boolean> encoded){
@@ -357,8 +389,8 @@ public class Huffman {
 	}
 	private static final Character ZERO = '\u0000';
 	private static final Character ONE = '\u0001';
-	
-	
+
+
 	private static Huffman getPlacementNode(Huffman node, Huffman cameFrom){
 		if(node.leftChild == null || node.rightChild == null)
 			return node;
@@ -368,7 +400,7 @@ public class Huffman {
 			return getPlacementNode(node.parent, node);
 		}
 	}
-	
+
 	public static Huffman enflateTree(String deflated){
 		Date date = new Date();
 		long startTime = date.getTime();
@@ -410,7 +442,7 @@ public class Huffman {
 		System.out.println("enflation took:" + ((new Date()).getTime() - startTime)/1000.0);
 		return root;
 	}
-	
+
 	public static String getDeflatedTree(){
 		long startTime = (new Date()).getTime();
 		StringBuilder stringBuilder = new StringBuilder();
@@ -418,18 +450,18 @@ public class Huffman {
 		System.out.println("deflation took:" + ((new Date()).getTime() - startTime)/1000.0);
 		return deflated;
 	}
-	
+
 	private static StringBuilder deflateTree(Huffman node, StringBuilder previousString){
 		if(node.plainText != null){
 			previousString = previousString.append(ONE + node.plainText); //ONE + node.plainText;//
 		}else
 			previousString = previousString.append(ZERO); //ZERO;//
-		
+
 		if(node.leftChild != null)
 			previousString = deflateTree(node.leftChild, previousString);
 		if(node.rightChild != null)
 			previousString = deflateTree(node.rightChild, previousString);
-		
+
 		return previousString;
 	}
 

@@ -1,5 +1,6 @@
 
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,12 +30,12 @@ import org.json.JSONTokener;
 
 public class SQLite {
 
-	private static final int DB_VERION_NUM = 121;
+	private static final int DB_VERION_NUM = 122;
 	public static final String DB_NAME_PART = "test" + DB_VERION_NUM;
 	public static final String DB_NAME_FULL = "testDBs/" + DB_NAME_PART + ".db";
 	private static final String COPY_DB_NAME = "testDBs/" + "copy_" + DB_NAME_PART + ".db";
 	private static final boolean USE_TEST_FILES = true;
-	
+
 	private static final boolean API_ONLY = false;
 	private static final boolean ONLY_COPY_DB = true;
 
@@ -54,7 +55,7 @@ public class SQLite {
 	protected static int textsFailedToUpload = 0;
 	protected static int textsUploaded = 0;
 
-	
+
 	public static void println(String message){
 		System.out.println(message);
 	}
@@ -64,15 +65,17 @@ public class SQLite {
 		System.out.println("I'm starting this up...");
 
 		try {
-			//Huffman.test();
 			Class.forName("org.sqlite.JDBC");
 			if(ONLY_COPY_DB){
-				copyNewDB("testDBs/117/UpdateForSefariaMobileDatabase.db","testDBs/117/copy_UpdateForSefariaMobileDatabase.db", true);
+				//Huffman.test();
+				String newDB = "testDBs/copy_123.db"; //
+				String oldDB = "testDBs/117/UpdateForSefariaMobileDatabase.db";//"testDBs/test123.db";//
+				copyNewDB(oldDB,newDB);
 				return;
+			}else{
+				createTables();
+				insertStuff();
 			}
-			createTables();
-			insertStuff();
-			copyNewDB(DB_NAME_FULL,COPY_DB_NAME, false);
 			System.out.println("Good stuff");
 		}catch(Exception e){
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -80,27 +83,19 @@ public class SQLite {
 			System.exit(-1);
 		}
 	}
-	
+
 	private final static String CREATE_TABLE_SETTINGS = "CREATE TABLE Settings (_id TEXT PRIMARY KEY, value INTEGER);";
 	private final static String CREATE_TABLE_METADATA = " CREATE TABLE \"android_metadata\" (\"locale\" TEXT DEFAULT 'en_US')";
-	
+
 	public static void createTables(){
 
 		Connection c = null;
 		try{
-
+			(new File(DB_NAME_FULL)).delete(); //delete old DB is it exists
+			
 			c = getDBConnection(DB_NAME_FULL);
 			System.out.println("Opened database successfully");
 			Statement stmt = c.createStatement();
-			stmt.executeUpdate("DROP TABLE IF EXISTS " + "\"android_metadata\"");
-			stmt.executeUpdate("DROP TABLE IF EXISTS " + TABLE_HEADERS);			
-			stmt.executeUpdate("DROP TABLE IF EXISTS " + TABLE_TEXTS);
-			stmt.executeUpdate("DROP TABLE IF EXISTS " + TABLE_BOOKS);
-			stmt.executeUpdate("DROP TABLE IF EXISTS " + TABLE_LINKS);
-			stmt.executeUpdate("DROP TABLE IF EXISTS " + LINKS_SMALL);
-			stmt.executeUpdate("DROP TABLE IF EXISTS " + "Nodes");
-			stmt.executeUpdate("DROP TABLE IF EXISTS " + "Searching");
-			stmt.executeUpdate("DROP TABLE IF EXISTS " + "Settings");
 
 			if(!API_ONLY){
 				stmt.executeUpdate(Text.CREATE_TEXTS_TABLE);
@@ -151,7 +146,7 @@ public class SQLite {
 	private static Connection getDBConnection(String dbName) throws SQLException{
 		return DriverManager.getConnection("jdbc:sqlite:" + dbName);
 	}
-	
+
 	private static void copyTable(Connection c, String tableName, String create, String newDB) throws SQLException{
 		Statement stmt = c.createStatement();
 		stmt.executeUpdate("DROP TABLE IF EXISTS \"" + newDB + "." + tableName + "\";");
@@ -159,33 +154,26 @@ public class SQLite {
 		stmt.close();
 		c.prepareStatement("INSERT INTO " + tableName + " SELECT * FROM oldDB." + tableName).execute();
 	}
-	
-	private static void copyTextTable(Connection newDBConnection, String oldDB, boolean makeFreshHuffman) throws SQLException{
+
+	private static void copyTextTable(Connection newDBConnection, String oldDB) throws SQLException{
 		Statement stmt = newDBConnection.createStatement();
 		stmt.executeUpdate(Text.CREATE_COMPRESS_TEXTS_TABLE);
 		stmt.close();
-		
+
 		String columns = "_id,bid,level1,level2,level3,level4," +
-				//"level5,level6," +
-				"displayNumber,hasLink,parentNode";
+				"level5,level6," +
+				"hasLink,parentNode";
 		newDBConnection.prepareStatement("INSERT INTO Texts (" + columns + ") SELECT " + columns + " FROM oldDB.Texts").execute();
-		if(makeFreshHuffman){
-			Connection oldDBConnection = getDBConnection(oldDB);
-			Huffman.addAllTexts(oldDBConnection, true);
-			
-			PreparedStatement preparedStatement = newDBConnection.prepareStatement("INSERT INTO Settings (_id,value) VALUES (\"commpress\",?)");
-			preparedStatement.setString(1,Huffman.getDeflatedTree());
-			preparedStatement.execute();
-			newDBConnection.setAutoCommit(false);
-			Huffman.compressAndMoveAllTexts(oldDBConnection, newDBConnection);
-			newDBConnection.commit();
-		}
 		
+		Connection oldDBConnection = getDBConnection(oldDB);
+		Huffman.compressAndMoveAllTexts(oldDBConnection, newDBConnection);
 	}
-	
-	private static void copyNewDB(String oldDB, String newDB, boolean makeFreshHuffman){
+
+	private static void copyNewDB(String oldDB, String newDB){
 		System.out.println("Copying DB");
 		try {
+			File file = new File(newDB);
+			file.delete();
 			Connection c = getDBConnection(newDB);
 			c.prepareStatement("ATTACH DATABASE \"" + oldDB + "\" AS oldDB").execute();
 			copyTable(c, "Books", Book.CREATE_BOOKS_TABLE, newDB);
@@ -194,36 +182,33 @@ public class SQLite {
 			//copyTable(c, "Texts", Text.CREATE_TEXTS_TABLE, newDB);
 			//copyTable(c, "Headers", Header.CREATE_HEADES_TABLE, newDB);
 			//copyTable(c, "Links", Link.CREATE_TABLE_LINKS, newDB);
-			
 			copyTable(c, "android_metadata", CREATE_TABLE_METADATA, newDB);
 			copyTable(c, "Settings", CREATE_TABLE_SETTINGS, newDB);
 			copyTable(c, "Searching", Searching.CREATE_SEARCH, newDB);
-			copyTextTable(c, oldDB, makeFreshHuffman);
+			copyTextTable(c, oldDB);
 			c.close();
-			
-			
+
+
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("Finished Copying DB");
 	}
-	
+
 	public static void insertStuff(){
 
 		Connection c = null;
 		try{
 			c = getDBConnection(DB_NAME_FULL);
 			c.setAutoCommit(false);
-
-
+			
 			int count = 0;
 			int failedBooksCount = 0;
 			List<String> lines= getFileLines();
 			for(int i =0;i<lines.size();i++){
 				String line = lines.get(i);
 				System.out.println(String.valueOf(++count) + ". " + line);
-				
+
 
 				boolean doComplex = true;
 				try{
@@ -291,11 +276,8 @@ public class SQLite {
 			}
 			System.out.println("Good Books: " + String.valueOf(count - failedBooksCount) + "\nFailed Books: " + failedBooksCount);
 			//System.out.println("TEXTS: en: " + Text.en + " he: " + Text.he + " u2: " + Text.u2 + " u3: " + Text.u3 + " u4: " + Text.u4);
-			
-			
-			Huffman.compressEverything(c);
-			
-			
+
+
 			if(!API_ONLY){
 				Searching.putInCountWords(c);
 				c.commit();
@@ -309,21 +291,21 @@ public class SQLite {
 				System.out.println("CHANGING hasLink (on Texts)...");
 				Text.setHasLink(c);
 			}
-			
+
 			System.out.println("CHANGING book commentary wherePage to 3...");
 			Book.convertCommWherePage(c);
 			System.out.println("setTidMinMax...");
 			Book.setTidMinMax(c);
 			c.commit();
-			//System.out.println("ADDING HEADERS:");
-			//String folderName = "scripts/headers/headers/";
-			//Header.addAllHeaders(c, folderName);
-			
+			System.out.println("ADDING HEADERS:");
+			String folderName = "scripts/headers/headers/";
+			Header.addAllHeaders(c, folderName);
+
 
 			c.commit();
 			c.close();
 			System.out.println("Records created successfully\nTextUploaded: " + textsUploaded + "\nTextFailed: " + textsFailedToUpload);
-			
+
 		}catch(Exception e){
 			try {
 				c.close();
@@ -408,7 +390,7 @@ public class SQLite {
 		return 0;
 
 	}
-	
+
 
 	public static final String TABLE_BOOKS = "Books";
 	public static final String KcommentsOn = "commentsOn";
@@ -434,7 +416,7 @@ public class SQLite {
 	public static final String Klevel4 = "level4";
 	public static final String Klevel5 = "level5";
 	public static final String Klevel6 = "level6";
-	
+
 
 
 	public static final String KconnType = "connType";
@@ -458,8 +440,8 @@ public class SQLite {
 	public static final String Kheader = "header";
 	public static final String KdisplayNum = "displayNum";
 	public static final String KdisplayLevelType = "displayLevelType";
-	
-	
+
+
 	protected static final String TABLE_TEXTS = "Texts";
 	protected static final String LINKS_SMALL = "Links_small";
 

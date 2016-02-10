@@ -40,10 +40,9 @@ public class Text extends SQLite{
 			"	level4 INTEGER DEFAULT 0,\r\n" + 
 			"	level5 INTEGER DEFAULT 0,\r\n" + 
 			"	level6 INTEGER DEFAULT 0, \r\n" +
-			"	displayNumber BOOLEAN DEFAULT 1, \r\n" +
+			"	flags  INTEGER DEFAULT 0, \r\n" +
 			"	hasLink BOOLEAN DEFAULT 0,  \r\n" + 
-			"	parentNode INTEGER DEFAULT 0,  \r\n" + 
-			"	bitLength INTEGER, \n" + 
+			"	parentNode INTEGER DEFAULT 0,  \r\n" +  
 			//"	hid INTEGER,\r\n" + 
 			"	FOREIGN KEY (bid) \r\n" + 
 			"		REFERENCES Books (_id)\r\n" + 
@@ -313,7 +312,7 @@ public class Text extends SQLite{
 			return -1;
 		}
 
-		Huffman.addTextCount(theText);
+		//Huffman.addTextCount(theText);//commented out in order to make the copying a seperated task
 		PreparedStatement stmt = null;
 		try{
 			stmt = c.prepareStatement("INSERT INTO Texts ("
