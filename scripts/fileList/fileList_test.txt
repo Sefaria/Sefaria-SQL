@@ -1,5 +1,4 @@
-Talmud/Bavli/Seder Zeraim/Berakhot/Hebrew/merged.json
-Talmud/Bavli/Seder Zeraim/Berakhot/English/merged.json
-Talmud/Rif/Seder Zeraim/Rif Berakhot/Hebrew/merged.json
-Tanach/Torah/Genesis/Hebrew/merged.json
-Tanach/Torah/Genesis/English/merged.json
+Philosophy/Orot/Hebrew/merged.json
+Commentary/Philosophy/Footnotes/Footnotes on Orot/Hebrew/merged.json
+Philosophy/Guide for the Perplexed/Hebrew/merged.json
+Philosophy/Guide for the Perplexed/English/merged.json

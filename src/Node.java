@@ -208,16 +208,32 @@ public class Node extends SQLite{
 			}
 			nodeType = getNodeType(true, false, false, false);
 		}catch(Exception e){
-			nodeType = getNodeType(true, true, false, false);
+			//System.out.println("Error in Nodes.insertNode(): " + e.getMessage() + "..." + enTitle + "-" + heTitle);
+			try{
+				//This whole try block is a test if it's a IS_TEXT_SECTION
+				if(enText != null){
+					JSONArray textArray = enText.getJSONArray(enTitle);
+					String testStr = textArray.getString(0);
+				}
+				if(heText != null){
+					JSONArray textArray = (JSONArray) heText.getJSONArray(enTitle);
+					String testStr = textArray.getString(0);
+				}
+				nodeType = getNodeType(true, true, false, false);
+			}catch(Exception e23){
+				//System.err.println("Error 23 in Nodes.insertNode(): " + e23.getMessage() + "..." + enTitle + "-" + heTitle);
+				nodeType = getNodeType(true, false, false, false);
+			}
+			
 		}
 		insertSingleNodeToDB(c, nodeID, bid, parentNode, nodeType, siblingNum, enTitle, heTitle, 1,
 				null, null, null, null, null, null);
-
-		if((nodeType & IS_TEXT_SECTION) == 0){ //it's a branch and not a TEXT_SECTION
+		if((nodeType & IS_TEXT_SECTION) == 0 && nodes != null){ //it's a branch and not a TEXT_SECTION
 			for(int i =0;i<nodes.length();i++){
 				insertNode(c, (JSONObject) nodes.get(i),enText,heText,depth+1,i,bid,nodeID,lang);
 			}
-		} else{// if(nodeType == NODE_TEXTS){
+		}else{
+			
 			int enTextDepth = 0, heTextDepth = 0;
 			if(enText != null){
 				JSONArray textArray = (JSONArray) enText.get(enTitle);
@@ -230,7 +246,6 @@ public class Node extends SQLite{
 				heTextDepth = insertTextArray(c, textArray, levels,bid,LANG_HE,nodeID);
 			}
 			int textDepth = Math.max(enTextDepth, heTextDepth);
-
 			String updateStatement = "UPDATE Nodes set textDepth = ? WHERE _id = ?";
 			try {
 				PreparedStatement stmt = c.prepareStatement(updateStatement);
