@@ -33,6 +33,7 @@ import org.json.JSONObject;
 public class Node extends SQLite{
 	private static int nodeCount = 0;
 
+
 	static String CREATE_NODE_TABLE = 
 			"CREATE TABLE " +  "Nodes " + "(\r\n" + 
 					"	_id INTEGER PRIMARY KEY,\r\n" + 

@@ -38,27 +38,22 @@ public class Text extends SQLite{
 			"	level2 INTEGER DEFAULT 0,\r\n" + 
 			"	level3 INTEGER DEFAULT 0,\r\n" + 
 			"	level4 INTEGER DEFAULT 0,\r\n" + 
-			"	level5 INTEGER DEFAULT 0,\r\n" + 
-			"	level6 INTEGER DEFAULT 0, \r\n" +
+
 			"	flags  INTEGER DEFAULT 0, \r\n" +
 			"	hasLink BOOLEAN DEFAULT 0,  \r\n" + 
 			"	parentNode INTEGER DEFAULT 0,  \r\n" +  
-			//"	hid INTEGER,\r\n" + 
+			
 			"	FOREIGN KEY (bid) \r\n" + 
 			"		REFERENCES Books (_id)\r\n" + 
 			"		ON DELETE CASCADE,\r\n" + 
 			"	FOREIGN KEY (parentNode) \r\n" + 
 			"		REFERENCES Nodes (_id)\r\n" + 
-			"		ON DELETE CASCADE,\r\n" + 
-			//"	FOREIGN KEY (" + Khid + ") \r\n" + 
-			//"		REFERENCES " + Header.TABLE_HEADERS +"(" + Khid + ")\r\n" + 
-			//"		ON DELETE CASCADE,\r\n" + 
-			"	CONSTRAINT TextsUnique UNIQUE (bid, level1, level2, level3, level4," +
-			//" level5, level6," +
-			"parentNode)\r\n" + 
-			//	"	PRIMARY KEY (bid, level1, level2, level3, level4, level5, level6)\r\n" + 
-
-				")";
+			"		ON DELETE CASCADE\r\n" + 
+			"	, CONSTRAINT TextsUnique UNIQUE (bid, level1, level2, level3, level4,parentNode)\r\n" +
+			
+				");"
+			//+"CREATE INDEX levels ON " + TABLE_TEXTS + " (bid, level2, level3, level4,parentNode);"
+				;
 
 	static String CREATE_TEXTS_TABLE = 
 			//"CREATE VIRTUAL TABLE " + TABLE_TEXTS + " USING fts3 " + "(\r\n" + 

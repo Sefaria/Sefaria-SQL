@@ -2,6 +2,7 @@ import java.io.ByteArrayInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream.GetField;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.sql.Connection;
@@ -23,15 +24,20 @@ import java.util.concurrent.Delayed;
 import org.sqlite.SQLiteConfig.Pragma;
 
 
-public class Huffman {
+public class Huffman extends SQLite{
 
+	private static final Character ZERO = '\u0000';
+	private static final Character ONE = '\u0001';
+	
 	private String plainText;
 	private int count;
 	private Huffman leftChild;
 	private Huffman rightChild;
 	private Huffman parent;
 	private boolean isRight;
-
+	
+	
+	private static int treeSize = 0;
 	private static Map<String,Huffman> totalCounts = new HashMap<String, Huffman>();
 	private static Huffman huffmanRoot = null;
 	private static PriorityQueue<Huffman> heap;
@@ -41,9 +47,7 @@ public class Huffman {
 		this.count = count;
 	}
 
-	public Huffman(){
-
-	}
+	public Huffman(){}
 
 	public Huffman(Huffman h1, Huffman h2){
 		h1.parent = this;
@@ -133,11 +137,15 @@ public class Huffman {
 			String deflated  = Huffman.getDeflatedTree();
 			Writer out = new BufferedWriter(new OutputStreamWriter(
 				    new FileOutputStream(path), "UTF-8"));
-				try {
-				    out.write(deflated);
-				} finally {
-				    out.close();
-				}
+			try {
+			    out.write(deflated);
+			} finally {
+			    out.close();
+			}
+			treeSize = 0;
+			getTreeSize(huffmanRoot);
+			SQLite.setSettings("huffmanSize", ""+treeSize, newDBConnection,false);
+			
 		
 			//adding texts
 			newDBConnection.setAutoCommit(false);
@@ -215,6 +223,16 @@ public class Huffman {
 		
 	}
 
+
+	private static void getTreeSize(Huffman node){
+		if(node == null)
+			return;
+		treeSize++;
+		
+		getTreeSize(node.leftChild);
+		getTreeSize(node.rightChild);
+	}
+	
 	private static void printTree(Huffman node, String tabs){
 		if(node == null)
 			return;
@@ -248,6 +266,57 @@ public class Huffman {
 			return text.charAt(i) + "";
 	}
 
+	private static void copyTable(Connection c, String tableName, String create, String newDB) throws SQLException{
+		Statement stmt = c.createStatement();
+		stmt.executeUpdate("DROP TABLE IF EXISTS \"" + newDB + "." + tableName + "\";");
+		stmt.executeUpdate(create);
+		stmt.close();
+		c.prepareStatement("INSERT INTO " + tableName + " SELECT * FROM oldDB." + tableName).execute();
+	}
+
+	private static void copyTextTable(Connection newDBConnection, String oldDB) throws SQLException{
+		Statement stmt = newDBConnection.createStatement();
+		stmt.executeUpdate(Text.CREATE_COMPRESS_TEXTS_TABLE);
+		stmt.close();
+
+		String columns = "_id,bid,level1,level2,level3,level4," +
+				//"level5,level6," +
+				"hasLink,parentNode";
+		newDBConnection.prepareStatement("INSERT INTO Texts (" + columns + ") SELECT " + columns + " FROM oldDB.Texts").execute();
+		//if(true) return;//do this if you don't want to copy the texts themselves 
+		Connection oldDBConnection = SQLite.getDBConnection(oldDB);
+		Huffman.compressAndMoveAllTexts(oldDBConnection, newDBConnection);
+	}
+
+	public static void copyNewDB(String oldDB, String newDB){
+		System.out.println("Copying DB");
+		try {
+			File file = new File(newDB);
+			file.delete();
+			Connection c = getDBConnection(newDB);
+			c.prepareStatement("ATTACH DATABASE \"" + oldDB + "\" AS oldDB").execute();
+			copyTable(c, "Books", Book.CREATE_BOOKS_TABLE, newDB);
+			copyTable(c, "Links_small", Link.CREATE_LINKS_SMALL, newDB);
+			copyTable(c, "Nodes", Node.CREATE_NODE_TABLE, newDB);
+			//copyTable(c, "Texts", Text.CREATE_TEXTS_TABLE, newDB);
+			//copyTable(c, "Headers", Header.CREATE_HEADES_TABLE, newDB);
+			//copyTable(c, "Links", Link.CREATE_TABLE_LINKS, newDB);
+			copyTable(c, "android_metadata", CREATE_TABLE_METADATA, newDB);
+			copyTable(c, "Settings", CREATE_TABLE_SETTINGS, newDB);
+			copyTable(c, "Searching", Searching.CREATE_SEARCH, newDB);
+			setSettings("version", DB_VERION_NUM +"", c, true);
+			
+			copyTextTable(c, oldDB);
+			c.close();
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Finished Copying DB");
+	}
+
+	
 	@Override
 	public String toString() {
 		if(plainText == null)
@@ -366,10 +435,8 @@ public class Huffman {
 		Huffman node = huffmanRoot;
 		for(Boolean bit: encoded){
 			if(bit){
-				//System.out.print("1");
 				node = node.rightChild;
 			}else{
-				//System.out.print("0");
 				node = node.leftChild;
 			}
 			if(node.plainText != null){
@@ -380,8 +447,7 @@ public class Huffman {
 
 		return decode;
 	}
-	private static final Character ZERO = '\u0000';
-	private static final Character ONE = '\u0001';
+
 
 
 	private static Huffman getPlacementNode(Huffman node, Huffman cameFrom){

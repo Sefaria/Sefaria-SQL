@@ -30,14 +30,14 @@ import org.json.JSONTokener;
 
 public class SQLite {
 
-	private static final int DB_VERION_NUM = 134;
+	protected static final int DB_VERION_NUM = 137;
 	public static final String DB_NAME_PART = "test" + DB_VERION_NUM;
 	public static final String DB_NAME_FULL = "testDBs/" + DB_NAME_PART + ".db";
 	public static final String DB_NAME_COPY = "testDBs/UpdateForSefariaMobileDatabase.db";//copy_" + DB_NAME_PART + ".db";
 	
 	private static final boolean USE_TEST_FILES = true;
 	private static final boolean API_ONLY = false;
-	private static final boolean ONLY_COPY_DB = false;
+	private static final boolean ONLY_COPY_DB = true;
 
 	final static boolean ignoreSchemaError = false;
 
@@ -47,7 +47,6 @@ public class SQLite {
 	protected static Map<String,Integer> booksInDBbid = new HashMap<String, Integer>();
 	protected static Map<String,Integer> booksInDBtextDepth = new HashMap<String, Integer>();
 	protected static Map<Integer,String> booksInDBbid2Title = new HashMap<Integer,String>();
-
 
 
 
@@ -69,15 +68,15 @@ public class SQLite {
 			if(ONLY_COPY_DB){
 				//Huffman.test();
 				String newDB = "testDBs/copy_test130.db"; //
-				String oldDB = "testDBs/test130.db";
-				copyNewDB(oldDB,newDB);
+				String oldDB = "testDBs/130/test130.db";
+				Huffman.copyNewDB(oldDB,newDB);
 				return;
 			}else{
 				createTables();
 				insertStuff();
 			}
 			System.out.println("Good stuff");
-			copyNewDB(DB_NAME_FULL,DB_NAME_COPY);
+			Huffman.copyNewDB(DB_NAME_FULL,DB_NAME_COPY);
 		}catch(Exception e){
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			e.printStackTrace();
@@ -85,8 +84,27 @@ public class SQLite {
 		}
 	}
 
-	private final static String CREATE_TABLE_SETTINGS = "CREATE TABLE Settings (_id TEXT PRIMARY KEY, value INTEGER);";
-	private final static String CREATE_TABLE_METADATA = " CREATE TABLE \"android_metadata\" (\"locale\" TEXT DEFAULT 'en_US')";
+	public static void setSettings(String key,String value, Connection c, boolean update) throws SQLException{
+		PreparedStatement statement;
+		if(update){
+			statement = c.prepareStatement("UPDATE Settings SET value = " + value + " where _id = ?");
+			
+		}else{
+			statement = c.prepareStatement(" INSERT INTO Settings (_id, value) VALUES (?, " + value + ")");
+		}
+		statement.setString(1,key);
+		statement.executeUpdate();
+		statement.close();
+		try{
+			c.commit();
+		}catch(Exception e){
+			if(!e.getMessage().contains("database in auto-commit mode"))
+				System.err.println(e.getMessage());
+		}
+	}
+	
+	protected final static String CREATE_TABLE_SETTINGS = "CREATE TABLE Settings (_id TEXT PRIMARY KEY, value INTEGER);";
+	protected final static String CREATE_TABLE_METADATA = " CREATE TABLE \"android_metadata\" (\"locale\" TEXT DEFAULT 'en_US')";
 
 	public static void createTables(){
 
@@ -144,58 +162,11 @@ public class SQLite {
 		return Files.readAllLines(Paths.get(fileList), Charset.forName("UTF-8"));
 	}
 
-	private static Connection getDBConnection(String dbName) throws SQLException{
+	protected static Connection getDBConnection(String dbName) throws SQLException{
 		return DriverManager.getConnection("jdbc:sqlite:" + dbName);
 	}
 
-	private static void copyTable(Connection c, String tableName, String create, String newDB) throws SQLException{
-		Statement stmt = c.createStatement();
-		stmt.executeUpdate("DROP TABLE IF EXISTS \"" + newDB + "." + tableName + "\";");
-		stmt.executeUpdate(create);
-		stmt.close();
-		c.prepareStatement("INSERT INTO " + tableName + " SELECT * FROM oldDB." + tableName).execute();
-	}
-
-	private static void copyTextTable(Connection newDBConnection, String oldDB) throws SQLException{
-		Statement stmt = newDBConnection.createStatement();
-		stmt.executeUpdate(Text.CREATE_COMPRESS_TEXTS_TABLE);
-		stmt.close();
-
-		String columns = "_id,bid,level1,level2,level3,level4," +
-				"level5,level6," +
-				"hasLink,parentNode";
-		newDBConnection.prepareStatement("INSERT INTO Texts (" + columns + ") SELECT " + columns + " FROM oldDB.Texts").execute();
-		
-		Connection oldDBConnection = getDBConnection(oldDB);
-		Huffman.compressAndMoveAllTexts(oldDBConnection, newDBConnection);
-	}
-
-	private static void copyNewDB(String oldDB, String newDB){
-		System.out.println("Copying DB");
-		try {
-			File file = new File(newDB);
-			file.delete();
-			Connection c = getDBConnection(newDB);
-			c.prepareStatement("ATTACH DATABASE \"" + oldDB + "\" AS oldDB").execute();
-			copyTable(c, "Books", Book.CREATE_BOOKS_TABLE, newDB);
-			copyTable(c, "Links_small", Link.CREATE_LINKS_SMALL, newDB);
-			copyTable(c, "Nodes", Node.CREATE_NODE_TABLE, newDB);
-			//copyTable(c, "Texts", Text.CREATE_TEXTS_TABLE, newDB);
-			//copyTable(c, "Headers", Header.CREATE_HEADES_TABLE, newDB);
-			//copyTable(c, "Links", Link.CREATE_TABLE_LINKS, newDB);
-			copyTable(c, "android_metadata", CREATE_TABLE_METADATA, newDB);
-			copyTable(c, "Settings", CREATE_TABLE_SETTINGS, newDB);
-			copyTable(c, "Searching", Searching.CREATE_SEARCH, newDB);
-			copyTextTable(c, oldDB);
-			c.close();
-
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		System.out.println("Finished Copying DB");
-	}
-
+	
 	public static void insertStuff(){
 
 		Connection c = null;
