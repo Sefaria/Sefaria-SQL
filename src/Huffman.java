@@ -144,7 +144,7 @@ public class Huffman extends SQLite{
 			}
 			treeSize = 0;
 			getTreeSize(huffmanRoot);
-			SQLite.setSettings("huffmanSize", ""+treeSize, newDBConnection,false);
+			SQLite.setSettings("huffmanSize", ""+treeSize, newDBConnection);
 			
 		
 			//adding texts
@@ -296,7 +296,7 @@ public class Huffman extends SQLite{
 			Connection c = getDBConnection(newDB);
 			c.prepareStatement("ATTACH DATABASE \"" + oldDB + "\" AS oldDB").execute();
 			copyTable(c, "Books", Book.CREATE_BOOKS_TABLE, newDB);
-			copyTable(c, "Links_small", Link.CREATE_LINKS_SMALL, newDB);
+			//copyTable(c, "Links_small", Link.CREATE_LINKS_SMALL, newDB);
 			copyTable(c, "Nodes", Node.CREATE_NODE_TABLE, newDB);
 			//copyTable(c, "Texts", Text.CREATE_TEXTS_TABLE, newDB);
 			//copyTable(c, "Headers", Header.CREATE_HEADES_TABLE, newDB);
@@ -304,9 +304,9 @@ public class Huffman extends SQLite{
 			copyTable(c, "android_metadata", CREATE_TABLE_METADATA, newDB);
 			copyTable(c, "Settings", CREATE_TABLE_SETTINGS, newDB);
 			copyTable(c, "Searching", Searching.CREATE_SEARCH, newDB);
-			setSettings("version", DB_VERION_NUM +"", c, true);
+			setSettings("version", DB_VERION_NUM +"", c);
 			
-			copyTextTable(c, oldDB);
+			//copyTextTable(c, oldDB);
 			c.close();
 
 
@@ -314,6 +314,27 @@ public class Huffman extends SQLite{
 			e.printStackTrace();
 		}
 		System.out.println("Finished Copying DB");
+	}
+	
+	public static void copyNewAPIDB(String oldDB, String newDB){
+		System.out.println("Making API DB");
+		try {
+			File file = new File(newDB);
+			file.delete();
+			Connection c = getDBConnection(newDB);
+			c.prepareStatement("ATTACH DATABASE \"" + oldDB + "\" AS oldDB").execute();
+			copyTable(c, "Settings", CREATE_TABLE_SETTINGS, newDB);
+			copyTable(c, "Books", Book.CREATE_BOOKS_TABLE, newDB);
+			copyTable(c, "Nodes", Node.CREATE_NODE_TABLE, newDB);
+			copyTable(c, "android_metadata", CREATE_TABLE_METADATA, newDB);
+			
+			setSettings("api", ""+1, c);
+			setSettings("version", DB_VERION_NUM +"", c);
+			c.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Finished making API DB");
 	}
 
 	

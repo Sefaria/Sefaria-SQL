@@ -30,14 +30,17 @@ import org.json.JSONTokener;
 
 public class SQLite {
 
-	protected static final int DB_VERION_NUM = 137;
+	protected static final int DB_VERION_NUM = 138;
 	public static final String DB_NAME_PART = "test" + DB_VERION_NUM;
 	public static final String DB_NAME_FULL = "testDBs/" + DB_NAME_PART + ".db";
 	public static final String DB_NAME_COPY = "testDBs/UpdateForSefariaMobileDatabase.db";//copy_" + DB_NAME_PART + ".db";
+	public static final String DB_NAME_API = "testDBs/API_UpdateForSefariaMobileDatabase.db";//copy_" + DB_NAME_PART + ".db";
+
 	
+	private static final String OLD_DB_TO_COPY_FROM = "testDBs/130/test130.db";
 	private static final boolean USE_TEST_FILES = true;
-	private static final boolean API_ONLY = false;
-	private static final boolean ONLY_COPY_DB = true;
+	private static final boolean API_ONLY = true;
+	private static final boolean ONLY_COPY_DB = false;
 
 	final static boolean ignoreSchemaError = false;
 
@@ -66,15 +69,16 @@ public class SQLite {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			if(ONLY_COPY_DB){
-				//Huffman.test();
-				String newDB = "testDBs/copy_test130.db"; //
-				String oldDB = "testDBs/130/test130.db";
-				Huffman.copyNewDB(oldDB,newDB);
+				Huffman.copyNewDB(OLD_DB_TO_COPY_FROM,DB_NAME_COPY);
 				return;
-			}else{
-				createTables();
-				insertStuff();
 			}
+			if(API_ONLY){
+				Huffman.copyNewAPIDB(OLD_DB_TO_COPY_FROM,DB_NAME_API);
+				return;
+			}
+			createTables();
+			insertStuff();
+		
 			System.out.println("Good stuff");
 			Huffman.copyNewDB(DB_NAME_FULL,DB_NAME_COPY);
 		}catch(Exception e){
@@ -84,16 +88,19 @@ public class SQLite {
 		}
 	}
 
-	public static void setSettings(String key,String value, Connection c, boolean update) throws SQLException{
+	public static void setSettings(String key,String value, Connection c) throws SQLException{
 		PreparedStatement statement;
-		if(update){
-			statement = c.prepareStatement("UPDATE Settings SET value = " + value + " where _id = ?");
-			
-		}else{
+		try{
 			statement = c.prepareStatement(" INSERT INTO Settings (_id, value) VALUES (?, " + value + ")");
+			statement.setString(1,key);
+			statement.executeUpdate();
+		}catch(Exception e1){
+			if(!e1.getMessage().contains("Abort due to constraint violation"))
+				System.err.println("couldn't insert setSettings..");
+			statement = c.prepareStatement("UPDATE Settings SET value = " + value + " where _id = ?");
+			statement.setString(1,key);
+			statement.executeUpdate();
 		}
-		statement.setString(1,key);
-		statement.executeUpdate();
 		statement.close();
 		try{
 			c.commit();
@@ -102,7 +109,7 @@ public class SQLite {
 				System.err.println(e.getMessage());
 		}
 	}
-	
+
 	protected final static String CREATE_TABLE_SETTINGS = "CREATE TABLE Settings (_id TEXT PRIMARY KEY, value INTEGER);";
 	protected final static String CREATE_TABLE_METADATA = " CREATE TABLE \"android_metadata\" (\"locale\" TEXT DEFAULT 'en_US')";
 
@@ -111,28 +118,21 @@ public class SQLite {
 		Connection c = null;
 		try{
 			(new File(DB_NAME_FULL)).delete(); //delete old DB is it exists
-			
+
 			c = getDBConnection(DB_NAME_FULL);
 			System.out.println("Opened database successfully");
 			Statement stmt = c.createStatement();
 
-			if(!API_ONLY){
-				stmt.executeUpdate(Text.CREATE_TEXTS_TABLE);
-				stmt.executeUpdate(Link.CREATE_TABLE_LINKS);
-				stmt.executeUpdate(Link.CREATE_LINKS_SMALL);
-				stmt.executeUpdate(Node.CREATE_NODE_TABLE);
-				stmt.executeUpdate(Searching.CREATE_SEARCH);
-			}
+			stmt.executeUpdate(Text.CREATE_TEXTS_TABLE);
+			stmt.executeUpdate(Link.CREATE_TABLE_LINKS);
+			stmt.executeUpdate(Link.CREATE_LINKS_SMALL);
+			stmt.executeUpdate(Node.CREATE_NODE_TABLE);
+			stmt.executeUpdate(Searching.CREATE_SEARCH);
 			stmt.executeUpdate(Book.CREATE_BOOKS_TABLE);
 			stmt.executeUpdate(Header.CREATE_HEADES_TABLE);
 
 
 			stmt.executeUpdate(CREATE_TABLE_SETTINGS);
-			stmt.executeUpdate(" INSERT INTO Settings (_id, value) VALUES ('version'," + DB_VERION_NUM + ")");
-			if(API_ONLY)
-				stmt.executeUpdate(" INSERT INTO Settings (_id, value) VALUES ('api',1)");
-			else
-				stmt.executeUpdate(" INSERT INTO Settings (_id, value) VALUES ('api',0)");
 			//not needed with new Links_small table
 			//stmt.execute("Create index LinksIndex on Links (bida, level1a, level2a)");
 
@@ -140,6 +140,8 @@ public class SQLite {
 			stmt.executeUpdate(" INSERT INTO \"android_metadata\" VALUES ('en_US')");
 
 			stmt.close();
+			setSettings("version", ""+DB_VERION_NUM, c);
+			setSettings("api", ""+0, c);
 			System.out.println("Created tables");
 		} catch ( Exception e ) {
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -166,14 +168,14 @@ public class SQLite {
 		return DriverManager.getConnection("jdbc:sqlite:" + dbName);
 	}
 
-	
+
 	public static void insertStuff(){
 
 		Connection c = null;
 		try{
 			c = getDBConnection(DB_NAME_FULL);
 			c.setAutoCommit(false);
-			
+
 			int count = 0;
 			int failedBooksCount = 0;
 			List<String> lines= getFileLines();
@@ -222,19 +224,17 @@ public class SQLite {
 								&& doComplex){
 							System.out.println("Complex Text");
 							Book.addBook(c, enJSON, heJSON,true);							
-							if(!API_ONLY)
-								Node.addText(c,enJSON,heJSON);//TODO add enJSON
+							Node.addText(c,enJSON,heJSON);
 						}else{
 							System.err.println("Error2: " + e);
 							failedBooksCount++;
 						}
 					}
 					try{
-						if(!API_ONLY){
-							String schemaPath = exportPath + "schemas/" + title.replaceAll(" ", "_") + ".json";
-							JSONObject schemas = openJSON(schemaPath);
-							Node.addSchemas(c, schemas);
-						}
+						String schemaPath = exportPath + "schemas/" + title.replaceAll(" ", "_") + ".json";
+						JSONObject schemas = openJSON(schemaPath);
+						Node.addSchemas(c, schemas);
+
 					}catch(Exception e){
 						if(!ignoreSchemaError || !(e.toString().contains("java.nio.file.NoSuchFileException: ") && e.toString().contains("schema")))
 							System.err.println("Error adding Schema: " + e);
@@ -250,19 +250,17 @@ public class SQLite {
 			//System.out.println("TEXTS: en: " + Text.en + " he: " + Text.he + " u2: " + Text.u2 + " u3: " + Text.u3 + " u4: " + Text.u4);
 
 
-			if(!API_ONLY){
-				Searching.putInCountWords(c);
-				c.commit();
-				System.out.println("ADDING LINKS...");
-				CSVReader reader = new CSVReader(new InputStreamReader(new FileInputStream("scripts/links/links0.csv")));
-				Link.addLinkFile(c, reader);
-				c.commit();
+			Searching.putInCountWords(c);
+			c.commit();
+			System.out.println("ADDING LINKS...");
+			CSVReader reader = new CSVReader(new InputStreamReader(new FileInputStream("scripts/links/links0.csv")));
+			Link.addLinkFile(c, reader);
+			c.commit();
 
-				System.out.println("CHANGING displayNum (on Texts)...");
-				Text.displayNum(c);
-				System.out.println("CHANGING hasLink (on Texts)...");
-				Text.setHasLink(c);
-			}
+			System.out.println("CHANGING displayNum (on Texts)...");
+			Text.displayNum(c);
+			System.out.println("CHANGING hasLink (on Texts)...");
+			Text.setHasLink(c);
 
 			System.out.println("CHANGING book commentary wherePage to 3...");
 			Book.convertCommWherePage(c);
