@@ -1,4 +1,4 @@
-#can be run with python 2.7
+#!/usr/bin/python2
 import os
 import json
 from pprint import pprint

@@ -2,3 +2,10 @@ Philosophy/Orot/Hebrew/merged.json
 Commentary/Philosophy/Footnotes/Footnotes on Orot/Hebrew/merged.json
 Philosophy/Guide for the Perplexed/Hebrew/merged.json
 Philosophy/Guide for the Perplexed/English/merged.json
+Tanach/Torah/Genesis/Hebrew/merged.json
+Tanach/Torah/Genesis/English/merged.json
+Tanach/Torah/Exodus/Hebrew/merged.json
+Tanach/Torah/Exodus/English/merged.json
+Tanach/Torah/Leviticus/Hebrew/merged.json
+Philosophy/Orot HaKodesh/Hebrew/merged.json
+Philosophy/Orot HaKodesh/English/merged.json

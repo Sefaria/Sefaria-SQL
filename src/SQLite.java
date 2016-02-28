@@ -30,17 +30,21 @@ import org.json.JSONTokener;
 
 public class SQLite {
 
-	protected static final int DB_VERION_NUM = 138;
+	protected static final int DB_VERION_NUM = 142;
 	public static final String DB_NAME_PART = "test" + DB_VERION_NUM;
 	public static final String DB_NAME_FULL = "testDBs/" + DB_NAME_PART + ".db";
 	public static final String DB_NAME_COPY = "testDBs/UpdateForSefariaMobileDatabase.db";//copy_" + DB_NAME_PART + ".db";
 	public static final String DB_NAME_API = "testDBs/API_UpdateForSefariaMobileDatabase.db";//copy_" + DB_NAME_PART + ".db";
 
 	
-	private static final String OLD_DB_TO_COPY_FROM = "testDBs/130/test130.db";
-	private static final boolean USE_TEST_FILES = true;
-	private static final boolean API_ONLY = true;
-	private static final boolean ONLY_COPY_DB = false;
+	private static final String OLD_DB_TO_COPY_FROM = "testDBs/140/test140.db";
+	private static final boolean USE_TEST_FILES = false;
+	
+	private static final boolean CREATE_FRESH_FULL_DB = false;
+	private static final boolean CREATE_API = false;
+	private static final boolean CREATE_COPY = true;
+	
+
 
 	final static boolean ignoreSchemaError = false;
 
@@ -68,19 +72,22 @@ public class SQLite {
 
 		try {
 			Class.forName("org.sqlite.JDBC");
-			if(ONLY_COPY_DB){
-				Huffman.copyNewDB(OLD_DB_TO_COPY_FROM,DB_NAME_COPY);
-				return;
+			if(CREATE_FRESH_FULL_DB){
+				createTables();
+				insertStuff();
 			}
-			if(API_ONLY){
+			if(CREATE_API){
 				Huffman.copyNewAPIDB(OLD_DB_TO_COPY_FROM,DB_NAME_API);
-				return;
 			}
-			createTables();
-			insertStuff();
+			if(CREATE_COPY){
+				if(CREATE_FRESH_FULL_DB)
+					Huffman.copyNewDB(DB_NAME_FULL,DB_NAME_COPY);
+				else
+					Huffman.copyNewDB(OLD_DB_TO_COPY_FROM,DB_NAME_COPY);
+			}
 		
 			System.out.println("Good stuff");
-			Huffman.copyNewDB(DB_NAME_FULL,DB_NAME_COPY);
+			
 		}catch(Exception e){
 			System.err.println( e.getClass().getName() + ": " + e.getMessage() );
 			e.printStackTrace();
@@ -212,13 +219,11 @@ public class SQLite {
 
 					try{
 						//non complex texts
-						Book.addBook(c,enJSON,heJSON,false);
-						if(!API_ONLY){
-							if(heJSON != null)
-								Text.addText(c,heJSON);
-							if(enJSON != null)
-								Text.addText(c,enJSON);
-						}
+						Book.addBook(c,enJSON,heJSON,false);					
+						if(heJSON != null)
+							Text.addText(c,heJSON);
+						if(enJSON != null)
+							Text.addText(c,enJSON);
 					}catch(JSONException e){ //IT's a COMPLEX TEXT
 						if(e.toString().equals("org.json.JSONException: JSONObject[\"sectionNames\"] not found.")
 								&& doComplex){

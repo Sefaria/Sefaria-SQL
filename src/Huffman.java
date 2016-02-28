@@ -1,9 +1,12 @@
 import java.io.ByteArrayInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream.GetField;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -41,6 +44,8 @@ public class Huffman extends SQLite{
 	private static Map<String,Huffman> totalCounts = new HashMap<String, Huffman>();
 	private static Huffman huffmanRoot = null;
 	private static PriorityQueue<Huffman> heap;
+	
+	
 
 	public Huffman(String plainText, int count){
 		this.plainText = plainText;
@@ -221,6 +226,10 @@ public class Huffman extends SQLite{
 			heap.add(newNode);
 		}
 		
+		printTree(huffmanRoot, "");
+		writer.flush();
+		writer.close();
+		System.out.println("Tree Printed.");
 	}
 
 
@@ -228,42 +237,60 @@ public class Huffman extends SQLite{
 		if(node == null)
 			return;
 		treeSize++;
-		
 		getTreeSize(node.leftChild);
 		getTreeSize(node.rightChild);
 	}
 	
+	
+	private static PrintWriter writer;
 	private static void printTree(Huffman node, String tabs){
-		if(node == null)
+		if(writer == null){
+			 try {
+				writer = new PrintWriter("logs/huffmanTree_" + SQLite.DB_NAME_PART + ".txt", "UTF-8");
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(node == null){
 			return;
-		System.out.println(tabs + node);
-		printTree(node.leftChild, tabs + "\t");
-		printTree(node.rightChild, tabs + "\t");
+		}
+		if(node.plainText != null)
+			writer.println(tabs + ":_" + node.plainText + "_");
+		printTree(node.leftChild, tabs + "0");
+		printTree(node.rightChild, tabs + "1");
 	}
 
+	private static int plainTextCount = 0;
 	private static String getPlainText(String text,int i){
-		final int nGram = 4;
-		/*
-		int index = text.indexOf(" ",i);
-		String [] words = text.split(" ");
-		String str = "";
-		if(index <0)z
-			str =  text.substring(i);
-		else 
-			str = text.substring(i, index);
-		System.out.println(str);
-		if(true)
-			return str;
-		 */
-		if(i<text.length()-nGram){
+		char let = text.charAt(i);
+		boolean useSpaces = let > 'A' && let < 'z'; 
+		if(useSpaces){
+			//compress by words... this is smaller, but it actually takes more time to create tree in app
+			int index = text.indexOf(" ",i);
 			String str = "";
-			for(int j=0;j<nGram;j++){
-				str += text.charAt(i+j);
-			}
+			if(index <0)
+				str = text.substring(i);
+			else 
+				str = text.substring(i, index+1);
+			//if(plainTextCount++ < 40) System.out.println("_" + str +"_");
+			
 			return str;
+		}else{
+			final int nGram = 4; 
+			if(i<text.length()-nGram){
+				String str = "";
+				for(int j=0;j<nGram;j++){
+					str += text.charAt(i+j);
+				}
+				return str;
+			}
+			else
+				return text.charAt(i) + "";
 		}
-		else
-			return text.charAt(i) + "";
 	}
 
 	private static void copyTable(Connection c, String tableName, String create, String newDB) throws SQLException{
@@ -296,17 +323,20 @@ public class Huffman extends SQLite{
 			Connection c = getDBConnection(newDB);
 			c.prepareStatement("ATTACH DATABASE \"" + oldDB + "\" AS oldDB").execute();
 			copyTable(c, "Books", Book.CREATE_BOOKS_TABLE, newDB);
-			//copyTable(c, "Links_small", Link.CREATE_LINKS_SMALL, newDB);
+			copyTable(c, "Links_small", Link.CREATE_LINKS_SMALL, newDB);
 			copyTable(c, "Nodes", Node.CREATE_NODE_TABLE, newDB);
-			//copyTable(c, "Texts", Text.CREATE_TEXTS_TABLE, newDB);
-			//copyTable(c, "Headers", Header.CREATE_HEADES_TABLE, newDB);
-			//copyTable(c, "Links", Link.CREATE_TABLE_LINKS, newDB);
+			
+			/*
+			 * copyTable(c, "Texts", Text.CREATE_TEXTS_TABLE, newDB);
+			 * copyTable(c, "Headers", Header.CREATE_HEADES_TABLE, newDB);
+			 * copyTable(c, "Links", Link.CREATE_TABLE_LINKS, newDB);
+			 */
 			copyTable(c, "android_metadata", CREATE_TABLE_METADATA, newDB);
 			copyTable(c, "Settings", CREATE_TABLE_SETTINGS, newDB);
 			copyTable(c, "Searching", Searching.CREATE_SEARCH, newDB);
 			setSettings("version", DB_VERION_NUM +"", c);
 			
-			//copyTextTable(c, oldDB);
+			copyTextTable(c, oldDB);
 			c.close();
 
 
@@ -442,7 +472,9 @@ public class Huffman extends SQLite{
 		String defalted = getDeflatedTree();
 		System.out.println(defalted);
 		huffmanRoot = enflateTree(defalted);
+		
 		//printTree(huffmanRoot, "");
+		
 		if(!text.equals(decode(encodedText)))
 			System.err.println("problem with defalted thing");
 		else{

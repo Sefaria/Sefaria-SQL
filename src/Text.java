@@ -50,9 +50,10 @@ public class Text extends SQLite{
 			"		REFERENCES Nodes (_id)\r\n" + 
 			"		ON DELETE CASCADE\r\n" + 
 			"	, CONSTRAINT TextsUnique UNIQUE (bid, level1, level2, level3, level4,parentNode)\r\n" +
+			//"	, CONSTRAINT TextsUnique UNIQUE (bid, parentNode, level4, level3, level2, level1)\r\n" +
 			
 				");"
-			//+"CREATE INDEX levels ON " + TABLE_TEXTS + " (bid, level2, level3, level4,parentNode);"
+			//+ "CREATE INDEX levels ON " + TABLE_TEXTS + " (bid);"
 				;
 
 	static String CREATE_TEXTS_TABLE = 
