@@ -833,34 +833,6 @@ Commentary/Mishnah/Bartenura/Bartenura on Mishnah Zavim/Hebrew/merged.json
 Commentary/Mishnah/Bartenura/Bartenura on Mishnah Tevul Yom/Hebrew/merged.json
 Commentary/Mishnah/Bartenura/Bartenura on Mishnah Yadayim/Hebrew/merged.json
 Commentary/Mishnah/Bartenura/Bartenura on Mishnah Oktzin/Hebrew/merged.json
-Commentary/Mishnah/Rambam/Rambam on Mishnah Berakhot/Hebrew/merged.json
-Commentary/Mishnah/Rambam/Rambam on Mishnah Shabbat/Hebrew/merged.json
-Commentary/Mishnah/Rambam/Rambam on Mishnah Pesachim/Hebrew/merged.json
-Commentary/Mishnah/Rambam/Rambam on Mishnah Rosh Hashanah/Hebrew/merged.json
-Commentary/Mishnah/Rambam/Rambam on Mishnah Megillah/Hebrew/merged.json
-Commentary/Mishnah/Rambam/Rambam on Mishnah Moed Katan/Hebrew/merged.json
-Commentary/Mishnah/Rambam/Rambam on Mishnah Yevamot/Hebrew/merged.json
-Commentary/Mishnah/Rambam/Rambam on Mishnah Ketubot/Hebrew/merged.json
-Commentary/Mishnah/Rambam/Rambam on Mishnah Nazir/Hebrew/merged.json
-Commentary/Mishnah/Rambam/Rambam on Mishnah Sotah/Hebrew/merged.json
-Commentary/Mishnah/Rambam/Rambam on Mishnah Gittin/Hebrew/merged.json
-Commentary/Mishnah/Rambam/Rambam on Mishnah Kiddushin/Hebrew/merged.json
-Commentary/Mishnah/Rambam/Rambam on Mishnah Bava Kamma/Hebrew/merged.json
-Commentary/Mishnah/Rambam/Rambam on Mishnah Bava Metzia/Hebrew/merged.json
-Commentary/Mishnah/Rambam/Rambam on Mishnah Sanhedrin/Hebrew/merged.json
-Commentary/Mishnah/Rambam/Rambam on Mishnah Makkot/Hebrew/merged.json
-Commentary/Mishnah/Rambam/Rambam on Mishnah Shevuot/Hebrew/merged.json
-Commentary/Mishnah/Rambam/Rambam on Mishnah Horayot/Hebrew/merged.json
-Commentary/Mishnah/Rambam/Rambam on Mishnah Zevachim/Hebrew/merged.json
-Commentary/Mishnah/Rambam/Rambam on Mishnah Menachot/Hebrew/merged.json
-Commentary/Mishnah/Rambam/Rambam on Mishnah Chullin/Hebrew/merged.json
-Commentary/Mishnah/Rambam/Rambam on Mishnah Bekhorot/Hebrew/merged.json
-Commentary/Mishnah/Rambam/Rambam on Mishnah Arakhin/Hebrew/merged.json
-Commentary/Mishnah/Rambam/Rambam on Mishnah Temurah/Hebrew/merged.json
-Commentary/Mishnah/Rambam/Rambam on Mishnah Keritot/Hebrew/merged.json
-Commentary/Mishnah/Rambam/Rambam on Mishnah Meilah/Hebrew/merged.json
-Commentary/Mishnah/Rambam/Rambam on Mishnah Tamid/Hebrew/merged.json
-Commentary/Mishnah/Rambam/Rambam on Mishnah Niddah/Hebrew/merged.json
 Commentary/Mishnah/Ikar Tosafot Yom Tov/Ikar Tosafot Yom Tov on Mishnah Berakhot/Hebrew/merged.json
 Commentary/Mishnah/Ikar Tosafot Yom Tov/Ikar Tosafot Yom Tov on Mishnah Peah/Hebrew/merged.json
 Commentary/Mishnah/Ikar Tosafot Yom Tov/Ikar Tosafot Yom Tov on Mishnah Demai/Hebrew/merged.json
@@ -928,6 +900,34 @@ Commentary/Mishnah/Ikar Tosafot Yom Tov/Ikar Tosafot Yom Tov on Mishnah Zavim/He
 Commentary/Mishnah/Ikar Tosafot Yom Tov/Ikar Tosafot Yom Tov on Mishnah Tevul Yom/Hebrew/merged.json
 Commentary/Mishnah/Ikar Tosafot Yom Tov/Ikar Tosafot Yom Tov on Mishnah Yadayim/Hebrew/merged.json
 Commentary/Mishnah/Ikar Tosafot Yom Tov/Ikar Tosafot Yom Tov on Mishnah Oktzin/Hebrew/merged.json
+Commentary/Mishnah/Rambam/Rambam on Mishnah Berakhot/Hebrew/merged.json
+Commentary/Mishnah/Rambam/Rambam on Mishnah Shabbat/Hebrew/merged.json
+Commentary/Mishnah/Rambam/Rambam on Mishnah Pesachim/Hebrew/merged.json
+Commentary/Mishnah/Rambam/Rambam on Mishnah Rosh Hashanah/Hebrew/merged.json
+Commentary/Mishnah/Rambam/Rambam on Mishnah Megillah/Hebrew/merged.json
+Commentary/Mishnah/Rambam/Rambam on Mishnah Moed Katan/Hebrew/merged.json
+Commentary/Mishnah/Rambam/Rambam on Mishnah Yevamot/Hebrew/merged.json
+Commentary/Mishnah/Rambam/Rambam on Mishnah Ketubot/Hebrew/merged.json
+Commentary/Mishnah/Rambam/Rambam on Mishnah Nazir/Hebrew/merged.json
+Commentary/Mishnah/Rambam/Rambam on Mishnah Sotah/Hebrew/merged.json
+Commentary/Mishnah/Rambam/Rambam on Mishnah Gittin/Hebrew/merged.json
+Commentary/Mishnah/Rambam/Rambam on Mishnah Kiddushin/Hebrew/merged.json
+Commentary/Mishnah/Rambam/Rambam on Mishnah Bava Kamma/Hebrew/merged.json
+Commentary/Mishnah/Rambam/Rambam on Mishnah Bava Metzia/Hebrew/merged.json
+Commentary/Mishnah/Rambam/Rambam on Mishnah Sanhedrin/Hebrew/merged.json
+Commentary/Mishnah/Rambam/Rambam on Mishnah Makkot/Hebrew/merged.json
+Commentary/Mishnah/Rambam/Rambam on Mishnah Shevuot/Hebrew/merged.json
+Commentary/Mishnah/Rambam/Rambam on Mishnah Horayot/Hebrew/merged.json
+Commentary/Mishnah/Rambam/Rambam on Mishnah Zevachim/Hebrew/merged.json
+Commentary/Mishnah/Rambam/Rambam on Mishnah Menachot/Hebrew/merged.json
+Commentary/Mishnah/Rambam/Rambam on Mishnah Chullin/Hebrew/merged.json
+Commentary/Mishnah/Rambam/Rambam on Mishnah Bekhorot/Hebrew/merged.json
+Commentary/Mishnah/Rambam/Rambam on Mishnah Arakhin/Hebrew/merged.json
+Commentary/Mishnah/Rambam/Rambam on Mishnah Temurah/Hebrew/merged.json
+Commentary/Mishnah/Rambam/Rambam on Mishnah Keritot/Hebrew/merged.json
+Commentary/Mishnah/Rambam/Rambam on Mishnah Meilah/Hebrew/merged.json
+Commentary/Mishnah/Rambam/Rambam on Mishnah Tamid/Hebrew/merged.json
+Commentary/Mishnah/Rambam/Rambam on Mishnah Niddah/Hebrew/merged.json
 Talmud/Rif/Seder Zeraim/Rif Berakhot/Hebrew/merged.json
 Talmud/Rif/Seder Moed/Rif Beitzah/Hebrew/merged.json
 Talmud/Rif/Seder Moed/Rif Eruvin/Hebrew/merged.json

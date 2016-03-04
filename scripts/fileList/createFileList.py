@@ -64,11 +64,15 @@ def makeFolderJSON(path):
 
 def reorderCommentaries(unordered):
 
+
+	#note: this only works for the list of Commentaries that serperated from the rest of the list.
+	# so it doesn't include Other/Commentary2
+	
 	specials = [
 	'Commentary/Tanach/Rashi', 'Tanach/Targum/Onkelos', 'Commentary/Tanach/Ibn Ezra', 'Commentary/Tanach/Ramban', 'Commentary/Tanach/Sforno', 'Commentary/Tanach/Rashbam',
 	'Commentary/Tanach', # make sure that the rest of the tanach commentaries come b/f any other category commenary
-	'Mishnah/Bartenura', 'Commentary/Mishnah/' # make sure that the rest of the mishna commentaries come b/f any other category commenary
-	'Talmud/Rashi', 'Talmud/Tosafot', 'Talmud/Rashba', 'Talmud/Rif/',
+	'Mishnah/Bartenura', 'Ikar Tosafot Yom Tov', '/Mishnah/Tosafot Yom Tov', 'Commentary/Mishnah/', # make sure that the rest of the mishna commentaries come b/f any other category commenary
+	'Commentary/Talmud/Rashi', 'Commentary/Talmud/Tosafot', '/Talmud/Rashba', 'Talmud/Rif/',
 	'Commentary/Talmud/']
 
 
