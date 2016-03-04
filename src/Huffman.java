@@ -294,11 +294,20 @@ public class Huffman extends SQLite{
 	}
 
 	private static void copyTable(Connection c, String tableName, String create, String newDB) throws SQLException{
+		copyTable(c, tableName, create, newDB, null);
+		
+	}
+	
+	private static void copyTable(Connection c, String tableName, String create, String newDB, String columns) throws SQLException{
 		Statement stmt = c.createStatement();
 		stmt.executeUpdate("DROP TABLE IF EXISTS \"" + newDB + "." + tableName + "\";");
 		stmt.executeUpdate(create);
 		stmt.close();
-		c.prepareStatement("INSERT INTO " + tableName + " SELECT * FROM oldDB." + tableName).execute();
+		if(columns == null){
+			c.prepareStatement("INSERT INTO " + tableName + " SELECT * FROM oldDB." + tableName).execute();
+		}else{
+			c.prepareStatement("INSERT INTO " + tableName + " (" + columns + ") SELECT " + columns + " FROM oldDB." + tableName).execute();
+		}
 	}
 
 	private static void copyTextTable(Connection newDBConnection, String oldDB) throws SQLException{
@@ -315,6 +324,7 @@ public class Huffman extends SQLite{
 		Huffman.compressAndMoveAllTexts(oldDBConnection, newDBConnection);
 	}
 
+
 	public static void copyNewDB(String oldDB, String newDB){
 		System.out.println("Copying DB");
 		try {
@@ -323,7 +333,7 @@ public class Huffman extends SQLite{
 			Connection c = getDBConnection(newDB);
 			c.prepareStatement("ATTACH DATABASE \"" + oldDB + "\" AS oldDB").execute();
 			copyTable(c, "Books", Book.CREATE_BOOKS_TABLE, newDB);
-			copyTable(c, "Links_small", Link.CREATE_LINKS_SMALL, newDB);
+			copyTable(c, "Links_small", Link.CREATE_LINKS_SMALL, newDB, "tid1,tid2");
 			copyTable(c, "Nodes", Node.CREATE_NODE_TABLE, newDB);
 			
 			/*

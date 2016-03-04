@@ -35,7 +35,7 @@ public class Link extends SQLite{
 			"_id INTEGER PRIMARY KEY, " +
 			"tid1 INTEGER NOT NULL," +
 			"tid2 INTEGER NOT NULL, " +
-			KconnType + " CHAR(3), " +
+			//KconnType + " CHAR(3), " +
 			"CONSTRAINT LinkSmallUni UNIQUE(tid1, tid2)," +
 			
 			"	FOREIGN KEY (tid1) \r\n" + 
@@ -45,9 +45,9 @@ public class Link extends SQLite{
 			"		REFERENCES Text (_id)\r\n" + 
 			"		ON DELETE CASCADE\r\n" + 
 			
-			");"+
+			");"
 	
-	"CREATE INDEX tid2 ON " + LINKS_SMALL + " (tid2)"
+	//+"CREATE INDEX tid2 ON " + LINKS_SMALL + " (tid2)"
 			;
 
 	

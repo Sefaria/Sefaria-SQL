@@ -40,7 +40,7 @@ public class SQLite {
 	private static final String OLD_DB_TO_COPY_FROM = "testDBs/145/test145.db";
 	private static final boolean USE_TEST_FILES = false;
 	
-	private static final boolean CREATE_FRESH_FULL_DB = true;
+	private static final boolean CREATE_FRESH_FULL_DB = false;
 	private static final boolean CREATE_API = true;
 	private static final boolean CREATE_COPY = true;
 	
