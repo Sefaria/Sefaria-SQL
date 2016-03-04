@@ -30,7 +30,7 @@ import org.json.JSONTokener;
 
 public class SQLite {
 
-	protected static final int DB_VERION_NUM = 142;
+	protected static final int DB_VERION_NUM = 143;
 	public static final String DB_NAME_PART = "test" + DB_VERION_NUM;
 	public static final String DB_NAME_FULL = "testDBs/" + DB_NAME_PART + ".db";
 	public static final String DB_NAME_COPY = "testDBs/UpdateForSefariaMobileDatabase.db";//copy_" + DB_NAME_PART + ".db";
@@ -40,8 +40,8 @@ public class SQLite {
 	private static final String OLD_DB_TO_COPY_FROM = "testDBs/140/test140.db";
 	private static final boolean USE_TEST_FILES = false;
 	
-	private static final boolean CREATE_FRESH_FULL_DB = false;
-	private static final boolean CREATE_API = false;
+	private static final boolean CREATE_FRESH_FULL_DB = true;
+	private static final boolean CREATE_API = true;
 	private static final boolean CREATE_COPY = true;
 	
 

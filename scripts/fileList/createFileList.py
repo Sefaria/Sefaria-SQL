@@ -35,6 +35,9 @@ def main():
 		foundEn = findMatch(enTitle,f1, commentBuffer, useBuffer)
 		if(foundHe and title == 'Jerusalem Talmud Niddah'):
 			useBuffer = False
+
+			commentBuffer = reorderCommentaries(commentBuffer)
+
 			for merged in commentBuffer:
 				f1.write(merged + '\n')
 		if((not foundHe) and (not foundEn)):
@@ -58,6 +61,35 @@ def makeFolderJSON(path):
 	fp.write(json.dumps(path_to_dict(path), sort_keys=True, indent=4, separators=(',', ': '))); 
 	f.write(json.dumps(path_to_dict(path))); 
 """
+
+def reorderCommentaries(unordered):
+
+	specials = [
+	'Commentary/Tanach/Rashi', 'Tanach/Targum/Onkelos', 'Commentary/Tanach/Ibn Ezra', 'Commentary/Tanach/Ramban', 'Commentary/Tanach/Sforno', 'Commentary/Tanach/Rashbam',
+	'Commentary/Tanach', # make sure that the rest of the tanach commentaries come b/f any other category commenary
+	'Mishnah/Bartenura', 'Commentary/Mishnah/' # make sure that the rest of the mishna commentaries come b/f any other category commenary
+	'Talmud/Rashi', 'Talmud/Tosafot', 'Talmud/Rashba', 'Talmud/Rif/',
+	'Commentary/Talmud/']
+
+
+	ordered1 = []
+	ordered2 = unordered
+
+	ordered2New = []
+
+
+	for special in specials:
+		for item in ordered2:
+			if(special in item):
+				ordered1.append(item)
+			else:
+				ordered2New.append(item)
+
+		ordered2 = ordered2New
+		ordered2New = []
+
+
+	return ordered1 + ordered2
 
 
 def path_to_dict(path):
