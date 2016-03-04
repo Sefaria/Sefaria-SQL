@@ -4,6 +4,15 @@ import os
 import json
 from pprint import pprint
 import re
+from shutil import copyfile
+	
+
+
+def main():
+	print("Creating Links")
+	links()
+	print("Creating File List")
+	createFileList()
 
 
 
@@ -85,6 +94,8 @@ printFilesLength = 0
 def createFileList():
 	
 	indexPath = path + "/table_of_contents.json"
+
+	copyfile(indexPath, 'testDBs/sefaria_mobile_updating_index.json.jar')
 
 	json.dumps(path_to_dict(path)) #get the mergedFiles list
 
@@ -258,11 +269,7 @@ def findMatch(newTitle, fileBuffer):
 
 
 
-
-
-
 if __name__ == "__main__":
-	print("Creating Links")
-	links()
-	print("Creating File List")
-	createFileList()
+	main()
+
+	
