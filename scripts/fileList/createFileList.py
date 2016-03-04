@@ -2,7 +2,7 @@
 import os
 import json
 from pprint import pprint
-
+import re
 
 
 mergedFiles = []
@@ -23,30 +23,27 @@ def main():
 	parseIndex(data, "") #get the orderTitles list
 
 
-	commentBuffer = []
+	fileBuffer = []
 	mergedFilesLength = len(mergedFiles)
 	
-	f1 = open('fileList.txt','w')
-	useBuffer = True
+	
 	for title in orderTitles:
 		heTitle = "/" + title + "/Hebrew/merged.json"
 		enTitle = "/" + title + "/English/merged.json"
-		foundHe = findMatch(heTitle,f1, commentBuffer, useBuffer)
-		foundEn = findMatch(enTitle,f1, commentBuffer, useBuffer)
-		if(foundHe and title == 'Jerusalem Talmud Niddah'):
-			useBuffer = False
-
-			commentBuffer = reorderCommentaries(commentBuffer)
-
-			for merged in commentBuffer:
-				f1.write(merged + '\n')
+		foundHe = findMatch(heTitle, fileBuffer)
+		foundEn = findMatch(enTitle, fileBuffer)
+		
 		if((not foundHe) and (not foundEn)):
 			print("In index but not in dataDump: " + title)
-			
+
+	fileBuffer = reorderFiles(fileBuffer)
+
+	f1 = open('fileList.txt','w')
+	for merged in fileBuffer:
+		f1.write(merged + '\n')
+
 	f1.close()
 
-	if(useBuffer):
-		print("DIDN'T FIND NIDAH YERUSHALMI!!!!!!!!!!!")
 	print("\nIn dataDump but not in index:\n")
 	pprint(mergedFiles)
 	print("printFilesLength: " + str(printFilesLength))
@@ -62,18 +59,30 @@ def makeFolderJSON(path):
 	f.write(json.dumps(path_to_dict(path))); 
 """
 
-def reorderCommentaries(unordered):
+def reorderFiles(unordered):
 
 
 	#note: this only works for the list of Commentaries that serperated from the rest of the list.
 	# so it doesn't include Other/Commentary2
 	
 	specials = [
-	'Commentary/Tanach/Rashi', 'Tanach/Targum/Onkelos', 'Commentary/Tanach/Ibn Ezra', 'Commentary/Tanach/Ramban', 'Commentary/Tanach/Sforno', 'Commentary/Tanach/Rashbam',
-	'Commentary/Tanach', # make sure that the rest of the tanach commentaries come b/f any other category commenary
-	'Mishnah/Bartenura', 'Ikar Tosafot Yom Tov', '/Mishnah/Tosafot Yom Tov', 'Commentary/Mishnah/', # make sure that the rest of the mishna commentaries come b/f any other category commenary
-	'Commentary/Talmud/Rashi', 'Commentary/Talmud/Tosafot', '/Talmud/Rashba', 'Talmud/Rif/',
-	'Commentary/Talmud/']
+	'^Tanach/Torah/','^Tanach/Prophets/', '^Tanach/Writings/',
+	'^Mishnah/Seder ', '^Talmud/Bavli/Seder ', '^Talmud/Yerushalmi/Seder ',
+
+	'^Commentary/Tanach/Rashi', '^Tanach/Targum/Onkelos', '^Commentary/Tanach/Ibn Ezra', '^Commentary/Tanach/Ramban', '^Commentary/Tanach/Sforno', '^Commentary/Tanach/Rashbam',
+	'^Commentary/Tanach', '^Tanach/Commentary/', '^Other/Commentary2/Tanach/', '^Tanach/Targum/', # make sure that the rest of the tanach commentaries come b/f any other category commenary
+	
+
+	'^Commentary/Mishnah/Bartenura', '^Commentary/Mishnah/Ikar Tosafot Yom Tov', '/Mishnah/Tosafot Yom Tov', '^Commentary/Mishnah/', '^Other/Commentary2/Mishnah/', # make sure that the rest of the mishna commentaries come b/f any other category commenary
+	
+
+
+	'^Commentary/Talmud/Rashi', '^Commentary/Talmud/Tosafot', '/Talmud/Rashba', '^Talmud/Rif/',
+	'^Commentary/Talmud/', '^Other/Commentary2/Talmud/',
+
+	'^Tosefta/Seder '
+
+	]
 
 
 	ordered1 = []
@@ -84,7 +93,7 @@ def reorderCommentaries(unordered):
 
 	for special in specials:
 		for item in ordered2:
-			if(special in item):
+			if(re.search(special,item) != None):
 				ordered1.append(item)
 			else:
 				ordered2New.append(item)
@@ -156,15 +165,11 @@ def parseIndex(data, catStr):
 		pass
 	
 
-def findMatch(newTitle, f1, commentBuffer, useBuffer):
+def findMatch(newTitle, fileBuffer):
 	global mergedFiles
 	for merged in mergedFiles:
 		if(merged.find(newTitle) > 0):
-			if(useBuffer and merged.find('Commentary') == 0):
-				commentBuffer.append(merged)
-			else:
-				f1.write(merged + '\n')
-			#print(merged)
+			fileBuffer.append(merged)
 			mergedFiles.remove(merged)
 			global printFilesLength
 			printFilesLength += 1
