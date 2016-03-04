@@ -30,14 +30,14 @@ import org.json.JSONTokener;
 
 public class SQLite {
 
-	protected static final int DB_VERION_NUM = 144;
+	protected static final int DB_VERION_NUM = 145;
 	public static final String DB_NAME_PART = "test" + DB_VERION_NUM;
 	public static final String DB_NAME_FULL = "testDBs/" + DB_NAME_PART + ".db";
 	public static final String DB_NAME_COPY = "testDBs/UpdateForSefariaMobileDatabase.db";//copy_" + DB_NAME_PART + ".db";
 	public static final String DB_NAME_API = "testDBs/API_UpdateForSefariaMobileDatabase.db";//copy_" + DB_NAME_PART + ".db";
 
 	
-	private static final String OLD_DB_TO_COPY_FROM = "testDBs/144/test144.db";
+	private static final String OLD_DB_TO_COPY_FROM = "testDBs/145/test145.db";
 	private static final boolean USE_TEST_FILES = false;
 	
 	private static final boolean CREATE_FRESH_FULL_DB = true;
@@ -73,6 +73,7 @@ public class SQLite {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			if(CREATE_FRESH_FULL_DB){
+				System.out.println("\nREMEMBER TO RUN PYTHON FIRST!\n");
 				createTables();
 				insertStuff();
 			}
