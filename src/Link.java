@@ -47,7 +47,7 @@ public class Link extends SQLite{
 			
 			");"
 	
-	//+"CREATE INDEX tid2 ON " + LINKS_SMALL + " (tid2)"
+			+"CREATE INDEX tid2 ON " + LINKS_SMALL + " (tid2)"
 			;
 
 	
@@ -85,14 +85,15 @@ public class Link extends SQLite{
 							String select1 = "SELECT T1._id FROM Texts T1 WHERE T1.bid = ? AND T1.level1 = ? AND T1.level2 = ? AND T1.level3 = ? AND T1.level4 = ? AND T1.level5 = ? AND T1.level6 = ?";
 							String select2 = "SELECT T2._id FROM Texts T2 WHERE T2.bid = ? AND T2.level1 = ? AND T2.level2 = ? AND T2.level3 = ? AND T2.level4 = ? AND T2.level5 = ? AND T2.level6 = ?";
 							String sql = "INSERT INTO Links_small (" +
-									" tid1, tid2, connType) " +
-									" VALUES (" +
+									" tid1, tid2 " +
+									//", connType" +
+									" ) VALUES (" +
 									"(" + select1 + ")," + 
-									"(" + select2 + ")," +
-									"?" + 
+									"(" + select2 + ")" +
+									//",?" + 
 									");";
 							PreparedStatement stmt = c.prepareStatement(sql);
-							stmt = putValues(stmt, next,bida, bidb, true);
+							stmt = putValues(stmt, next,bida, bidb, false);
 							stmt.executeUpdate();
 							stmt.close();
 							

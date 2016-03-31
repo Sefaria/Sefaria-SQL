@@ -267,7 +267,8 @@ public class Huffman extends SQLite{
 	private static int plainTextCount = 0;
 	private static String getPlainText(String text,int i){
 		char let = text.charAt(i);
-		boolean useSpaces = let > 'A' && let < 'z'; 
+		boolean useSpaces = let > 'A' && let < 'z';
+		useSpaces = false;
 		if(useSpaces){
 			//compress by words... this is smaller, but it actually takes more time to create tree in app
 			int index = text.indexOf(" ",i);
@@ -280,7 +281,7 @@ public class Huffman extends SQLite{
 			
 			return str;
 		}else{
-			final int nGram = 4; 
+			final int nGram = 2; 
 			if(i<text.length()-nGram){
 				String str = "";
 				for(int j=0;j<nGram;j++){
@@ -343,7 +344,7 @@ public class Huffman extends SQLite{
 			 */
 			copyTable(c, "android_metadata", CREATE_TABLE_METADATA, newDB);
 			copyTable(c, "Settings", CREATE_TABLE_SETTINGS, newDB);
-			copyTable(c, "Searching", Searching.CREATE_SEARCH, newDB);
+			//copyTable(c, "Searching", Searching.CREATE_SEARCH, newDB);
 			setSettings("version", DB_VERION_NUM +"", c);
 			
 			copyTextTable(c, oldDB);

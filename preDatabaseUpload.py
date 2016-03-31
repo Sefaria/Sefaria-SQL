@@ -103,6 +103,10 @@ def createFileList():
 	with open(indexPath) as data_file:    
 	    data = json.load(data_file)
 		
+	smallJSON = open("testDBs/index.json",'w')
+	smallJSON.write(json.dumps(data))
+	smallJSON.close()
+
 	parseIndex(data, "") #get the orderTitles list
 
 

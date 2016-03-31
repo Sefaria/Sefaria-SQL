@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.BitSet;
 import java.util.Collection;
 import java.util.HashMap;
@@ -36,17 +37,16 @@ public class Node extends SQLite{
 
 	static String CREATE_NODE_TABLE = 
 			"CREATE TABLE " +  "Nodes " + "(\r\n" + 
-					"	_id INTEGER PRIMARY KEY,\r\n" + 
-					"	bid INTEGER NOT NULL,\r\n" + 
-					"	parentNode INTEGER,\r\n" + 
-					"	nodeType INTEGER not null,\r\n" + 
-					"	siblingNum INTEGER not null,\r\n" + //0 means the first sibling 
-					"	enTitle TEXT,\r\n" + 
-					"	heTitle TEXT,\r\n" + 
-
+			"	_id INTEGER PRIMARY KEY,\r\n" + 
+			"	bid INTEGER NOT NULL,\r\n" + 
+			"	parentNode INTEGER,\r\n" + 
+			"	nodeType INTEGER not null,\r\n" + 
+			"	siblingNum INTEGER not null,\r\n" + //0 means the first sibling 
+			"	enTitle TEXT,\r\n" + 
+			"	heTitle TEXT,\r\n" + 
+			
 			"	sectionNames TEXT,\r\n" + 
 			"	heSectionNames TEXT,\r\n" + 
-
 
 			//for support of altStructs
 			"	structNum INTEGER NOT NULL default 1,\r\n" + 
@@ -55,6 +55,7 @@ public class Node extends SQLite{
 			"	startTid INTEGER,\r\n" +  //maybe only used with refferences on alt structure
 			"	endTid INTEGER,\r\n" +  //maybe only used with refferences on alt structure
 			"	extraTids TEXT,\r\n" +  //maybe only used with refferences on alt structure ex. "[34-70,98-200]"
+			"	startLevels TEXT,\r\n" +  //
 			//maybe some stuff like to display chap name and or number (ei. maybe add some displaying info)
 
 	//		"	FOREIGN KEY (bid) \r\n" + 
@@ -158,11 +159,11 @@ public class Node extends SQLite{
 
 	private static void insertSingleNodeToDB(Connection c, Integer nid, Integer bid, Integer parentNode,Integer nodeType, Integer siblingNum,
 			String enTitle, String heTitle, Integer structNum, Integer textDepth, Integer startTid, Integer endTid,
-			String extraTids, String sectionNames, String heSectionNames
+			String extraTids, String sectionNames, String heSectionNames, String startLevels
 			){
 		final String INSERT_NODE = "INSERT INTO Nodes (" +
-				"_id,bid,parentNode,nodeType,siblingNum,enTitle,heTitle,structNum,textDepth,startTid,endTid,extraTids,sectionNames,heSectionNames)"
-				+ "VALUES (?,?, ?, ?, ?, ?, ?, ?,?, ?, ?,?,?,?);";
+				"_id,bid,parentNode,nodeType,siblingNum,enTitle,heTitle,structNum,textDepth,startTid,endTid,extraTids,sectionNames,heSectionNames,startLevels)"
+				+ "VALUES (?,?, ?, ?, ?, ?, ?, ?,?, ?, ?,?,?,?,?);";
 
 		PreparedStatement stmt;
 		try {
@@ -180,6 +181,7 @@ public class Node extends SQLite{
 			if(extraTids != null) stmt.setString(12,extraTids);
 			if(sectionNames != null) stmt.setString(13,sectionNames);
 			if(heSectionNames != null) stmt.setString(14,heSectionNames);
+			if(startLevels != null) stmt.setString(15,startLevels);
 			stmt.executeUpdate();
 			stmt.close();
 		} catch (SQLException e) {
@@ -228,7 +230,7 @@ public class Node extends SQLite{
 			
 		}
 		insertSingleNodeToDB(c, nodeID, bid, parentNode, nodeType, siblingNum, enTitle, heTitle, 1,
-				null, null, null, null, null, null);
+				null, null, null, null, null, null,null);
 		if((nodeType & IS_TEXT_SECTION) == 0 && nodes != null){ //it's a branch and not a TEXT_SECTION
 			for(int i =0;i<nodes.length();i++){
 				insertNode(c, (JSONObject) nodes.get(i),enText,heText,depth+1,i,bid,nodeID,lang);
@@ -335,7 +337,7 @@ public class Node extends SQLite{
 				nodeType = getNodeType(true, false, false, false);//NODE_REFS;
 				refs = node.getJSONArray("refs");
 				insertSingleNodeToDB(c, nodeID, bid, parentNode, nodeType, j, enTitle, heTitle, structNum,
-						null, null, null, null, sectionNames, heSectionNames);
+						null, null, null, null, sectionNames, heSectionNames,null);
 
 				//System.out.println(enTitle + " " +  heTitle + " " + nodeType + " " + sectionNames + refs);
 				int subParentNode = nodeID;
@@ -344,12 +346,12 @@ public class Node extends SQLite{
 					if(ref.equals("")) continue;
 					nodeID = ++nodeCount;
 					nodeType = getNodeType(true, true, true, true);
-					int [] startEndTids = ref2Tids(c,ref, bid);
-					int startTID = startEndTids[0];
-					int endTID = startEndTids[1];
+					RefValues refValues = ref2Tids(c,ref, bid);
+					int startTID = refValues.startTid;
+					int endTID = refValues.endTid;
 					insertSingleNodeToDB(c, nodeID, bid, subParentNode, nodeType,
 							i, "", "", structNum, null, startTID, endTID, ref,
-							sectionNames, heSectionNames);
+							sectionNames, heSectionNames,refValues.startLevels);
 				}
 			}else if(depth == 0){ //so the refs aren't in a grid
 				int nodeID = ++nodeCount;
@@ -357,13 +359,12 @@ public class Node extends SQLite{
 				//TODO get real heSection names
 				String ref = node.getString("wholeRef");
 				if(ref.equals("")) continue;
-				int [] startEndTids = ref2Tids(c,ref, bid);
-				int startTID = startEndTids[0];
-				int endTID = startEndTids[1];
-				
+				RefValues refValues = ref2Tids(c,ref, bid);
+				int startTID = refValues.startTid;
+				int endTID = refValues.endTid;
 				insertSingleNodeToDB(c, nodeID, bid, parentNode, nodeType,
 						j, enTitle, heTitle, structNum, null, startTID, endTID, ref,
-						sectionNames, heSectionNames);
+						sectionNames, heSectionNames,refValues.startLevels);
 			}else{
 				System.err.println("Node.addSchemaNodes(): I don't know how to deal with this depth:" + depth);
 			}
@@ -383,14 +384,27 @@ public class Node extends SQLite{
 		return levels;
 	}
 
-	private static int [] ref2Tids(Connection c, String ref, int bid){
+	private static class RefValues{
+		
+		public RefValues(int startTid,int endTid,int [] start){
+			this.startTid = startTid;
+			this.endTid = endTid;
+			this.startLevels = Arrays.toString(start);
+		}
+		public int startTid;
+		public int endTid;
+		public String startLevels;
+	}
+	
+	private static RefValues ref2Tids(Connection c, String ref, int bid){
 		String title = booksInDBbid2Title.get(bid);
 		int textDepth = booksInDBtextDepth.get(title);
 		//println("ref: " + ref + " title: " + title);
 		int startTid = 0,endTid =0;
+		int [] start = null;
 		try {
 			String [] startStop = ref.replace(title, "").split("-");
-			int [] start = halfRef2Levels(startStop[0]);
+			start = halfRef2Levels(startStop[0]);
 			int [] stop = start;
 			if(startStop.length == 2)
 				stop = halfRef2Levels(startStop[1]);
@@ -421,7 +435,7 @@ public class Node extends SQLite{
 		}
 
 
-		return new int [] {startTid,endTid};
+		return new RefValues(startTid, endTid, start);
 	}
 		
 	static private int [] add1sForMissingLevels(int [] levels,int textDepth){
@@ -469,7 +483,7 @@ public class Node extends SQLite{
 				String sectionNames = "[\"" + altName + "\"]";
 				String heSectionNames = sectionNames;
 				insertSingleNodeToDB(c, nodeID, bid, 0, nodeType, 0,enTitle , heTitle, structNum,
-						null, null, null, null, sectionNames, heSectionNames);
+						null, null, null, null, sectionNames, heSectionNames,null);
 				JSONArray nodes;
 				try{
 					nodes = alt.getJSONArray("nodes");
