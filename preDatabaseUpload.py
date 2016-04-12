@@ -95,16 +95,20 @@ def createFileList():
 	
 	indexPath = path + "/table_of_contents.json"
 
-	copyfile(indexPath, 'testDBs/sefaria_mobile_updating_index.json.jar')
-
 	json.dumps(path_to_dict(path)) #get the mergedFiles list
 
 
 	with open(indexPath) as data_file:    
 	    data = json.load(data_file)
 		
+	jsonString = json.dumps(data)
+
 	smallJSON = open("testDBs/index.json",'w')
-	smallJSON.write(json.dumps(data))
+	smallJSON.write(jsonString)
+	smallJSON.close()
+
+	smallJSON = open('testDBs/sefaria_mobile_updating_index.json.jar','w')
+	smallJSON.write(jsonString)
 	smallJSON.close()
 
 	parseIndex(data, "") #get the orderTitles list

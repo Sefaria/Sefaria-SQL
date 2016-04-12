@@ -356,6 +356,7 @@ Commentary/Tanach/Rashi/Rashi on Jeremiah/English/merged.json
 Commentary/Tanach/Rashi/Rashi on Ezekiel/Hebrew/merged.json
 Commentary/Tanach/Rashi/Rashi on Ezekiel/English/merged.json
 Commentary/Tanach/Rashi/Rashi on Hosea/Hebrew/merged.json
+Commentary/Tanach/Rashi/Rashi on Hosea/English/merged.json
 Commentary/Tanach/Rashi/Rashi on Joel/Hebrew/merged.json
 Commentary/Tanach/Rashi/Rashi on Amos/Hebrew/merged.json
 Commentary/Tanach/Rashi/Rashi on Amos/English/merged.json
@@ -398,6 +399,7 @@ Commentary/Tanach/Rashi/Rashi on II Chronicles/English/merged.json
 Tanach/Targum/Onkelos Genesis/Hebrew/merged.json
 Tanach/Targum/Onkelos Genesis/English/merged.json
 Tanach/Targum/Onkelos Exodus/Hebrew/merged.json
+Tanach/Targum/Onkelos Exodus/English/merged.json
 Tanach/Targum/Onkelos Leviticus/Hebrew/merged.json
 Tanach/Targum/Onkelos Leviticus/English/merged.json
 Tanach/Targum/Onkelos Numbers/Hebrew/merged.json
@@ -489,6 +491,7 @@ Commentary/Tanach/Daat Zkenim/Daat Zkenim on Deuteronomy/English/merged.json
 Commentary/Tanach/Haamek Davar/Haamek Davar on Genesis/Hebrew/merged.json
 Commentary/Tanach/Haamek Davar/Haamek Davar on Genesis/English/merged.json
 Commentary/Tanach/Haamek Davar/Haamek Davar on Exodus/Hebrew/merged.json
+Commentary/Tanach/Haamek Davar/Haamek Davar on Exodus/English/merged.json
 Commentary/Tanach/Haamek Davar/Haamek Davar on Leviticus/Hebrew/merged.json
 Commentary/Tanach/Haamek Davar/Haamek Davar on Numbers/Hebrew/merged.json
 Commentary/Tanach/Haamek Davar/Haamek Davar on Numbers/English/merged.json
@@ -569,6 +572,7 @@ Commentary/Tanach/Metzudat David/Metzudat David on Habakkuk/Hebrew/merged.json
 Commentary/Tanach/Metzudat David/Metzudat David on Zephaniah/Hebrew/merged.json
 Commentary/Tanach/Metzudat David/Metzudat David on Haggai/Hebrew/merged.json
 Commentary/Tanach/Metzudat David/Metzudat David on Zechariah/Hebrew/merged.json
+Commentary/Tanach/Metzudat David/Metzudat David on Zechariah/English/merged.json
 Commentary/Tanach/Metzudat David/Metzudat David on Malachi/Hebrew/merged.json
 Commentary/Tanach/Metzudat David/Metzudat David on Psalms/Hebrew/merged.json
 Commentary/Tanach/Metzudat David/Metzudat David on Psalms/English/merged.json
@@ -1005,6 +1009,7 @@ Commentary/Talmud/Tosafot/Tosafot on Bava Metzia/Hebrew/merged.json
 Commentary/Talmud/Tosafot/Tosafot on Bava Metzia/English/merged.json
 Commentary/Talmud/Tosafot/Tosafot on Bava Batra/Hebrew/merged.json
 Commentary/Talmud/Tosafot/Tosafot on Sanhedrin/Hebrew/merged.json
+Commentary/Talmud/Tosafot/Tosafot on Sanhedrin/English/merged.json
 Commentary/Talmud/Tosafot/Tosafot on Makkot/Hebrew/merged.json
 Commentary/Talmud/Tosafot/Tosafot on Shevuot/Hebrew/merged.json
 Commentary/Talmud/Tosafot/Tosafot on Avodah Zarah/Hebrew/merged.json
@@ -1012,6 +1017,7 @@ Commentary/Talmud/Tosafot/Tosafot on Avodah Zarah/English/merged.json
 Commentary/Talmud/Tosafot/Tosafot on Horayot/Hebrew/merged.json
 Commentary/Talmud/Tosafot/Tosafot on Zevachim/Hebrew/merged.json
 Commentary/Talmud/Tosafot/Tosafot on Menachot/Hebrew/merged.json
+Commentary/Talmud/Tosafot/Tosafot on Menachot/English/merged.json
 Commentary/Talmud/Tosafot/Tosafot on Chullin/Hebrew/merged.json
 Commentary/Talmud/Tosafot/Tosafot on Chullin/English/merged.json
 Commentary/Talmud/Tosafot/Tosafot on Bekhorot/Hebrew/merged.json
@@ -1080,6 +1086,7 @@ Other/Commentary2/Talmud/Chidushei Agadot/Chidushei Agadot on Yoma/English/merge
 Other/Commentary2/Talmud/Chidushei Agadot/Chidushei Agadot on Sukkah/Hebrew/merged.json
 Other/Commentary2/Talmud/Chidushei Agadot/Chidushei Agadot on Beitzah/Hebrew/merged.json
 Other/Commentary2/Talmud/Chidushei Agadot/Chidushei Agadot on Taanit/Hebrew/merged.json
+Other/Commentary2/Talmud/Chidushei Agadot/Chidushei Agadot on Taanit/English/merged.json
 Other/Commentary2/Talmud/Chidushei Agadot/Chidushei Agadot on Megillah/Hebrew/merged.json
 Other/Commentary2/Talmud/Chidushei Agadot/Chidushei Agadot on Moed Katan/Hebrew/merged.json
 Other/Commentary2/Talmud/Chidushei Agadot/Chidushei Agadot on Chagigah/Hebrew/merged.json
@@ -1148,6 +1155,7 @@ Other/Commentary2/Talmud/Rosh/Rosh on Berakhot/English/merged.json
 Other/Commentary2/Talmud/Rosh/Rosh on Shabbat/Hebrew/merged.json
 Other/Commentary2/Talmud/Rosh/Rosh on Eruvin/Hebrew/merged.json
 Other/Commentary2/Talmud/Rosh/Rosh on Pesachim/Hebrew/merged.json
+Other/Commentary2/Talmud/Rosh/Rosh on Pesachim/English/merged.json
 Other/Commentary2/Talmud/Rosh/Rosh on Rosh Hashanah/Hebrew/merged.json
 Other/Commentary2/Talmud/Rosh/Rosh on Sukkah/Hebrew/merged.json
 Other/Commentary2/Talmud/Rosh/Rosh on Beitzah/Hebrew/merged.json
@@ -1275,17 +1283,20 @@ Midrash/Aggadic Midrash/Ein Yaakov (Glick Edition)/Hebrew/merged.json
 Midrash/Aggadic Midrash/Ein Yaakov (Glick Edition)/English/merged.json
 Midrash/Aggadic Midrash/Legends of the Jews/English/merged.json
 Midrash/Aggadic Midrash/Midrash Mishlei/Hebrew/merged.json
+Midrash/Aggadic Midrash/Midrash Mishlei/English/merged.json
 Midrash/Aggadic Midrash/Midrash Tanchuma/Hebrew/merged.json
 Midrash/Aggadic Midrash/Midrash Tanchuma/English/merged.json
 Midrash/Aggadic Midrash/Midrash Tehillim/Hebrew/merged.json
 Midrash/Aggadic Midrash/Midrash Tehillim/English/merged.json
 Midrash/Aggadic Midrash/Pesikta D'Rav Kahanna/Hebrew/merged.json
+Midrash/Aggadic Midrash/Pesikta D'Rav Kahanna/English/merged.json
 Midrash/Aggadic Midrash/Pesikta Rabbati/Hebrew/merged.json
 Midrash/Aggadic Midrash/Pesikta Rabbati/English/merged.json
 Midrash/Aggadic Midrash/Pirkei DeRabbi Eliezer/Hebrew/merged.json
 Midrash/Aggadic Midrash/Pirkei DeRabbi Eliezer/English/merged.json
 Midrash/Aggadic Midrash/Tanna Debei Eliyahu Rabbah/Hebrew/merged.json
 Midrash/Aggadic Midrash/Tanna debei Eliyahu Zuta/Hebrew/merged.json
+Midrash/Aggadic Midrash/Tanna debei Eliyahu Zuta/English/merged.json
 Midrash/Aggadic Midrash/Yalkut Shimoni on Nach/Hebrew/merged.json
 Midrash/Aggadic Midrash/Yalkut Shimoni on Nach/English/merged.json
 Midrash/Aggadic Midrash/Yalkut Shimoni on Torah/Hebrew/merged.json
@@ -1312,6 +1323,7 @@ Midrash/Aggadic Midrash/Midrash Rabbah/Kohelet Rabbah/English/merged.json
 Midrash/Aggadic Midrash/Midrash Rabbah/Eichah Rabbah/Hebrew/merged.json
 Midrash/Aggadic Midrash/Midrash Rabbah/Eichah Rabbah/English/merged.json
 Midrash/Halachic Midrash/Mekhilta DeRabbi Shimon Bar Yochai/Hebrew/merged.json
+Midrash/Halachic Midrash/Mekhilta DeRabbi Shimon Bar Yochai/English/merged.json
 Midrash/Halachic Midrash/Mekhilta d'Rabbi Yishmael/Hebrew/merged.json
 Midrash/Halachic Midrash/Mekhilta d'Rabbi Yishmael/English/merged.json
 Midrash/Halachic Midrash/Sifra/Hebrew/merged.json
@@ -1614,6 +1626,7 @@ Kabbalah/Da'at Tevunoth/Hebrew/merged.json
 Kabbalah/Hakdamah Lesefer HaZohar/Hebrew/merged.json
 Kabbalah/Hechalot Rabbati/Hebrew/merged.json
 Kabbalah/Maggid Meisharim/Hebrew/merged.json
+Kabbalah/Maggid Meisharim/English/merged.json
 Kabbalah/Sefer Etz Chaim/Hebrew/merged.json
 Kabbalah/Sefer Etz Chaim/English/merged.json
 Kabbalah/Sefer HaBahir/Hebrew/merged.json
@@ -1643,9 +1656,10 @@ Liturgy/Shalom Alechem/English/merged.json
 Liturgy/Yizkor/Hebrew/merged.json
 Liturgy/Yizkor/English/merged.json
 Liturgy/Kabbolos Shabbos/Hebrew/merged.json
-Liturgy/Siddur Ashkenaz/Hebrew/merged.json
 Liturgy/Unetaneh Tokef/Hebrew/merged.json
 Liturgy/Unetaneh Tokef/English/merged.json
+Liturgy/Siddur/Siddur Ashkenaz/Hebrew/merged.json
+Liturgy/Siddur/Siddur Ashkenaz/English/merged.json
 Liturgy/Siddur/Siddur, Edot HaMizrach/Hebrew/merged.json
 Liturgy/Siddur/Siddur, Edot HaMizrach/English/merged.json
 Liturgy/Siddur/Siddur, Sefard/Hebrew/merged.json
@@ -1699,6 +1713,7 @@ Philosophy/Maharal/Netivot Olam/English/merged.json
 Philosophy/Maharal/Netzach Yisrael/Hebrew/merged.json
 Philosophy/Maharal/Ohr Chadash/Hebrew/merged.json
 Philosophy/Maharal/Tiferet Yisrael/Hebrew/merged.json
+Parshanut/Akeidat Yitzchak/Hebrew/merged.json
 Parshanut/Akeidat Yitzchak/English/merged.json
 Parshanut/Meshech Hochma/Hebrew/merged.json
 Parshanut/Shney Luchot HaBrit/English/merged.json
@@ -1714,6 +1729,7 @@ Chasidut/Ba'al Shem Tov on the Torah/English/merged.json
 Chasidut/Chiddushei HaRim Al HaTorah/Hebrew/merged.json
 Chasidut/Chiddushei HaRim Al HaTorah/English/merged.json
 Chasidut/Kedushat Levi/Hebrew/merged.json
+Chasidut/Kedushat Levi/English/merged.json
 Chasidut/Mei HaShiloach/Hebrew/merged.json
 Chasidut/Mekor Mayyim Hayyim/English/merged.json
 Musar/Iggeret HaRamban/Hebrew/merged.json
@@ -1737,13 +1753,13 @@ Musar/Shaarei Teshuvah/Hebrew/merged.json
 Musar/Shuvah Yisrael/Hebrew/merged.json
 Musar/Kitzur Sefer Haredim of Rabbi Elazar Azcari/Hebrew/merged.json
 Musar/Sha'ar Ha'Gemul of the Ramban/Hebrew/merged.json
+Responsa/Havot Yair/Hebrew/merged.json
+Responsa/Havot Yair/English/merged.json
 Responsa/Noda Byehuda I/Hebrew/merged.json
 Responsa/Noda Byehuda I/English/merged.json
 Responsa/Terumat HaDeshen/Hebrew/merged.json
 Responsa/Terumat HaDeshen/English/merged.json
 Responsa/Teshuvot HaGeonim/Hebrew/merged.json
-Responsa/Havot Yair/Hebrew/merged.json
-Responsa/Havot Yair/English/merged.json
 Responsa/Teshuva MeAhava Part I/English/merged.json
 Responsa/Binyan Tziyon/English/merged.json
 Responsa/HaElef Lekha Shlomo/English/merged.json
@@ -1776,6 +1792,7 @@ Responsa/Rambam/Teshuvot haRambam/Hebrew/merged.json
 Responsa/Rambam/Teshuvot haRambam/English/merged.json
 Commentary/Responsa/Footnotes/Footnotes on Teshuvot haRashba Meyuchas LehaRamban/Hebrew/merged.json
 Responsa/Radbaz/Teshuvot HaRadbaz Volume 1/Hebrew/merged.json
+Responsa/Radbaz/Teshuvot HaRadbaz Volume 1/English/merged.json
 Responsa/Radbaz/Teshuvot HaRadbaz Volume 2/Hebrew/merged.json
 Responsa/Radbaz/Teshuvot HaRadbaz Volume 2/English/merged.json
 Responsa/Radbaz/Teshuvot HaRadbaz Volume 3/Hebrew/merged.json
