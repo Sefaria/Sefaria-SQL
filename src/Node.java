@@ -212,22 +212,25 @@ public class Node extends SQLite{
 			nodeType = getNodeType(true, false, false, false);
 		}catch(Exception e){
 			//System.out.println("Error in Nodes.insertNode(): " + e.getMessage() + "..." + enTitle + "-" + heTitle);
-			try{
-				//This whole try block is a test if it's a IS_TEXT_SECTION
-				if(enText != null){
-					JSONArray textArray = enText.getJSONArray(enTitle);
-					String testStr = textArray.getString(0);
-				}
-				if(heText != null){
-					JSONArray textArray = (JSONArray) heText.getJSONArray(enTitle);
-					String testStr = textArray.getString(0);
-				}
-				nodeType = getNodeType(true, true, false, false);
-			}catch(Exception e23){
-				//System.err.println("Error 23 in Nodes.insertNode(): " + e23.getMessage() + "..." + enTitle + "-" + heTitle);
-				nodeType = getNodeType(true, false, false, false);
+			//This whole block is to test if it's a IS_TEXT_SECTION
+
+			boolean hasEnglish = false, hasHebrew = false;
+			if(enText != null){
+				JSONArray textArray = enText.getJSONArray(enTitle);
+				try{
+					textArray.getString(0);
+					hasEnglish = true;
+				}catch(Exception e1){}
 			}
 			
+			if(heText != null){
+				JSONArray textArray = (JSONArray) heText.getJSONArray(enTitle);
+				try{
+					textArray.getString(0);
+					hasHebrew = true;
+				}catch(Exception e1){}
+			}
+			nodeType = getNodeType(true, (hasEnglish || hasHebrew), false, false);
 		}
 		insertSingleNodeToDB(c, nodeID, bid, parentNode, nodeType, siblingNum, enTitle, heTitle, 1,
 				null, null, null, null, null, null,null);
