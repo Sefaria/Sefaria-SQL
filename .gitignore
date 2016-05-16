@@ -30,9 +30,12 @@ proguard/
 *.db
 UpdateForSefariaMobileDatabase.*
 *.db-journal
+testDBs/
+wordCounts/
 
 #links file
 scripts/links/links*.csv
 
 #log files
 logs/*
+
