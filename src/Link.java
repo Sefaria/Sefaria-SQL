@@ -1,7 +1,9 @@
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 
 public class Link extends SQLite{
@@ -50,14 +52,46 @@ public class Link extends SQLite{
 			+"CREATE INDEX tid2 ON " + LINKS_SMALL + " (tid2)"
 			;
 
+	static String getTitleFromComplex(String fullPath){
+		
+		while(!booksInDB.containsKey(fullPath)){
+			int index = fullPath.lastIndexOf(",");
+			if(index == -1)
+				return null;
+			fullPath = fullPath.substring(0,index);
+		}
+		return fullPath;
+	}
+	
+	static int [] getParentID(String title, String fullPath, int bid, Connection c){
+		if(title.equals(fullPath))
+			return new int [] {0,0};
+		String [] nodes = fullPath.split(", ");
+		int parentNode = 0;
+		int textDepth = 0;
+		for(int i=0;i<nodes.length;i++){
+			System.out.println("\t" + nodes[i]);
+			String sql1 = "SELECT _id,textDepth FROM Nodes WHERE parentNode = " + parentNode + " AND bid = " + bid  + " AND enTitle = ?";
+			try {
+				PreparedStatement preparedStatement = c.prepareStatement(sql1);
+				preparedStatement.setString(1, nodes[i]);
+				ResultSet rs = preparedStatement.executeQuery();
+				if (rs.next()) {
+					parentNode = rs.getInt("_id");
+					textDepth = rs.getInt("textDepth");
+				}
+			} catch (SQLException e) {
+				//e.printStackTrace();
+			}
+		}
+		return new int [] {parentNode,textDepth};
+	}
 	
 	static void addLinkFile(Connection c, CSVReader reader){
 		
 		String next[] = {};
 		int linkCount = 0;
 		int linkfailed = 0;
-		
-		
 
 		try{
 			PrintWriter writer = new PrintWriter("logs/linkErrors_" + SQLite.DB_NAME_PART + ".txt", "UTF-8");
@@ -66,24 +100,42 @@ public class Link extends SQLite{
 				if(next != null) {
 					linkCount++;
 				
-					//if(!next[0].equals(booka.title))
-					//	booka = new Book(next[0],db);
-					//if(!next[7].equals(bookb.title))
-					//	bookb = new Book(next[7],db);
-
 					try{
-						if(!booksInDB.containsKey(next[0]) || !booksInDB.containsKey(next[7])){ //we don't have the book (so don't add the link).
+						String titleA = getTitleFromComplex(next[0]);
+						String titleB = getTitleFromComplex(next[7]);
+						if(titleA == null || titleB == null){ //we don't have the book (so don't add the link).
 							linkfailed++;
 							continue;
 						}
-						int bida =  booksInDBbid.get(next[0]);
-						int bidb = booksInDBbid.get(next[7]);
-						int textDeptha = booksInDBtextDepth.get(next[0]);
-						int textDepthb = booksInDBtextDepth.get(next[7]);
+						int bida =  booksInDBbid.get(titleA);
+						int bidb = booksInDBbid.get(titleB);
+						
+						int textDeptha, textDepthb;
+						int [] nodeValues = getParentID(titleA, next[0],bida,c);
+						int parentIDa = nodeValues[0];
+						if(parentIDa == 0){
+							textDeptha = booksInDBtextDepth.get(titleA);	
+						}else{
+							textDeptha = nodeValues[1]; 
+						}
+
+						nodeValues = getParentID(titleB, next[7],bidb,c);
+						int parentIDb = nodeValues[0];
+						if(parentIDa == 0){
+							textDepthb = booksInDBtextDepth.get(titleB);	
+						}else{
+							textDepthb = nodeValues[1]; 
+						}
+						
 						next = repositionRow(next, bida, textDeptha, bidb, textDepthb);
-						if(catchDafs(next[6]) != 0 && catchDafs(next[13]) != 0){
-							String select1 = "SELECT T1._id FROM Texts T1 WHERE T1.bid = ? AND T1.level1 = ? AND T1.level2 = ? AND T1.level3 = ? AND T1.level4 = ? AND T1.level5 = ? AND T1.level6 = ?";
-							String select2 = "SELECT T2._id FROM Texts T2 WHERE T2.bid = ? AND T2.level1 = ? AND T2.level2 = ? AND T2.level3 = ? AND T2.level4 = ? AND T2.level5 = ? AND T2.level6 = ?";
+
+						if(catchDafs(next[6]) == 0)
+							next[6] = "1";
+						if(catchDafs(next[13]) == 0)
+							next[13] = "1";
+						if(true){//catchDafs(next[6]) != 0 && catchDafs(next[13]) != 0){	//making it include even when ==0 (and convert to == 1)...
+							String select1 = "SELECT T1._id FROM Texts T1 WHERE T1.bid = ? AND T1.level1 = ? AND T1.level2 = ? AND T1.level3 = ? AND T1.level4 = ? AND T1.level5 = ? AND T1.level6 = ? AND T1.parentNode = " + parentIDa;
+							String select2 = "SELECT T2._id FROM Texts T2 WHERE T2.bid = ? AND T2.level1 = ? AND T2.level2 = ? AND T2.level3 = ? AND T2.level4 = ? AND T2.level5 = ? AND T2.level6 = ? AND T2.parentNode = " + parentIDb;
 							String sql = "INSERT INTO Links_small (" +
 									" tid1, tid2 " +
 									//", connType" +
@@ -131,6 +183,8 @@ public class Link extends SQLite{
 						}
 
 					} catch (Exception e){
+						//e.printStackTrace();
+						//System.err.println(e.getMessage());
 						writer.println( linkCount + "\t" + e);
 						//System.err.println("Error (link-" + linkCount + "): " + e);
 						linkfailed++;
@@ -149,6 +203,15 @@ public class Link extends SQLite{
 		return;
 	}
 	
+	/**
+	 *  repositions the row so that it will be consistant (ignoring textdepth) when trying to get the values at each level.
+	 * @param row
+	 * @param bida
+	 * @param textDeptha
+	 * @param bidb
+	 * @param textDepthb
+	 * @return
+	 */
 	private static String [] repositionRow(String [] row, int bida, int textDeptha, int bidb, int textDepthb){
 		int startingNum = 6;
 		int endingNum = 1;

@@ -1,2 +1,10 @@
-Liturgy/Siddur/Siddur Ashkenaz/Hebrew/merged.json
-Liturgy/Siddur/Siddur Ashkenaz/English/merged.json
+Liturgy/Pesach Haggadah/Hebrew/merged.json
+Liturgy/Pesach Haggadah/English/merged.json
+Commentary/Liturgy/Ephod Bad/Ephod Bad on Pesach Haggadah/English/merged.json
+Commentary/Liturgy/Kimcha Davshuna/Kimcha Davshuna on Pesach Haggadah/English/merged.json
+Commentary/Liturgy/Kos Shel Eliyahu/Kos Shel Eliyahu on Pesach Haggadah/English/merged.json
+Commentary/Liturgy/Maarechet Heidenheim/Maarechet Heidenheim on Pesach Haggadah/English/merged.json
+Commentary/Liturgy/Maaseh Nissim/Maaseh Nissim on Pesach Haggadah/English/merged.json
+Commentary/Liturgy/Marbeh Lisaper/Marbeh Lisaper on Pesach Haggadah/English/merged.json
+Commentary/Liturgy/Naftali Seva Ratzon/Naftali Seva Ratzon on Pesach Haggadah/English/merged.json
+Commentary/Liturgy/Yismach Yisrael/Yismach Yisrael on Pesach Haggadah/English/merged.json

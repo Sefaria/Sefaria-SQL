@@ -24,13 +24,13 @@ import org.json.JSONTokener;
 
 public class SQLite {
 
-	protected static final int DB_VERION_NUM = 156;
+	protected static final int DB_VERION_NUM = 159;
 	public static final String DB_NAME_PART = "test" + DB_VERION_NUM;
 	public static final String DB_NAME_FULL = "testDBs/" + DB_NAME_PART + ".db";
 	public static final String DB_NAME_COPY = "testDBs/UpdateForSefariaMobileDatabase.db";//copy_" + DB_NAME_PART + ".db";
 	public static final String DB_NAME_API = "testDBs/API_UpdateForSefariaMobileDatabase.db";
 
-	private static final int OLD_DB_NUM_TO_COPY_FROM = 151;
+	private static final int OLD_DB_NUM_TO_COPY_FROM = 157;
 	private static final String OLD_DB_TO_COPY_FROM = "testDBs/" + OLD_DB_NUM_TO_COPY_FROM + "/test" + OLD_DB_NUM_TO_COPY_FROM + ".db";
 	private static final boolean USE_TEST_FILES = false;
 	
