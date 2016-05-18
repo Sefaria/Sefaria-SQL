@@ -54,36 +54,34 @@ public class Link extends SQLite{
 
 	static String getTitleFromComplex(String fullPath){
 		
-		while(!booksInDB.containsKey(fullPath)){
+		int i = 0;
+		while(!booksInDB.containsKey(fullPath) && i<10){
 			int index = fullPath.lastIndexOf(",");
 			if(index == -1)
 				return null;
 			fullPath = fullPath.substring(0,index);
+			i++;
 		}
+		if(i>9)
+			System.err.println("i went too HIGH");
 		return fullPath;
 	}
 	
-	static int [] getParentID(String title, String fullPath, int bid, Connection c){
+	static int [] getParentID(String title, String fullPath, int bid){
 		if(title.equals(fullPath))
-			return new int [] {0,0};
+			return new int [] {0,booksInDBtextDepth.get(title)};
 		String [] nodes = fullPath.split(", ");
 		int parentNode = 0;
 		int textDepth = 0;
+		Node.NodePair nodePair = null;
 		for(int i=0;i<nodes.length;i++){
-			System.out.println("\t" + nodes[i]);
-			String sql1 = "SELECT _id,textDepth FROM Nodes WHERE parentNode = " + parentNode + " AND bid = " + bid  + " AND enTitle = ?";
-			try {
-				PreparedStatement preparedStatement = c.prepareStatement(sql1);
-				preparedStatement.setString(1, nodes[i]);
-				ResultSet rs = preparedStatement.executeQuery();
-				if (rs.next()) {
-					parentNode = rs.getInt("_id");
-					textDepth = rs.getInt("textDepth");
-				}
-			} catch (SQLException e) {
-				//e.printStackTrace();
-			}
+			Node.NodeInfo nodeInfo = new Node.NodeInfo(bid, parentNode, nodes[i]);
+			nodePair = allNodesInDB.get(nodeInfo);
+			parentNode = nodePair.nid;
 		}
+		if(nodePair != null)
+			textDepth = nodePair.textDepth;
+		
 		return new int [] {parentNode,textDepth};
 	}
 	
@@ -95,7 +93,12 @@ public class Link extends SQLite{
 
 		try{
 			PrintWriter writer = new PrintWriter("logs/linkErrors_" + SQLite.DB_NAME_PART + ".txt", "UTF-8");
+			int groupCount = 0;
 			while(true) {
+				if((groupCount % 10000) == 0)
+					System.out.print("\nLink count:" + groupCount);
+				if((groupCount++ % 1000) == 0)
+					System.out.print(".");
 				next = reader.readNext();
 				if(next != null) {
 					linkCount++;
@@ -110,22 +113,14 @@ public class Link extends SQLite{
 						int bida =  booksInDBbid.get(titleA);
 						int bidb = booksInDBbid.get(titleB);
 						
-						int textDeptha, textDepthb;
-						int [] nodeValues = getParentID(titleA, next[0],bida,c);
-						int parentIDa = nodeValues[0];
-						if(parentIDa == 0){
-							textDeptha = booksInDBtextDepth.get(titleA);	
-						}else{
-							textDeptha = nodeValues[1]; 
-						}
+						int textDeptha, textDepthb,parentIDa,parentIDb;
+						int [] nodeValues = getParentID(titleA, next[0],bida);
+						parentIDa = nodeValues[0];
+						textDeptha = nodeValues[1];
 
-						nodeValues = getParentID(titleB, next[7],bidb,c);
-						int parentIDb = nodeValues[0];
-						if(parentIDa == 0){
-							textDepthb = booksInDBtextDepth.get(titleB);	
-						}else{
-							textDepthb = nodeValues[1]; 
-						}
+						nodeValues = getParentID(titleB, next[7],bidb);
+						parentIDb = nodeValues[0];
+						textDepthb = nodeValues[1]; 
 						
 						next = repositionRow(next, bida, textDeptha, bidb, textDepthb);
 

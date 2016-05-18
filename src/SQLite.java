@@ -24,7 +24,7 @@ import org.json.JSONTokener;
 
 public class SQLite {
 
-	protected static final int DB_VERION_NUM = 159;
+	protected static final int DB_VERION_NUM = 166;
 	public static final String DB_NAME_PART = "test" + DB_VERION_NUM;
 	public static final String DB_NAME_FULL = "testDBs/" + DB_NAME_PART + ".db";
 	public static final String DB_NAME_COPY = "testDBs/UpdateForSefariaMobileDatabase.db";//copy_" + DB_NAME_PART + ".db";
@@ -48,6 +48,8 @@ public class SQLite {
 	protected static Map<String,Integer> booksInDBbid = new HashMap<String, Integer>();
 	protected static Map<String,Integer> booksInDBtextDepth = new HashMap<String, Integer>();
 	protected static Map<Integer,String> booksInDBbid2Title = new HashMap<Integer,String>();
+	
+	protected static Map<Node.NodeInfo,Node.NodePair> allNodesInDB = new HashMap<Node.NodeInfo,Node.NodePair>();
 
 
 
@@ -242,6 +244,7 @@ public class SQLite {
 					c.commit();
 
 				}catch(Exception e){
+					e.printStackTrace();
 					System.err.println("Error123: " + e);
 					failedBooksCount++;
 				}
@@ -250,8 +253,8 @@ public class SQLite {
 			//System.out.println("TEXTS: en: " + Text.en + " he: " + Text.he + " u2: " + Text.u2 + " u3: " + Text.u3 + " u4: " + Text.u4);
 
 
-			Searching.putInCountWords(c);
-			c.commit();
+			//Searching.putInCountWords(c);
+			//c.commit();
 			System.out.println("ADDING LINKS...");
 			CSVReader reader = new CSVReader(new InputStreamReader(new FileInputStream("scripts/links/links0.csv")));
 			Link.addLinkFile(c, reader);
@@ -259,9 +262,10 @@ public class SQLite {
 
 			System.out.println("CHANGING displayNum (on Texts)...");
 			Text.displayNum(c);
+			c.commit();
 			System.out.println("CHANGING hasLink (on Texts)...");
 			Text.setHasLink(c);
-
+			c.commit();
 			System.out.println("CHANGING book commentary wherePage to 3...");
 			Book.convertCommWherePage(c);
 			System.out.println("setTidMinMax...");

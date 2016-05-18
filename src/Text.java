@@ -42,7 +42,7 @@ public class Text extends SQLite{
 			"	flags  INTEGER DEFAULT 0, \r\n" +
 			"	hasLink BOOLEAN DEFAULT 0,  \r\n" + 
 			"	parentNode INTEGER DEFAULT 0,  \r\n" +  
-			
+
 			"	FOREIGN KEY (bid) \r\n" + 
 			"		REFERENCES Books (_id)\r\n" + 
 			"		ON DELETE CASCADE,\r\n" + 
@@ -51,9 +51,9 @@ public class Text extends SQLite{
 			"		ON DELETE CASCADE\r\n" + 
 			"	, CONSTRAINT TextsUnique UNIQUE (bid, level1, level2, level3, level4,parentNode)\r\n" +
 			//"	, CONSTRAINT TextsUnique UNIQUE (bid, parentNode, level4, level3, level2, level1)\r\n" +
-			
+
 				");"
-			//+ "CREATE INDEX levels ON " + TABLE_TEXTS + " (bid);"
+				//+ "CREATE INDEX levels ON " + TABLE_TEXTS + " (bid);"
 				;
 
 	static String CREATE_TEXTS_TABLE = 
@@ -125,6 +125,7 @@ public class Text extends SQLite{
 		displayNumCat(c, displayNumber, likeCategories, false);
 	}
 	static void displayNumCat(Connection c, int displayNumber, String likeCategories, boolean commentSection){
+		System.out.println("displayNumCat:" + likeCategories);
 		String sql;
 		if(!commentSection)
 			sql = "UPDATE Texts set displayNumber = ? WHERE bid in (SELECT B._id FROM Books B WHERE B.categories LIKE ? )" ;
@@ -148,27 +149,32 @@ public class Text extends SQLite{
 
 	static void setHasLink(Connection c){
 		String sql = "Select tid, count(*) as linkCount FROM (select tid1 as tid from Links_small UNION ALL select tid2 as tid from Links_small) GROUP BY tid";
-		
+
 		Statement stmt = null;
 		try {
 			stmt = c.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
-			
-			
+
+
 			//stmt.executeUpdate();
 			PreparedStatement preparedStatement = null;
+			int groupCount = 0;
 			while (rs.next()) {
-				  int tid = rs.getInt("tid");
-				  int linkCount = rs.getInt("linkCount");
-				  //System.out.println("counts: " + tid + " " + linkCount);
-				  String updateSql = "UPDATE Texts set hasLink=" + linkCount + " where _id =" + tid;
-				  preparedStatement = c.prepareStatement(updateSql);
-				  preparedStatement.execute();
+				if((groupCount % 10000) == 0)
+					System.out.print("\nsetHasLink:" + groupCount);
+				if((groupCount++ % 1000) == 0)
+					System.out.print(".");
+				int tid = rs.getInt("tid");
+				int linkCount = rs.getInt("linkCount");
+				//System.out.println("counts: " + tid + " " + linkCount);
+				String updateSql = "UPDATE Texts set hasLink=" + linkCount + " where _id =" + tid;
+				preparedStatement = c.prepareStatement(updateSql);
+				preparedStatement.execute();
 			}
 			stmt.close();
 			preparedStatement.close();
 			c.commit();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -317,10 +323,10 @@ public class Text extends SQLite{
 					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 
 			stmt.setInt(1,bid); // Kbid
-		
+
 			int useableLang = lang + 1;//english =1 -> 2 & hebrew = 2 ->3
 			stmt.setString(useableLang,theText); // KenText or  KheText
-			
+
 			final int LEVEL_IN_STATEMENT_START = 4;
 			for(int i = 1; i<= MAX_LEVELS; i++){
 				int num = 0;

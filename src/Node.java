@@ -69,7 +69,47 @@ public class Node extends SQLite{
 				")";
 
 
-
+	public static class NodeInfo{
+		public int parentID;
+		public int bid;
+		public String enTitle;
+		public NodeInfo(int bid,int parentID,String enTitle) {
+			this.bid = bid;
+			this.parentID = parentID;
+			this.enTitle = enTitle;
+		}
+		@Override
+		public String toString() {
+			return "parentID: " + parentID + " bid: " + bid + " enTitle: " + enTitle; 
+		}
+		
+		@Override
+		public int hashCode() {
+			return bid + parentID*2048 + enTitle.hashCode();
+		}
+		@Override
+		public boolean equals(Object obj) {
+			if (obj instanceof NodeInfo) {
+	            NodeInfo pp = (NodeInfo) obj;
+	            return (pp.enTitle.equals(this.enTitle) && pp.bid == this.bid && pp.parentID == this.parentID);
+	        } else {
+	            return false;
+	        }
+		}
+	};
+	public static class NodePair{
+		public int nid;
+		public int textDepth = 0;
+		public NodePair(int nid,Integer textDepth) {
+			this.nid = nid;
+			if(textDepth != null)
+				this.textDepth = textDepth;
+		}
+		@Override
+		public String toString() {
+			return "nid: " + nid + " textDepth: " + textDepth;
+		}
+	};
 
 
 	protected static int addText(Connection c, JSONObject enJSON, JSONObject heJSON) throws JSONException{
@@ -184,7 +224,12 @@ public class Node extends SQLite{
 			if(startLevels != null) stmt.setString(15,startLevels);
 			stmt.executeUpdate();
 			stmt.close();
-		} catch (SQLException e) {
+			
+			NodeInfo nodeInfo = new NodeInfo(bid, parentNode, enTitle);
+			NodePair nodePair = new NodePair(nid, textDepth);
+			//println("nodeInfo:" + nodeInfo + "... nodePair:" + nodePair);			
+			allNodesInDB.put(nodeInfo, nodePair);
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
