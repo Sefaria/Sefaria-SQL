@@ -271,28 +271,13 @@ def findMatch(newTitle, fileBuffer):
 
 
 def replaceJPS(fileName):
-	return fileName
-	if('Tanach' in fileName):
-		print('filename',fileName)
 	temp =  re.sub('^Tanach/',"../../JPS/Tanach/", fileName)
 	#temp = temp.replace("merged.json","JPS 1985 English Translation.json")
-	if('/English/merged.json' not in temp):
-		if(temp != fileName):		
-			print("not Engslih",fileName,temp)
-		return fileName
-	if(os.path.exists(temp)):
-		if(temp != fileName):
-			print(temp)	
+	if('/English/merged.json' in temp and os.path.exists(compPath + '/' + temp)):
 		return temp
 	else:
-		if(temp != fileName):		
-			print("didnt find",fileName,temp)
 		return fileName
 	
-
-
-
-
 
 if __name__ == "__main__":
 	main()

@@ -1,81 +1,81 @@
 Tanach/Torah/Genesis/Hebrew/merged.json
-Tanach/Torah/Genesis/English/merged.json
+../../JPS/Tanach/Torah/Genesis/English/merged.json
 Tanach/Torah/Exodus/Hebrew/merged.json
-Tanach/Torah/Exodus/English/merged.json
+../../JPS/Tanach/Torah/Exodus/English/merged.json
 Tanach/Torah/Leviticus/Hebrew/merged.json
-Tanach/Torah/Leviticus/English/merged.json
+../../JPS/Tanach/Torah/Leviticus/English/merged.json
 Tanach/Torah/Numbers/Hebrew/merged.json
-Tanach/Torah/Numbers/English/merged.json
+../../JPS/Tanach/Torah/Numbers/English/merged.json
 Tanach/Torah/Deuteronomy/Hebrew/merged.json
-Tanach/Torah/Deuteronomy/English/merged.json
+../../JPS/Tanach/Torah/Deuteronomy/English/merged.json
 Tanach/Prophets/Joshua/Hebrew/merged.json
-Tanach/Prophets/Joshua/English/merged.json
+../../JPS/Tanach/Prophets/Joshua/English/merged.json
 Tanach/Prophets/Judges/Hebrew/merged.json
-Tanach/Prophets/Judges/English/merged.json
+../../JPS/Tanach/Prophets/Judges/English/merged.json
 Tanach/Prophets/I Samuel/Hebrew/merged.json
-Tanach/Prophets/I Samuel/English/merged.json
+../../JPS/Tanach/Prophets/I Samuel/English/merged.json
 Tanach/Prophets/II Samuel/Hebrew/merged.json
-Tanach/Prophets/II Samuel/English/merged.json
+../../JPS/Tanach/Prophets/II Samuel/English/merged.json
 Tanach/Prophets/I Kings/Hebrew/merged.json
-Tanach/Prophets/I Kings/English/merged.json
+../../JPS/Tanach/Prophets/I Kings/English/merged.json
 Tanach/Prophets/II Kings/Hebrew/merged.json
-Tanach/Prophets/II Kings/English/merged.json
+../../JPS/Tanach/Prophets/II Kings/English/merged.json
 Tanach/Prophets/Isaiah/Hebrew/merged.json
-Tanach/Prophets/Isaiah/English/merged.json
+../../JPS/Tanach/Prophets/Isaiah/English/merged.json
 Tanach/Prophets/Jeremiah/Hebrew/merged.json
-Tanach/Prophets/Jeremiah/English/merged.json
+../../JPS/Tanach/Prophets/Jeremiah/English/merged.json
 Tanach/Prophets/Ezekiel/Hebrew/merged.json
-Tanach/Prophets/Ezekiel/English/merged.json
+../../JPS/Tanach/Prophets/Ezekiel/English/merged.json
 Tanach/Prophets/Hosea/Hebrew/merged.json
-Tanach/Prophets/Hosea/English/merged.json
+../../JPS/Tanach/Prophets/Hosea/English/merged.json
 Tanach/Prophets/Joel/Hebrew/merged.json
-Tanach/Prophets/Joel/English/merged.json
+../../JPS/Tanach/Prophets/Joel/English/merged.json
 Tanach/Prophets/Amos/Hebrew/merged.json
-Tanach/Prophets/Amos/English/merged.json
+../../JPS/Tanach/Prophets/Amos/English/merged.json
 Tanach/Prophets/Obadiah/Hebrew/merged.json
-Tanach/Prophets/Obadiah/English/merged.json
+../../JPS/Tanach/Prophets/Obadiah/English/merged.json
 Tanach/Prophets/Jonah/Hebrew/merged.json
-Tanach/Prophets/Jonah/English/merged.json
+../../JPS/Tanach/Prophets/Jonah/English/merged.json
 Tanach/Prophets/Micah/Hebrew/merged.json
-Tanach/Prophets/Micah/English/merged.json
+../../JPS/Tanach/Prophets/Micah/English/merged.json
 Tanach/Prophets/Nahum/Hebrew/merged.json
-Tanach/Prophets/Nahum/English/merged.json
+../../JPS/Tanach/Prophets/Nahum/English/merged.json
 Tanach/Prophets/Habakkuk/Hebrew/merged.json
-Tanach/Prophets/Habakkuk/English/merged.json
+../../JPS/Tanach/Prophets/Habakkuk/English/merged.json
 Tanach/Prophets/Zephaniah/Hebrew/merged.json
-Tanach/Prophets/Zephaniah/English/merged.json
+../../JPS/Tanach/Prophets/Zephaniah/English/merged.json
 Tanach/Prophets/Haggai/Hebrew/merged.json
-Tanach/Prophets/Haggai/English/merged.json
+../../JPS/Tanach/Prophets/Haggai/English/merged.json
 Tanach/Prophets/Zechariah/Hebrew/merged.json
-Tanach/Prophets/Zechariah/English/merged.json
+../../JPS/Tanach/Prophets/Zechariah/English/merged.json
 Tanach/Prophets/Malachi/Hebrew/merged.json
-Tanach/Prophets/Malachi/English/merged.json
+../../JPS/Tanach/Prophets/Malachi/English/merged.json
 Tanach/Writings/Psalms/Hebrew/merged.json
-Tanach/Writings/Psalms/English/merged.json
+../../JPS/Tanach/Writings/Psalms/English/merged.json
 Tanach/Writings/Proverbs/Hebrew/merged.json
-Tanach/Writings/Proverbs/English/merged.json
+../../JPS/Tanach/Writings/Proverbs/English/merged.json
 Tanach/Writings/Job/Hebrew/merged.json
-Tanach/Writings/Job/English/merged.json
+../../JPS/Tanach/Writings/Job/English/merged.json
 Tanach/Writings/Song of Songs/Hebrew/merged.json
-Tanach/Writings/Song of Songs/English/merged.json
+../../JPS/Tanach/Writings/Song of Songs/English/merged.json
 Tanach/Writings/Ruth/Hebrew/merged.json
-Tanach/Writings/Ruth/English/merged.json
+../../JPS/Tanach/Writings/Ruth/English/merged.json
 Tanach/Writings/Lamentations/Hebrew/merged.json
-Tanach/Writings/Lamentations/English/merged.json
+../../JPS/Tanach/Writings/Lamentations/English/merged.json
 Tanach/Writings/Ecclesiastes/Hebrew/merged.json
-Tanach/Writings/Ecclesiastes/English/merged.json
+../../JPS/Tanach/Writings/Ecclesiastes/English/merged.json
 Tanach/Writings/Esther/Hebrew/merged.json
-Tanach/Writings/Esther/English/merged.json
+../../JPS/Tanach/Writings/Esther/English/merged.json
 Tanach/Writings/Daniel/Hebrew/merged.json
-Tanach/Writings/Daniel/English/merged.json
+../../JPS/Tanach/Writings/Daniel/English/merged.json
 Tanach/Writings/Ezra/Hebrew/merged.json
-Tanach/Writings/Ezra/English/merged.json
+../../JPS/Tanach/Writings/Ezra/English/merged.json
 Tanach/Writings/Nehemiah/Hebrew/merged.json
-Tanach/Writings/Nehemiah/English/merged.json
+../../JPS/Tanach/Writings/Nehemiah/English/merged.json
 Tanach/Writings/I Chronicles/Hebrew/merged.json
-Tanach/Writings/I Chronicles/English/merged.json
+../../JPS/Tanach/Writings/I Chronicles/English/merged.json
 Tanach/Writings/II Chronicles/Hebrew/merged.json
-Tanach/Writings/II Chronicles/English/merged.json
+../../JPS/Tanach/Writings/II Chronicles/English/merged.json
 Mishnah/Seder Zeraim/Mishnah Berakhot/Hebrew/merged.json
 Mishnah/Seder Zeraim/Mishnah Berakhot/English/merged.json
 Mishnah/Seder Zeraim/Mishnah Peah/Hebrew/merged.json

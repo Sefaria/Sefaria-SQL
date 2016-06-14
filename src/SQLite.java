@@ -298,10 +298,11 @@ public class SQLite {
 	}
 	private static JSONObject [] getEnHeJSONs(String line, String tempLine, String path) throws IOException{
 		if(!
-				tempLine.replace("English/merged.json", "").replace("Hebrew/merged.json", "")
+				tempLine.replace("English/merged.json", "").replace("Hebrew/merged.json", "").replace("../../JPS/Tanach/","Tanach/")
 				.equals(
-						line.replace("English/merged.json", "").replace("Hebrew/merged.json", ""))
-				){
+						line.replace("English/merged.json", "").replace("Hebrew/merged.json", "").replace("../../JPS/Tanach/","Tanach/")
+				)
+		){
 			tempLine = "";//They are not equal so don't use tempLine
 		}
 
