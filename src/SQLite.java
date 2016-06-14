@@ -24,7 +24,7 @@ import org.json.JSONTokener;
 
 public class SQLite {
 
-	protected static final int DB_VERION_NUM = 166;
+	protected static final int DB_VERION_NUM = 175;
 	public static final String DB_NAME_PART = "test" + DB_VERION_NUM;
 	public static final String DB_NAME_FULL = "testDBs/" + DB_NAME_PART + ".db";
 	public static final String DB_NAME_COPY = "testDBs/UpdateForSefariaMobileDatabase.db";//copy_" + DB_NAME_PART + ".db";
@@ -182,7 +182,7 @@ public class SQLite {
 
 			int count = 0;
 			int failedBooksCount = 0;
-			List<String> lines= getFileLines();
+			List<String> lines = getFileLines();
 			for(int i =0;i<lines.size();i++){
 				String line = lines.get(i);
 				System.out.println(String.valueOf(++count) + ". " + line);
@@ -309,7 +309,7 @@ public class SQLite {
 		String enLine = "";
 		if(line.contains("Hebrew/merged.json")){
 			heLine = line;
-		}else if(line.contains("English/merged.json")){
+		}else if(line.contains("English/merged.json") || line.contains("English/JPS 1985 English Translation.json")){
 			enLine = line;
 		}
 		else{

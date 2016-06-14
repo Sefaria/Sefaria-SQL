@@ -477,11 +477,6 @@ Commentary/Tanach/Abravanel/Abravanel on Genesis/English/merged.json
 Commentary/Tanach/Abravanel/Abravanel on II Kings/English/merged.json
 Commentary/Tanach/Baal HaTurim/Baal HaTurim on Genesis/Hebrew/merged.json
 Commentary/Tanach/Baal HaTurim/Baal HaTurim on Genesis/English/merged.json
-Commentary/Tanach/Chizkuni/Chizkuni on Genesis/Hebrew/merged.json
-Commentary/Tanach/Chizkuni/Chizkuni on Genesis/English/merged.json
-Commentary/Tanach/Chizkuni/Chizkuni on Exodus/English/merged.json
-Commentary/Tanach/Chizkuni/Chizkuni on Numbers/Hebrew/merged.json
-Commentary/Tanach/Chizkuni/Chizkuni on Deuteronomy/English/merged.json
 Commentary/Tanach/Daat Zkenim/Daat Zkenim on Genesis/Hebrew/merged.json
 Commentary/Tanach/Daat Zkenim/Daat Zkenim on Genesis/English/merged.json
 Commentary/Tanach/Daat Zkenim/Daat Zkenim on Exodus/Hebrew/merged.json
@@ -511,6 +506,7 @@ Commentary/Tanach/Ikar Siftei Hachamim/Ikar Siftei Hachamim on Deuteronomy/Hebre
 Commentary/Tanach/Kitzur Baal Haturim/Kitzur Baal Haturim on Genesis/Hebrew/merged.json
 Commentary/Tanach/Kitzur Baal Haturim/Kitzur Baal Haturim on Genesis/English/merged.json
 Commentary/Tanach/Kitzur Baal Haturim/Kitzur Baal Haturim on Exodus/Hebrew/merged.json
+Commentary/Tanach/Kitzur Baal Haturim/Kitzur Baal Haturim on Exodus/English/merged.json
 Commentary/Tanach/Kitzur Baal Haturim/Kitzur Baal Haturim on Leviticus/Hebrew/merged.json
 Commentary/Tanach/Kitzur Baal Haturim/Kitzur Baal Haturim on Numbers/Hebrew/merged.json
 Commentary/Tanach/Kitzur Baal Haturim/Kitzur Baal Haturim on Numbers/English/merged.json
@@ -693,6 +689,9 @@ Tanach/Commentary/Haamek Davar/Harchev Davar on Genesis/Hebrew/merged.json
 Tanach/Commentary/Haamek Davar/Harchev Davar on Leviticus/Hebrew/merged.json
 Tanach/Commentary/Haamek Davar/Harchev Davar on Numbers/Hebrew/merged.json
 Other/Commentary2/Tanach/Abarbanel/Abarbanel on Torah/Hebrew/merged.json
+Other/Commentary2/Tanach/Abarbanel/Abarbanel on Torah/English/merged.json
+Other/Commentary2/Tanach/Chizkuni/Chizkuni/Hebrew/merged.json
+Other/Commentary2/Tanach/Chizkuni/Chizkuni/English/merged.json
 Other/Commentary2/Tanach/Gur Aryeh/Gur Aryeh on Bamidbar/Hebrew/merged.json
 Other/Commentary2/Tanach/Gur Aryeh/Gur Aryeh on Bereishit/Hebrew/merged.json
 Other/Commentary2/Tanach/Gur Aryeh/Gur Aryeh on Devarim/Hebrew/merged.json
@@ -951,6 +950,7 @@ Commentary/Talmud/Rashi/Rashi on Megillah/Hebrew/merged.json
 Commentary/Talmud/Rashi/Rashi on Megillah/English/merged.json
 Commentary/Talmud/Rashi/Rashi on Moed Katan/Hebrew/merged.json
 Commentary/Talmud/Rashi/Rashi on Chagigah/Hebrew/merged.json
+Commentary/Talmud/Rashi/Rashi on Chagigah/English/merged.json
 Commentary/Talmud/Rashi/Rashi on Yevamot/Hebrew/merged.json
 Commentary/Talmud/Rashi/Rashi on Yevamot/English/merged.json
 Commentary/Talmud/Rashi/Rashi on Ketubot/Hebrew/merged.json
@@ -1384,6 +1384,7 @@ Halakhah/Siftei Cohen on Yoreh De'ah/Hebrew/merged.json
 Halakhah/Beit Yosef on Arba'ah Turim/Hebrew/merged.json
 Halakhah/Nehar Misrayim/Hebrew/merged.json
 Halakhah/Nehar Misrayim/English/merged.json
+Halakhah/Sefer Hasidim/Hebrew/merged.json
 Halakhah/Sefer Hasidim/English/merged.json
 Halakhah/Shulchan Aruch HaRav/Hebrew/merged.json
 Halakhah/Shulchan Aruch HaRav/English/merged.json
@@ -1475,6 +1476,7 @@ Halakhah/Mishneh Torah/Sefer Avodah/Mishneh Torah, Sacrifices Rendered Unfit/Heb
 Halakhah/Mishneh Torah/Sefer Avodah/Mishneh Torah, Service on the Day of Atonement/Hebrew/merged.json
 Halakhah/Mishneh Torah/Sefer Avodah/Mishneh Torah, Service on the Day of Atonement/English/merged.json
 Halakhah/Mishneh Torah/Sefer Avodah/Mishneh Torah, Trespass/Hebrew/merged.json
+Halakhah/Mishneh Torah/Sefer Avodah/Mishneh Torah, Trespass/English/merged.json
 Halakhah/Mishneh Torah/Sefer Korbanot/Mishneh Torah, Paschal Offering/Hebrew/merged.json
 Halakhah/Mishneh Torah/Sefer Korbanot/Mishneh Torah, Festival Offering/Hebrew/merged.json
 Halakhah/Mishneh Torah/Sefer Korbanot/Mishneh Torah, Festival Offering/English/merged.json
@@ -1739,11 +1741,14 @@ Chasidut/Chayei Moharan/Hebrew/merged.json
 Chasidut/Derekh Mitsvotekha/Hebrew/merged.json
 Chasidut/Kedushat Levi/Hebrew/merged.json
 Chasidut/Kedushat Levi/English/merged.json
+Chasidut/Shivchei HaBesht/Hebrew/merged.json
 Chasidut/Shivchei Haran/Hebrew/merged.json
 Chasidut/Sichot HaRan/Hebrew/merged.json
 Chasidut/Sippurei Maasiyot/Hebrew/merged.json
 Chasidut/Tanya/Hebrew/merged.json
 Chasidut/Tanya/English/merged.json
+Chasidut/Tzavaat HaRivash/Hebrew/merged.json
+Chasidut/Tzidkat HaTzadick/Hebrew/merged.json
 Chasidut/Likutei Moharan/Hebrew/merged.json
 Chasidut/Likutei Moharan/English/merged.json
 Chasidut/Me'or Einayim/English/merged.json

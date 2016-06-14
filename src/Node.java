@@ -375,9 +375,32 @@ public class Node extends SQLite{
 				return -1;	
 			}
 			
-			
-			String sectionNames = node.getJSONArray("sectionNames").toString().replace("\"\"", "\"Section\"");
-			String heSectionNames = sectionNames;//node.getJSONArray("heSectionNames").toString().replace("\"\"", "\"Section\"");
+			String sectionNames = "[",heSectionNames = "[";
+			JSONArray sectionNamesArray = node.getJSONArray("sectionNames");
+			if(sectionNamesArray.length()>0){
+				sectionNames += "\"";
+				heSectionNames += "\"";
+			}
+			for(int i=0;i<sectionNamesArray.length();i++){
+				String name = sectionNamesArray.getString(i);
+				if(name.length() == 0)
+					name = "Section";
+				String heName = tryToGetHebrewName(name);
+				if(i<sectionNamesArray.length()-1){
+					name += "\",\"";
+					heName += "\",\"";
+				}
+				sectionNames += name;
+				heSectionNames += heName;
+			}
+			if(sectionNamesArray.length()>0){
+				sectionNames += "\"";
+				heSectionNames += "\"";
+			}
+			sectionNames += "]";
+			heSectionNames += "]";
+			//String sectionNames = node.getJSONArray("sectionNames").toString().replace("\"\"", "\"Section\"");
+			//String heSectionNames = sectionNames;//node.getJSONArray("heSectionNames").toString().replace("\"\"", "\"Section\"");
 			int depth = node.getInt("depth");
 			JSONArray refs;
 			if (depth == 1){
@@ -502,6 +525,75 @@ public class Node extends SQLite{
 		}
 		
 	}
+	String as = "";
+	private static final Map<String, String> sectionNameMap;
+    static
+    {
+    	sectionNameMap = new HashMap<String, String>();
+		sectionNameMap.put("Chapter", "\u05E4\u05E8\u05E7");
+		sectionNameMap.put("Chapters", "\u05E4\u05E8\u05E7\u05D9\u05DD");
+		sectionNameMap.put("Perek", "\u05E4\u05E8\u05E7");
+		sectionNameMap.put("Line", "\u05E9\u05D5\u05E8\u05D4");
+		sectionNameMap.put("Daf", "\u05D3\u05E3");
+		sectionNameMap.put("Paragraph", "\u05E4\u05E1\u05E7\u05D4");
+		sectionNameMap.put("Parsha", "\u05E4\u05E8\u05E9\u05D4");
+		sectionNameMap.put("Parasha", "\u05E4\u05E8\u05E9\u05D4");
+		sectionNameMap.put("Parashah", "\u05E4\u05E8\u05E9\u05D4");
+		sectionNameMap.put("Seif", "\u05E1\u05E2\u05D9\u05E3");
+		sectionNameMap.put("Se'if", "\u05E1\u05E2\u05D9\u05E3");
+		sectionNameMap.put("Siman", "\u05E1\u05D9\u05DE\u05DF");
+		sectionNameMap.put("Section", "\u05D7\u05DC\u05E7");
+		sectionNameMap.put("Verse", "\u05E4\u05E1\u05D5\u05E7");
+		sectionNameMap.put("Sentence","\u05DE\u05E9\u05E4\u05D8");
+		sectionNameMap.put("Sha'ar", "\u05E9\u05E2\u05E8");
+		sectionNameMap.put("Gate", "\u05E9\u05E2\u05E8");
+		sectionNameMap.put("Comment","\u05E4\u05D9\u05E8\u05D5\u05E9");
+		sectionNameMap.put("Phrase", "\u05D1\u05D9\u05D8\u05D5\u05D9");
+		sectionNameMap.put("Mishna", "\u05DE\u05E9\u05E0\u05D4");
+		sectionNameMap.put("Chelek", "\u05D7\u05DC\u05E7");
+		sectionNameMap.put("Helek", "\u05D7\u05DC\u05E7");
+		sectionNameMap.put("Year", "\u05E9\u05E0\u05D4");
+		sectionNameMap.put("Masechet", "\u05DE\u05E1\u05DB\u05EA");
+		sectionNameMap.put("Massechet", "\u05DE\u05E1\u05DB\u05EA");
+		sectionNameMap.put("Letter", "\u05D0\u05D5\u05EA");
+		sectionNameMap.put("Halacha", "\u05D4\u05DC\u05DB\u05D4");
+		sectionNameMap.put("Piska", "\u05E4\u05E1\u05E7\u05D4");
+		sectionNameMap.put("Seif Katan", "\u05E1\u05E2\u05D9\u05E320\u05E7\u05D8\u05DF");
+		sectionNameMap.put("Se'if Katan", "\u05E1\u05E2\u05D9\u05E320\u05E7\u05D8\u05DF");
+		sectionNameMap.put("Volume", "\u05DB\u05E8\u05DA");
+		sectionNameMap.put("Book", "\u05E1\u05E4\u05E8");
+		sectionNameMap.put("Shar", "\u05E9\u05E2\u05E8");
+		sectionNameMap.put("Seder", "\u05E1\u05D3\u05E8");
+		sectionNameMap.put("Part", "\u05D7\u05DC\u05E7");
+		sectionNameMap.put("Pasuk", "\u05E4\u05E1\u05D5\u05E7");
+		sectionNameMap.put("Sefer", "\u05E1\u05E4\u05E8");
+		sectionNameMap.put("Teshuva", "\u05EA\u05E9\u05D5\u05D1\u05D4");
+		sectionNameMap.put("Teshuvot", "\u05EA\u05E9\u05D5\u05D1\u05D5\u05EA");
+		sectionNameMap.put("Tosefta", "\u05EA\u05D5\u05E1\u05E4\u05EA\u05D0");
+		sectionNameMap.put("Halakhah", "\u05D4\u05DC\u05DB\u05D4");
+		sectionNameMap.put("Kovetz", "\u05E7\u05D5\u05D1\u05E5");
+		sectionNameMap.put("Path", "\u05E0\u05EA\u05D9\u05D1");
+		sectionNameMap.put("Parshah", "\u05E4\u05E8\u05E9\u05D4");
+		sectionNameMap.put("Midrash", "\u05DE\u05D3\u05E8\u05E9");
+		sectionNameMap.put("Mitzvah", "\u05DE\u05E6\u05D5\u05D4");
+		sectionNameMap.put("Tefillah", "\u05EA\u05E4\u05D9\u05DC\u05D4");
+		sectionNameMap.put("Torah", "\u05EA\u05D5\u05E8\u05D4");
+		sectionNameMap.put("Perush", "\u05E4\u05D9\u05E8\u05D5\u05E9");
+		sectionNameMap.put("Peirush", "\u05E4\u05D9\u05E8\u05D5\u05E9");
+		sectionNameMap.put("Aliyah", "\u05E2\u05DC\u05D9\u05D9\u05D4");
+		sectionNameMap.put("Tikkun", "\u05EA\u05D9\u05E7\u05D5\u05DF");
+		sectionNameMap.put("Tikkunim", "\u05EA\u05D9\u05E7\u05D5\u05E0\u05D9\u05DD");
+		sectionNameMap.put("Hilchot", "\u05D4\u05D9\u05DC\u05DB\u05D5\u05EA");
+		sectionNameMap.put("Topic", "\u05E0\u05D5\u05E9\u05D0");
+		sectionNameMap.put("Contents", "\u05EA\u05D5\u05DB\u05DF");
+		sectionNameMap.put("Article", "\u05E1\u05E2\u05D9\u05E3");
+		sectionNameMap.put("Shoresh", "\u05E9\u05D5\u05E8\u05E9");
+		sectionNameMap.put("Remez", "\u05E8\u05DE\u05D6");
+		}
+	
+	private static String tryToGetHebrewName(String enName){
+		 return sectionNameMap.getOrDefault(enName, enName);
+	}
 
 	protected static int addSchemas(Connection c, JSONObject schemas) throws JSONException{
 		try{
@@ -526,10 +618,10 @@ public class Node extends SQLite{
 				else
 					structNum = i+2;//1 is the rigid one, so add 2 to the alt structs.
 				String enTitle =  altName;
-				String heTitle = enTitle; //TODO make real heTitle
+				String heTitle = tryToGetHebrewName(enTitle);//TODO make real heTitle
 				int nodeType = getNodeType(true, false, false, false);
-				String sectionNames = "[\"" + altName + "\"]";
-				String heSectionNames = sectionNames;
+				String sectionNames = "[\"" + enTitle + "\"]";
+				String heSectionNames = "[\"" + heTitle + "\"]";
 				insertSingleNodeToDB(c, nodeID, bid, 0, nodeType, 0,enTitle , heTitle, structNum,
 						null, null, null, null, sectionNames, heSectionNames,null);
 				JSONArray nodes;

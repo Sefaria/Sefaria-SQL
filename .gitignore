@@ -39,3 +39,5 @@ scripts/links/links*.csv
 #log files
 logs/*
 
+JPS/
+

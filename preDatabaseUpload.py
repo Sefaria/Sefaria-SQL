@@ -131,6 +131,7 @@ def createFileList():
 
 	f1 = open('scripts/fileList/fileList.txt','w')
 	for merged in fileBuffer:
+		merged = replaceJPS(merged)
 		f1.write(merged + '\n')
 
 	f1.close()
@@ -269,9 +270,25 @@ def findMatch(newTitle, fileBuffer):
 
 
 
-
-
-
+def replaceJPS(fileName):
+	return fileName
+	if('Tanach' in fileName):
+		print('filename',fileName)
+	temp =  re.sub('^Tanach/',"../../JPS/Tanach/", fileName)
+	#temp = temp.replace("merged.json","JPS 1985 English Translation.json")
+	if('/English/merged.json' not in temp):
+		if(temp != fileName):		
+			print("not Engslih",fileName,temp)
+		return fileName
+	if(os.path.exists(temp)):
+		if(temp != fileName):
+			print(temp)	
+		return temp
+	else:
+		if(temp != fileName):		
+			print("didnt find",fileName,temp)
+		return fileName
+	
 
 
 
