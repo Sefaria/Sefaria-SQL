@@ -158,11 +158,11 @@ def reorderFiles(unordered):
 	# so it doesn't include Other/Commentary2
 	
 	specials = [
-	'^Tanach/Torah/','^Tanach/Prophets/', '^Tanach/Writings/',
+	'^Tanakh/Torah/','^Tanakh/Prophets/', '^Tanakh/Writings/',
 	'^Mishnah/Seder ', '^Talmud/Bavli/Seder ', '^Talmud/Yerushalmi/Seder ',
 
-	'^Commentary/Tanach/Rashi', '^Tanach/Targum/Onkelos', '^Commentary/Tanach/Ibn Ezra', '^Commentary/Tanach/Ramban', '^Commentary/Tanach/Sforno', '^Commentary/Tanach/Rashbam',
-	'^Commentary/Tanach', '^Tanach/Commentary/', '^Other/Commentary2/Tanach/', '^Tanach/Targum/', # make sure that the rest of the tanach commentaries come b/f any other category commenary
+	'^Commentary/Tanakh/Rashi', '^Tanakh/Targum/Onkelos', '^Commentary/Tanakh/Ibn Ezra', '^Commentary/Tanakh/Ramban', '^Commentary/Tanakh/Sforno', '^Commentary/Tanakh/Rashbam',
+	'^Commentary/Tanakh', '^Tanakh/Commentary/', '^Other/Commentary2/Tanakh/', '^Tanakh/Targum/', # make sure that the rest of the Tanakh commentaries come b/f any other category commenary
 	
 
 	'^Commentary/Mishnah/Bartenura', '^Commentary/Mishnah/Ikar Tosafot Yom Tov', '/Mishnah/Tosafot Yom Tov', '^Commentary/Mishnah/', '^Other/Commentary2/Mishnah/', # make sure that the rest of the mishna commentaries come b/f any other category commenary
@@ -271,7 +271,7 @@ def findMatch(newTitle, fileBuffer):
 
 
 def replaceJPS(fileName):
-	temp =  re.sub('^Tanach/',"../../JPS/Tanach/", fileName)
+	temp =  re.sub('^Tanakh/',"../../JPS/Tanakh/", fileName) #be careful with Tanach vs. Tanakh (on both sides of the replace)
 	#temp = temp.replace("merged.json","JPS 1985 English Translation.json")
 	if('/English/merged.json' in temp and os.path.exists(compPath + '/' + temp)):
 		return temp

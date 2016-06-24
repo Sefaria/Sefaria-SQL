@@ -1,81 +1,81 @@
-Tanach/Torah/Genesis/Hebrew/merged.json
-../../JPS/Tanach/Torah/Genesis/English/merged.json
-Tanach/Torah/Exodus/Hebrew/merged.json
-../../JPS/Tanach/Torah/Exodus/English/merged.json
-Tanach/Torah/Leviticus/Hebrew/merged.json
-../../JPS/Tanach/Torah/Leviticus/English/merged.json
-Tanach/Torah/Numbers/Hebrew/merged.json
-../../JPS/Tanach/Torah/Numbers/English/merged.json
-Tanach/Torah/Deuteronomy/Hebrew/merged.json
-../../JPS/Tanach/Torah/Deuteronomy/English/merged.json
-Tanach/Prophets/Joshua/Hebrew/merged.json
-../../JPS/Tanach/Prophets/Joshua/English/merged.json
-Tanach/Prophets/Judges/Hebrew/merged.json
-../../JPS/Tanach/Prophets/Judges/English/merged.json
-Tanach/Prophets/I Samuel/Hebrew/merged.json
-../../JPS/Tanach/Prophets/I Samuel/English/merged.json
-Tanach/Prophets/II Samuel/Hebrew/merged.json
-../../JPS/Tanach/Prophets/II Samuel/English/merged.json
-Tanach/Prophets/I Kings/Hebrew/merged.json
-../../JPS/Tanach/Prophets/I Kings/English/merged.json
-Tanach/Prophets/II Kings/Hebrew/merged.json
-../../JPS/Tanach/Prophets/II Kings/English/merged.json
-Tanach/Prophets/Isaiah/Hebrew/merged.json
-../../JPS/Tanach/Prophets/Isaiah/English/merged.json
-Tanach/Prophets/Jeremiah/Hebrew/merged.json
-../../JPS/Tanach/Prophets/Jeremiah/English/merged.json
-Tanach/Prophets/Ezekiel/Hebrew/merged.json
-../../JPS/Tanach/Prophets/Ezekiel/English/merged.json
-Tanach/Prophets/Hosea/Hebrew/merged.json
-../../JPS/Tanach/Prophets/Hosea/English/merged.json
-Tanach/Prophets/Joel/Hebrew/merged.json
-../../JPS/Tanach/Prophets/Joel/English/merged.json
-Tanach/Prophets/Amos/Hebrew/merged.json
-../../JPS/Tanach/Prophets/Amos/English/merged.json
-Tanach/Prophets/Obadiah/Hebrew/merged.json
-../../JPS/Tanach/Prophets/Obadiah/English/merged.json
-Tanach/Prophets/Jonah/Hebrew/merged.json
-../../JPS/Tanach/Prophets/Jonah/English/merged.json
-Tanach/Prophets/Micah/Hebrew/merged.json
-../../JPS/Tanach/Prophets/Micah/English/merged.json
-Tanach/Prophets/Nahum/Hebrew/merged.json
-../../JPS/Tanach/Prophets/Nahum/English/merged.json
-Tanach/Prophets/Habakkuk/Hebrew/merged.json
-../../JPS/Tanach/Prophets/Habakkuk/English/merged.json
-Tanach/Prophets/Zephaniah/Hebrew/merged.json
-../../JPS/Tanach/Prophets/Zephaniah/English/merged.json
-Tanach/Prophets/Haggai/Hebrew/merged.json
-../../JPS/Tanach/Prophets/Haggai/English/merged.json
-Tanach/Prophets/Zechariah/Hebrew/merged.json
-../../JPS/Tanach/Prophets/Zechariah/English/merged.json
-Tanach/Prophets/Malachi/Hebrew/merged.json
-../../JPS/Tanach/Prophets/Malachi/English/merged.json
-Tanach/Writings/Psalms/Hebrew/merged.json
-../../JPS/Tanach/Writings/Psalms/English/merged.json
-Tanach/Writings/Proverbs/Hebrew/merged.json
-../../JPS/Tanach/Writings/Proverbs/English/merged.json
-Tanach/Writings/Job/Hebrew/merged.json
-../../JPS/Tanach/Writings/Job/English/merged.json
-Tanach/Writings/Song of Songs/Hebrew/merged.json
-../../JPS/Tanach/Writings/Song of Songs/English/merged.json
-Tanach/Writings/Ruth/Hebrew/merged.json
-../../JPS/Tanach/Writings/Ruth/English/merged.json
-Tanach/Writings/Lamentations/Hebrew/merged.json
-../../JPS/Tanach/Writings/Lamentations/English/merged.json
-Tanach/Writings/Ecclesiastes/Hebrew/merged.json
-../../JPS/Tanach/Writings/Ecclesiastes/English/merged.json
-Tanach/Writings/Esther/Hebrew/merged.json
-../../JPS/Tanach/Writings/Esther/English/merged.json
-Tanach/Writings/Daniel/Hebrew/merged.json
-../../JPS/Tanach/Writings/Daniel/English/merged.json
-Tanach/Writings/Ezra/Hebrew/merged.json
-../../JPS/Tanach/Writings/Ezra/English/merged.json
-Tanach/Writings/Nehemiah/Hebrew/merged.json
-../../JPS/Tanach/Writings/Nehemiah/English/merged.json
-Tanach/Writings/I Chronicles/Hebrew/merged.json
-../../JPS/Tanach/Writings/I Chronicles/English/merged.json
-Tanach/Writings/II Chronicles/Hebrew/merged.json
-../../JPS/Tanach/Writings/II Chronicles/English/merged.json
+Tanakh/Torah/Genesis/Hebrew/merged.json
+../../JPS/Tanakh/Torah/Genesis/English/merged.json
+Tanakh/Torah/Exodus/Hebrew/merged.json
+../../JPS/Tanakh/Torah/Exodus/English/merged.json
+Tanakh/Torah/Leviticus/Hebrew/merged.json
+../../JPS/Tanakh/Torah/Leviticus/English/merged.json
+Tanakh/Torah/Numbers/Hebrew/merged.json
+../../JPS/Tanakh/Torah/Numbers/English/merged.json
+Tanakh/Torah/Deuteronomy/Hebrew/merged.json
+../../JPS/Tanakh/Torah/Deuteronomy/English/merged.json
+Tanakh/Prophets/Joshua/Hebrew/merged.json
+../../JPS/Tanakh/Prophets/Joshua/English/merged.json
+Tanakh/Prophets/Judges/Hebrew/merged.json
+../../JPS/Tanakh/Prophets/Judges/English/merged.json
+Tanakh/Prophets/I Samuel/Hebrew/merged.json
+../../JPS/Tanakh/Prophets/I Samuel/English/merged.json
+Tanakh/Prophets/II Samuel/Hebrew/merged.json
+../../JPS/Tanakh/Prophets/II Samuel/English/merged.json
+Tanakh/Prophets/I Kings/Hebrew/merged.json
+../../JPS/Tanakh/Prophets/I Kings/English/merged.json
+Tanakh/Prophets/II Kings/Hebrew/merged.json
+../../JPS/Tanakh/Prophets/II Kings/English/merged.json
+Tanakh/Prophets/Isaiah/Hebrew/merged.json
+../../JPS/Tanakh/Prophets/Isaiah/English/merged.json
+Tanakh/Prophets/Jeremiah/Hebrew/merged.json
+../../JPS/Tanakh/Prophets/Jeremiah/English/merged.json
+Tanakh/Prophets/Ezekiel/Hebrew/merged.json
+../../JPS/Tanakh/Prophets/Ezekiel/English/merged.json
+Tanakh/Prophets/Hosea/Hebrew/merged.json
+../../JPS/Tanakh/Prophets/Hosea/English/merged.json
+Tanakh/Prophets/Joel/Hebrew/merged.json
+../../JPS/Tanakh/Prophets/Joel/English/merged.json
+Tanakh/Prophets/Amos/Hebrew/merged.json
+../../JPS/Tanakh/Prophets/Amos/English/merged.json
+Tanakh/Prophets/Obadiah/Hebrew/merged.json
+../../JPS/Tanakh/Prophets/Obadiah/English/merged.json
+Tanakh/Prophets/Jonah/Hebrew/merged.json
+../../JPS/Tanakh/Prophets/Jonah/English/merged.json
+Tanakh/Prophets/Micah/Hebrew/merged.json
+../../JPS/Tanakh/Prophets/Micah/English/merged.json
+Tanakh/Prophets/Nahum/Hebrew/merged.json
+../../JPS/Tanakh/Prophets/Nahum/English/merged.json
+Tanakh/Prophets/Habakkuk/Hebrew/merged.json
+../../JPS/Tanakh/Prophets/Habakkuk/English/merged.json
+Tanakh/Prophets/Zephaniah/Hebrew/merged.json
+../../JPS/Tanakh/Prophets/Zephaniah/English/merged.json
+Tanakh/Prophets/Haggai/Hebrew/merged.json
+../../JPS/Tanakh/Prophets/Haggai/English/merged.json
+Tanakh/Prophets/Zechariah/Hebrew/merged.json
+../../JPS/Tanakh/Prophets/Zechariah/English/merged.json
+Tanakh/Prophets/Malachi/Hebrew/merged.json
+../../JPS/Tanakh/Prophets/Malachi/English/merged.json
+Tanakh/Writings/Psalms/Hebrew/merged.json
+../../JPS/Tanakh/Writings/Psalms/English/merged.json
+Tanakh/Writings/Proverbs/Hebrew/merged.json
+../../JPS/Tanakh/Writings/Proverbs/English/merged.json
+Tanakh/Writings/Job/Hebrew/merged.json
+../../JPS/Tanakh/Writings/Job/English/merged.json
+Tanakh/Writings/Song of Songs/Hebrew/merged.json
+../../JPS/Tanakh/Writings/Song of Songs/English/merged.json
+Tanakh/Writings/Ruth/Hebrew/merged.json
+../../JPS/Tanakh/Writings/Ruth/English/merged.json
+Tanakh/Writings/Lamentations/Hebrew/merged.json
+../../JPS/Tanakh/Writings/Lamentations/English/merged.json
+Tanakh/Writings/Ecclesiastes/Hebrew/merged.json
+../../JPS/Tanakh/Writings/Ecclesiastes/English/merged.json
+Tanakh/Writings/Esther/Hebrew/merged.json
+../../JPS/Tanakh/Writings/Esther/English/merged.json
+Tanakh/Writings/Daniel/Hebrew/merged.json
+../../JPS/Tanakh/Writings/Daniel/English/merged.json
+Tanakh/Writings/Ezra/Hebrew/merged.json
+../../JPS/Tanakh/Writings/Ezra/English/merged.json
+Tanakh/Writings/Nehemiah/Hebrew/merged.json
+../../JPS/Tanakh/Writings/Nehemiah/English/merged.json
+Tanakh/Writings/I Chronicles/Hebrew/merged.json
+../../JPS/Tanakh/Writings/I Chronicles/English/merged.json
+Tanakh/Writings/II Chronicles/Hebrew/merged.json
+../../JPS/Tanakh/Writings/II Chronicles/English/merged.json
 Mishnah/Seder Zeraim/Mishnah Berakhot/Hebrew/merged.json
 Mishnah/Seder Zeraim/Mishnah Berakhot/English/merged.json
 Mishnah/Seder Zeraim/Mishnah Peah/Hebrew/merged.json
@@ -329,387 +329,391 @@ Talmud/Yerushalmi/Seder Nezikin/Jerusalem Talmud Avodah Zarah/Hebrew/merged.json
 Talmud/Yerushalmi/Seder Nezikin/Jerusalem Talmud Makkot/Hebrew/merged.json
 Talmud/Yerushalmi/Seder Nezikin/Jerusalem Talmud Horayot/Hebrew/merged.json
 Talmud/Yerushalmi/Seder Tahorot/Jerusalem Talmud Niddah/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Genesis/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Genesis/English/merged.json
-Commentary/Tanach/Rashi/Rashi on Exodus/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Exodus/English/merged.json
-Commentary/Tanach/Rashi/Rashi on Leviticus/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Leviticus/English/merged.json
-Commentary/Tanach/Rashi/Rashi on Numbers/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Numbers/English/merged.json
-Commentary/Tanach/Rashi/Rashi on Deuteronomy/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Deuteronomy/English/merged.json
-Commentary/Tanach/Rashi/Rashi on Joshua/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Joshua/English/merged.json
-Commentary/Tanach/Rashi/Rashi on Judges/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Judges/English/merged.json
-Commentary/Tanach/Rashi/Rashi on I Samuel/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on I Samuel/English/merged.json
-Commentary/Tanach/Rashi/Rashi on II Samuel/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on II Samuel/English/merged.json
-Commentary/Tanach/Rashi/Rashi on I Kings/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on I Kings/English/merged.json
-Commentary/Tanach/Rashi/Rashi on II Kings/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on II Kings/English/merged.json
-Commentary/Tanach/Rashi/Rashi on Isaiah/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Isaiah/English/merged.json
-Commentary/Tanach/Rashi/Rashi on Jeremiah/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Jeremiah/English/merged.json
-Commentary/Tanach/Rashi/Rashi on Ezekiel/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Ezekiel/English/merged.json
-Commentary/Tanach/Rashi/Rashi on Hosea/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Hosea/English/merged.json
-Commentary/Tanach/Rashi/Rashi on Joel/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Amos/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Amos/English/merged.json
-Commentary/Tanach/Rashi/Rashi on Obadiah/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Jonah/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Jonah/English/merged.json
-Commentary/Tanach/Rashi/Rashi on Micah/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Nahum/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Nahum/English/merged.json
-Commentary/Tanach/Rashi/Rashi on Habakkuk/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Zephaniah/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Zephaniah/English/merged.json
-Commentary/Tanach/Rashi/Rashi on Haggai/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Haggai/English/merged.json
-Commentary/Tanach/Rashi/Rashi on Zechariah/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Zechariah/English/merged.json
-Commentary/Tanach/Rashi/Rashi on Malachi/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Malachi/English/merged.json
-Commentary/Tanach/Rashi/Rashi on Psalms/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Psalms/English/merged.json
-Commentary/Tanach/Rashi/Rashi on Proverbs/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Proverbs/English/merged.json
-Commentary/Tanach/Rashi/Rashi on Job/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Song of Songs/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Song of Songs/English/merged.json
-Commentary/Tanach/Rashi/Rashi on Ruth/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Ruth/English/merged.json
-Commentary/Tanach/Rashi/Rashi on Lamentations/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Lamentations/English/merged.json
-Commentary/Tanach/Rashi/Rashi on Ecclesiastes/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Ecclesiastes/English/merged.json
-Commentary/Tanach/Rashi/Rashi on Esther/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Esther/English/merged.json
-Commentary/Tanach/Rashi/Rashi on Daniel/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Daniel/English/merged.json
-Commentary/Tanach/Rashi/Rashi on Ezra/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on Nehemiah/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on I Chronicles/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on I Chronicles/English/merged.json
-Commentary/Tanach/Rashi/Rashi on II Chronicles/Hebrew/merged.json
-Commentary/Tanach/Rashi/Rashi on II Chronicles/English/merged.json
-Tanach/Targum/Onkelos Genesis/Hebrew/merged.json
-Tanach/Targum/Onkelos Genesis/English/merged.json
-Tanach/Targum/Onkelos Exodus/Hebrew/merged.json
-Tanach/Targum/Onkelos Exodus/English/merged.json
-Tanach/Targum/Onkelos Leviticus/Hebrew/merged.json
-Tanach/Targum/Onkelos Leviticus/English/merged.json
-Tanach/Targum/Onkelos Numbers/Hebrew/merged.json
-Tanach/Targum/Onkelos Numbers/English/merged.json
-Tanach/Targum/Onkelos Deuteronomy/Hebrew/merged.json
-Tanach/Targum/Onkelos Deuteronomy/English/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Genesis/Hebrew/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Genesis/English/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Exodus/Hebrew/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Exodus/English/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Leviticus/Hebrew/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Leviticus/English/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Numbers/Hebrew/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Numbers/English/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Deuteronomy/Hebrew/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Deuteronomy/English/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Isaiah/Hebrew/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Isaiah/English/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Hosea/Hebrew/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Joel/Hebrew/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Amos/Hebrew/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Obadiah/Hebrew/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Jonah/Hebrew/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Micah/Hebrew/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Nahum/Hebrew/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Habakkuk/Hebrew/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Zephaniah/Hebrew/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Haggai/Hebrew/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Zechariah/Hebrew/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Malachi/Hebrew/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Psalms/Hebrew/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Psalms/English/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Proverbs/Hebrew/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Proverbs/English/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Job/Hebrew/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Ruth/Hebrew/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Daniel/Hebrew/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Ezra/Hebrew/merged.json
-Commentary/Tanach/Ibn Ezra/Ibn Ezra on Nehemiah/Hebrew/merged.json
-Commentary/Tanach/Ramban/Ramban on Genesis/Hebrew/merged.json
-Commentary/Tanach/Ramban/Ramban on Genesis/English/merged.json
-Commentary/Tanach/Ramban/Ramban on Exodus/Hebrew/merged.json
-Commentary/Tanach/Ramban/Ramban on Exodus/English/merged.json
-Commentary/Tanach/Ramban/Ramban on Leviticus/Hebrew/merged.json
-Commentary/Tanach/Ramban/Ramban on Leviticus/English/merged.json
-Commentary/Tanach/Ramban/Ramban on Numbers/Hebrew/merged.json
-Commentary/Tanach/Ramban/Ramban on Numbers/English/merged.json
-Commentary/Tanach/Ramban/Ramban on Deuteronomy/Hebrew/merged.json
-Commentary/Tanach/Ramban/Ramban on Deuteronomy/English/merged.json
-Commentary/Tanach/Sforno/Sforno on Genesis/Hebrew/merged.json
-Commentary/Tanach/Sforno/Sforno on Genesis/English/merged.json
-Commentary/Tanach/Sforno/Sforno on Exodus/Hebrew/merged.json
-Commentary/Tanach/Sforno/Sforno on Exodus/English/merged.json
-Commentary/Tanach/Sforno/Sforno on Leviticus/Hebrew/merged.json
-Commentary/Tanach/Sforno/Sforno on Leviticus/English/merged.json
-Commentary/Tanach/Sforno/Sforno on Numbers/Hebrew/merged.json
-Commentary/Tanach/Sforno/Sforno on Numbers/English/merged.json
-Commentary/Tanach/Sforno/Sforno on Deuteronomy/Hebrew/merged.json
-Commentary/Tanach/Sforno/Sforno on Deuteronomy/English/merged.json
-Commentary/Tanach/Rashbam/Rashbam on Genesis/Hebrew/merged.json
-Commentary/Tanach/Rashbam/Rashbam on Genesis/English/merged.json
-Commentary/Tanach/Rashbam/Rashbam on Exodus/Hebrew/merged.json
-Commentary/Tanach/Rashbam/Rashbam on Exodus/English/merged.json
-Commentary/Tanach/Rashbam/Rashbam on Leviticus/Hebrew/merged.json
-Commentary/Tanach/Rashbam/Rashbam on Leviticus/English/merged.json
-Commentary/Tanach/Rashbam/Rashbam on Numbers/Hebrew/merged.json
-Commentary/Tanach/Rashbam/Rashbam on Numbers/English/merged.json
-Commentary/Tanach/Rashbam/Rashbam on Deuteronomy/Hebrew/merged.json
-Commentary/Tanach/Rashbam/Rashbam on Deuteronomy/English/merged.json
-Commentary/Tanach/Abravanel/Abravanel on Genesis/English/merged.json
-Commentary/Tanach/Abravanel/Abravanel on II Kings/English/merged.json
-Commentary/Tanach/Baal HaTurim/Baal HaTurim on Genesis/Hebrew/merged.json
-Commentary/Tanach/Baal HaTurim/Baal HaTurim on Genesis/English/merged.json
-Commentary/Tanach/Daat Zkenim/Daat Zkenim on Genesis/Hebrew/merged.json
-Commentary/Tanach/Daat Zkenim/Daat Zkenim on Genesis/English/merged.json
-Commentary/Tanach/Daat Zkenim/Daat Zkenim on Exodus/Hebrew/merged.json
-Commentary/Tanach/Daat Zkenim/Daat Zkenim on Exodus/English/merged.json
-Commentary/Tanach/Daat Zkenim/Daat Zkenim on Leviticus/Hebrew/merged.json
-Commentary/Tanach/Daat Zkenim/Daat Zkenim on Leviticus/English/merged.json
-Commentary/Tanach/Daat Zkenim/Daat Zkenim on Numbers/Hebrew/merged.json
-Commentary/Tanach/Daat Zkenim/Daat Zkenim on Numbers/English/merged.json
-Commentary/Tanach/Daat Zkenim/Daat Zkenim on Deuteronomy/Hebrew/merged.json
-Commentary/Tanach/Daat Zkenim/Daat Zkenim on Deuteronomy/English/merged.json
-Commentary/Tanach/Haamek Davar/Haamek Davar on Genesis/Hebrew/merged.json
-Commentary/Tanach/Haamek Davar/Haamek Davar on Genesis/English/merged.json
-Commentary/Tanach/Haamek Davar/Haamek Davar on Exodus/Hebrew/merged.json
-Commentary/Tanach/Haamek Davar/Haamek Davar on Exodus/English/merged.json
-Commentary/Tanach/Haamek Davar/Haamek Davar on Leviticus/Hebrew/merged.json
-Commentary/Tanach/Haamek Davar/Haamek Davar on Numbers/Hebrew/merged.json
-Commentary/Tanach/Haamek Davar/Haamek Davar on Numbers/English/merged.json
-Commentary/Tanach/Haamek Davar/Haamek Davar on Deuteronomy/Hebrew/merged.json
-Commentary/Tanach/Haamek Davar/Haamek Davar on Deuteronomy/English/merged.json
-Commentary/Tanach/Ikar Siftei Hachamim/Ikar Siftei Hachamim on Genesis/Hebrew/merged.json
-Commentary/Tanach/Ikar Siftei Hachamim/Ikar Siftei Hachamim on Genesis/English/merged.json
-Commentary/Tanach/Ikar Siftei Hachamim/Ikar Siftei Hachamim on Exodus/Hebrew/merged.json
-Commentary/Tanach/Ikar Siftei Hachamim/Ikar Siftei Hachamim on Exodus/English/merged.json
-Commentary/Tanach/Ikar Siftei Hachamim/Ikar Siftei Hachamim on Leviticus/Hebrew/merged.json
-Commentary/Tanach/Ikar Siftei Hachamim/Ikar Siftei Hachamim on Numbers/Hebrew/merged.json
-Commentary/Tanach/Ikar Siftei Hachamim/Ikar Siftei Hachamim on Deuteronomy/Hebrew/merged.json
-Commentary/Tanach/Kitzur Baal Haturim/Kitzur Baal Haturim on Genesis/Hebrew/merged.json
-Commentary/Tanach/Kitzur Baal Haturim/Kitzur Baal Haturim on Genesis/English/merged.json
-Commentary/Tanach/Kitzur Baal Haturim/Kitzur Baal Haturim on Exodus/Hebrew/merged.json
-Commentary/Tanach/Kitzur Baal Haturim/Kitzur Baal Haturim on Exodus/English/merged.json
-Commentary/Tanach/Kitzur Baal Haturim/Kitzur Baal Haturim on Leviticus/Hebrew/merged.json
-Commentary/Tanach/Kitzur Baal Haturim/Kitzur Baal Haturim on Numbers/Hebrew/merged.json
-Commentary/Tanach/Kitzur Baal Haturim/Kitzur Baal Haturim on Numbers/English/merged.json
-Commentary/Tanach/Kitzur Baal Haturim/Kitzur Baal Haturim on Deuteronomy/Hebrew/merged.json
-Commentary/Tanach/Kitzur Baal Haturim/Kitzur Baal Haturim on Deuteronomy/English/merged.json
-Commentary/Tanach/Kli Yakar/Kli Yakar on Genesis/Hebrew/merged.json
-Commentary/Tanach/Kli Yakar/Kli Yakar on Genesis/English/merged.json
-Commentary/Tanach/Kli Yakar/Kli Yakar on Exodus/Hebrew/merged.json
-Commentary/Tanach/Kli Yakar/Kli Yakar on Leviticus/Hebrew/merged.json
-Commentary/Tanach/Kli Yakar/Kli Yakar on Leviticus/English/merged.json
-Commentary/Tanach/Kli Yakar/Kli Yakar on Numbers/Hebrew/merged.json
-Commentary/Tanach/Kli Yakar/Kli Yakar on Deuteronomy/Hebrew/merged.json
-Commentary/Tanach/Kli Yakar/Kli Yakar on Deuteronomy/English/merged.json
-Commentary/Tanach/Malbim/Malbim on I Samuel/Hebrew/merged.json
-Commentary/Tanach/Malbim/Malbim on II Samuel/Hebrew/merged.json
-Commentary/Tanach/Malbim/Malbim on II Samuel/English/merged.json
-Commentary/Tanach/Malbim/Malbim on I Kings/Hebrew/merged.json
-Commentary/Tanach/Malbim/Malbim on I Kings/English/merged.json
-Commentary/Tanach/Malbim/Malbim on II Kings/Hebrew/merged.json
-Commentary/Tanach/Malbim/Malbim on Isaiah/Hebrew/merged.json
-Commentary/Tanach/Malbim/Malbim on Isaiah/English/merged.json
-Commentary/Tanach/Malbim/Malbim on Jeremiah/Hebrew/merged.json
-Commentary/Tanach/Malbim/Malbim on Jeremiah/English/merged.json
-Commentary/Tanach/Malbim/Malbim on Ezekiel/Hebrew/merged.json
-Commentary/Tanach/Malbim/Malbim on Ezekiel/English/merged.json
-Commentary/Tanach/Malbim/Malbim on Zechariah/Hebrew/merged.json
-Commentary/Tanach/Malbim/Malbim on Zechariah/English/merged.json
-Commentary/Tanach/Malbim/Malbim on Psalms/Hebrew/merged.json
-Commentary/Tanach/Malbim/Malbim on Psalms/English/merged.json
-Commentary/Tanach/Malbim/Malbim on Esther/Hebrew/merged.json
-Commentary/Tanach/Malbim/Malbim on Esther/English/merged.json
-Commentary/Tanach/Malbim Beur Hamilot/Malbim Beur Hamilot on Isaiah/Hebrew/merged.json
-Commentary/Tanach/Malbim Beur Hamilot/Malbim Beur Hamilot on Isaiah/English/merged.json
-Commentary/Tanach/Malbim Beur Hamilot/Malbim Beur Hamilot on Jeremiah/Hebrew/merged.json
-Commentary/Tanach/Malbim Beur Hamilot/Malbim Beur Hamilot on Ezekiel/Hebrew/merged.json
-Commentary/Tanach/Malbim Beur Hamilot/Malbim Beur Hamilot on Psalms/Hebrew/merged.json
-Commentary/Tanach/Malbim Beur Hamilot/Malbim Beur Hamilot on Psalms/English/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Joshua/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Joshua/English/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Judges/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Judges/English/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on I Samuel/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on I Samuel/English/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on II Samuel/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on II Samuel/English/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on I Kings/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on I Kings/English/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on II Kings/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on II Kings/English/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Isaiah/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Isaiah/English/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Jeremiah/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Jeremiah/English/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Ezekiel/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Hosea/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Joel/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Amos/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Obadiah/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Jonah/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Micah/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Micah/English/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Nahum/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Habakkuk/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Zephaniah/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Haggai/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Zechariah/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Zechariah/English/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Malachi/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Psalms/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Psalms/English/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Proverbs/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Proverbs/English/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Job/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Song of Songs/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Ecclesiastes/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Ecclesiastes/English/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Daniel/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Ezra/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Nehemiah/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on Nehemiah/English/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on I Chronicles/Hebrew/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on I Chronicles/English/merged.json
-Commentary/Tanach/Metzudat David/Metzudat David on II Chronicles/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on Joshua/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on Judges/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on I Samuel/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on II Samuel/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on I Kings/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on II Kings/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on II Kings/English/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on Isaiah/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on Jeremiah/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on Ezekiel/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on Hosea/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on Joel/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on Amos/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on Obadiah/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on Jonah/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on Micah/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on Nahum/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on Habakkuk/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on Zephaniah/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on Haggai/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on Zechariah/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on Zechariah/English/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on Malachi/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on Malachi/English/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on Psalms/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on Proverbs/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on Job/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on Song of Songs/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on Ecclesiastes/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on Daniel/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on Ezra/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on Nehemiah/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on I Chronicles/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on II Chronicles/Hebrew/merged.json
-Commentary/Tanach/Metzudat Zion/Metzudat Zion on II Chronicles/English/merged.json
-Commentary/Tanach/Or HaChaim/Or HaChaim on Genesis/Hebrew/merged.json
-Commentary/Tanach/Or HaChaim/Or HaChaim on Genesis/English/merged.json
-Commentary/Tanach/Or HaChaim/Or HaChaim on Exodus/Hebrew/merged.json
-Commentary/Tanach/Or HaChaim/Or HaChaim on Exodus/English/merged.json
-Commentary/Tanach/Or HaChaim/Or HaChaim on Leviticus/Hebrew/merged.json
-Commentary/Tanach/Or HaChaim/Or HaChaim on Leviticus/English/merged.json
-Commentary/Tanach/Or HaChaim/Or HaChaim on Numbers/Hebrew/merged.json
-Commentary/Tanach/Or HaChaim/Or HaChaim on Numbers/English/merged.json
-Commentary/Tanach/Or HaChaim/Or HaChaim on Deuteronomy/Hebrew/merged.json
-Commentary/Tanach/Or HaChaim/Or HaChaim on Deuteronomy/English/merged.json
-Commentary/Tanach/Penei Dovid/Penei Dovid on Genesis/Hebrew/merged.json
-Commentary/Tanach/Penei Dovid/Penei Dovid on Genesis/English/merged.json
-Commentary/Tanach/Rabbeinu Bachya/Rabbeinu Bachya on Genesis/Hebrew/merged.json
-Commentary/Tanach/Rabbeinu Bachya/Rabbeinu Bachya on Genesis/English/merged.json
-Commentary/Tanach/Rabbeinu Chananel/Rabbeinu Chananel on Genesis/English/merged.json
-Commentary/Tanach/Rabbeinu Chananel/Rabbeinu Chananel on Exodus/English/merged.json
-Commentary/Tanach/Rabbeinu Chananel/Rabbeinu Chananel on Leviticus/English/merged.json
-Commentary/Tanach/Rabbeinu Chananel/Rabbeinu Chananel on Numbers/English/merged.json
-Commentary/Tanach/Rabbeinu Chananel/Rabbeinu Chananel on Deuteronomy/English/merged.json
-Commentary/Tanach/Radak/Radak on Genesis/Hebrew/merged.json
-Commentary/Tanach/Radak/Radak on Genesis/English/merged.json
-Commentary/Tanach/Radak/Radak on II Samuel/English/merged.json
-Commentary/Tanach/Radak/Radak on II Kings/English/merged.json
-Commentary/Tanach/Radak/Radak on Nahum/Hebrew/merged.json
-Commentary/Tanach/Radak/Radak on Zechariah/Hebrew/merged.json
-Commentary/Tanach/Radak/Radak on Zechariah/English/merged.json
-Commentary/Tanach/Radak/Radak on Psalms/English/merged.json
-Commentary/Tanach/Ralbag/Ralbag on Joshua/Hebrew/merged.json
-Commentary/Tanach/Ralbag/Ralbag on Judges/Hebrew/merged.json
-Commentary/Tanach/Ralbag/Ralbag on Judges/English/merged.json
-Commentary/Tanach/Ralbag/Ralbag on I Samuel/Hebrew/merged.json
-Commentary/Tanach/Ralbag/Ralbag on II Samuel/Hebrew/merged.json
-Commentary/Tanach/Ralbag/Ralbag on II Samuel/English/merged.json
-Commentary/Tanach/Ralbag/Ralbag on I Kings/Hebrew/merged.json
-Commentary/Tanach/Ralbag/Ralbag on I Kings/English/merged.json
-Commentary/Tanach/Ralbag/Ralbag on II Kings/Hebrew/merged.json
-Commentary/Tanach/Ralbag/Ralbag on II Kings/English/merged.json
-Commentary/Tanach/Ralbag/Ralbag on Proverbs/Hebrew/merged.json
-Commentary/Tanach/Ralbag/Ralbag on Job/Hebrew/merged.json
-Commentary/Tanach/Ralbag/Ralbag on Ezra/Hebrew/merged.json
-Commentary/Tanach/Ralbag/Ralbag on Nehemiah/Hebrew/merged.json
-Commentary/Tanach/Ralbag/Ralbag on I Chronicles/Hebrew/merged.json
-Commentary/Tanach/Ralbag/Ralbag on II Chronicles/Hebrew/merged.json
-Commentary/Tanach/Saadia Gaon/Saadia Gaon on Exodus/English/merged.json
-Commentary/Tanach/Saadia Gaon/Saadia Gaon on Numbers/English/merged.json
-Commentary/Tanach/Saadia Gaon/Saadia Gaon on Deuteronomy/English/merged.json
-Commentary/Tanach/Sepher Torat Elohim/Sepher Torat Elohim on Genesis/Hebrew/merged.json
-Commentary/Tanach/Sepher Torat Elohim/Sepher Torat Elohim on Genesis/English/merged.json
-Commentary/Tanach/Shadal/Shadal on Genesis/Hebrew/merged.json
-Commentary/Tanach/Shadal/Shadal on Genesis/English/merged.json
-Commentary/Tanach/Shadal/Shadal on Exodus/Hebrew/merged.json
-Commentary/Tanach/Shadal/Shadal on Exodus/English/merged.json
-Commentary/Tanach/Shadal/Shadal on Leviticus/Hebrew/merged.json
-Commentary/Tanach/Shadal/Shadal on Leviticus/English/merged.json
-Commentary/Tanach/Shadal/Shadal on Numbers/Hebrew/merged.json
-Commentary/Tanach/Shadal/Shadal on Numbers/English/merged.json
-Commentary/Tanach/Shadal/Shadal on Deuteronomy/Hebrew/merged.json
-Commentary/Tanach/Torah Temimah/Torah Temimah on Psalms/Hebrew/merged.json
-Tanach/Commentary/Haamek Davar/Harchev Davar on Deuteronomy/Hebrew/merged.json
-Tanach/Commentary/Haamek Davar/Harchev Davar on Exodus/Hebrew/merged.json
-Tanach/Commentary/Haamek Davar/Harchev Davar on Genesis/Hebrew/merged.json
-Tanach/Commentary/Haamek Davar/Harchev Davar on Leviticus/Hebrew/merged.json
-Tanach/Commentary/Haamek Davar/Harchev Davar on Numbers/Hebrew/merged.json
-Other/Commentary2/Tanach/Abarbanel/Abarbanel on Torah/Hebrew/merged.json
-Other/Commentary2/Tanach/Abarbanel/Abarbanel on Torah/English/merged.json
-Other/Commentary2/Tanach/Chizkuni/Chizkuni/Hebrew/merged.json
-Other/Commentary2/Tanach/Chizkuni/Chizkuni/English/merged.json
-Other/Commentary2/Tanach/Gur Aryeh/Gur Aryeh on Bamidbar/Hebrew/merged.json
-Other/Commentary2/Tanach/Gur Aryeh/Gur Aryeh on Bereishit/Hebrew/merged.json
-Other/Commentary2/Tanach/Gur Aryeh/Gur Aryeh on Devarim/Hebrew/merged.json
-Other/Commentary2/Tanach/Gur Aryeh/Gur Aryeh on Shemot/Hebrew/merged.json
-Other/Commentary2/Tanach/Gur Aryeh/Gur Aryeh on Vayikra/Hebrew/merged.json
-Tanach/Targum/Targum Jonathan on Genesis/Hebrew/merged.json
-Tanach/Targum/Targum Jonathan on Genesis/English/merged.json
-Tanach/Targum/Targum Jonathan on Exodus/Hebrew/merged.json
-Tanach/Targum/Targum Jonathan on Exodus/English/merged.json
-Tanach/Targum/Targum Jonathan on Leviticus/Hebrew/merged.json
-Tanach/Targum/Targum Jonathan on Numbers/Hebrew/merged.json
-Tanach/Targum/Targum Jonathan on Numbers/English/merged.json
-Tanach/Targum/Targum Jonathan on Deuteronomy/Hebrew/merged.json
-Tanach/Targum/Targum Jonathan on Deuteronomy/English/merged.json
-Tanach/Targum/Aramaic Targum to Song of Songs/Hebrew/merged.json
-Tanach/Targum/Aramaic Targum to Song of Songs/English/merged.json
-Tanach/Targum/Targum Neofiti/Hebrew/merged.json
-Tanach/Targum/Targum Neofiti/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on Genesis/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Genesis/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on Exodus/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Exodus/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on Leviticus/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Leviticus/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on Numbers/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Numbers/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on Deuteronomy/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Deuteronomy/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on Joshua/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Joshua/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on Judges/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Judges/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on I Samuel/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on I Samuel/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on II Samuel/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on II Samuel/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on I Kings/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on I Kings/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on II Kings/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on II Kings/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on Isaiah/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Isaiah/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on Jeremiah/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Jeremiah/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on Ezekiel/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Ezekiel/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on Hosea/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Hosea/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on Joel/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Amos/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Amos/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on Obadiah/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Jonah/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Jonah/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on Micah/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Nahum/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Nahum/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on Habakkuk/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Zephaniah/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Zephaniah/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on Haggai/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Haggai/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on Zechariah/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Zechariah/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on Malachi/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Malachi/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on Psalms/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Psalms/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on Proverbs/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Proverbs/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on Job/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Song of Songs/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Song of Songs/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on Ruth/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Ruth/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on Lamentations/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Lamentations/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on Ecclesiastes/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Ecclesiastes/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on Esther/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Esther/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on Daniel/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Daniel/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on Ezra/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on Ezra/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on Nehemiah/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on I Chronicles/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on I Chronicles/English/merged.json
+Commentary/Tanakh/Rashi/Rashi on II Chronicles/Hebrew/merged.json
+Commentary/Tanakh/Rashi/Rashi on II Chronicles/English/merged.json
+Tanakh/Targum/Onkelos Genesis/Hebrew/merged.json
+Tanakh/Targum/Onkelos Genesis/English/merged.json
+Tanakh/Targum/Onkelos Exodus/Hebrew/merged.json
+Tanakh/Targum/Onkelos Exodus/English/merged.json
+Tanakh/Targum/Onkelos Leviticus/Hebrew/merged.json
+Tanakh/Targum/Onkelos Leviticus/English/merged.json
+Tanakh/Targum/Onkelos Numbers/Hebrew/merged.json
+Tanakh/Targum/Onkelos Numbers/English/merged.json
+Tanakh/Targum/Onkelos Deuteronomy/Hebrew/merged.json
+Tanakh/Targum/Onkelos Deuteronomy/English/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Genesis/Hebrew/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Genesis/English/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Exodus/Hebrew/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Exodus/English/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Leviticus/Hebrew/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Leviticus/English/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Numbers/Hebrew/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Numbers/English/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Deuteronomy/Hebrew/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Deuteronomy/English/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Isaiah/Hebrew/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Isaiah/English/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Hosea/Hebrew/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Joel/Hebrew/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Amos/Hebrew/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Obadiah/Hebrew/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Jonah/Hebrew/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Micah/Hebrew/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Nahum/Hebrew/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Habakkuk/Hebrew/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Zephaniah/Hebrew/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Haggai/Hebrew/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Zechariah/Hebrew/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Malachi/Hebrew/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Psalms/Hebrew/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Psalms/English/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Proverbs/Hebrew/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Proverbs/English/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Job/Hebrew/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Ruth/Hebrew/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Daniel/Hebrew/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Ezra/Hebrew/merged.json
+Commentary/Tanakh/Ibn Ezra/Ibn Ezra on Nehemiah/Hebrew/merged.json
+Commentary/Tanakh/Ramban/Ramban on Genesis/Hebrew/merged.json
+Commentary/Tanakh/Ramban/Ramban on Genesis/English/merged.json
+Commentary/Tanakh/Ramban/Ramban on Exodus/Hebrew/merged.json
+Commentary/Tanakh/Ramban/Ramban on Exodus/English/merged.json
+Commentary/Tanakh/Ramban/Ramban on Leviticus/Hebrew/merged.json
+Commentary/Tanakh/Ramban/Ramban on Leviticus/English/merged.json
+Commentary/Tanakh/Ramban/Ramban on Numbers/Hebrew/merged.json
+Commentary/Tanakh/Ramban/Ramban on Numbers/English/merged.json
+Commentary/Tanakh/Ramban/Ramban on Deuteronomy/Hebrew/merged.json
+Commentary/Tanakh/Ramban/Ramban on Deuteronomy/English/merged.json
+Commentary/Tanakh/Sforno/Sforno on Genesis/Hebrew/merged.json
+Commentary/Tanakh/Sforno/Sforno on Genesis/English/merged.json
+Commentary/Tanakh/Sforno/Sforno on Exodus/Hebrew/merged.json
+Commentary/Tanakh/Sforno/Sforno on Exodus/English/merged.json
+Commentary/Tanakh/Sforno/Sforno on Leviticus/Hebrew/merged.json
+Commentary/Tanakh/Sforno/Sforno on Leviticus/English/merged.json
+Commentary/Tanakh/Sforno/Sforno on Numbers/Hebrew/merged.json
+Commentary/Tanakh/Sforno/Sforno on Numbers/English/merged.json
+Commentary/Tanakh/Sforno/Sforno on Deuteronomy/Hebrew/merged.json
+Commentary/Tanakh/Sforno/Sforno on Deuteronomy/English/merged.json
+Commentary/Tanakh/Rashbam/Rashbam on Genesis/Hebrew/merged.json
+Commentary/Tanakh/Rashbam/Rashbam on Genesis/English/merged.json
+Commentary/Tanakh/Rashbam/Rashbam on Exodus/Hebrew/merged.json
+Commentary/Tanakh/Rashbam/Rashbam on Exodus/English/merged.json
+Commentary/Tanakh/Rashbam/Rashbam on Leviticus/Hebrew/merged.json
+Commentary/Tanakh/Rashbam/Rashbam on Leviticus/English/merged.json
+Commentary/Tanakh/Rashbam/Rashbam on Numbers/Hebrew/merged.json
+Commentary/Tanakh/Rashbam/Rashbam on Numbers/English/merged.json
+Commentary/Tanakh/Rashbam/Rashbam on Deuteronomy/Hebrew/merged.json
+Commentary/Tanakh/Rashbam/Rashbam on Deuteronomy/English/merged.json
+Commentary/Tanakh/Baal HaTurim/Baal HaTurim on Genesis/Hebrew/merged.json
+Commentary/Tanakh/Baal HaTurim/Baal HaTurim on Genesis/English/merged.json
+Commentary/Tanakh/Daat Zkenim/Daat Zkenim on Genesis/Hebrew/merged.json
+Commentary/Tanakh/Daat Zkenim/Daat Zkenim on Genesis/English/merged.json
+Commentary/Tanakh/Daat Zkenim/Daat Zkenim on Exodus/Hebrew/merged.json
+Commentary/Tanakh/Daat Zkenim/Daat Zkenim on Exodus/English/merged.json
+Commentary/Tanakh/Daat Zkenim/Daat Zkenim on Leviticus/Hebrew/merged.json
+Commentary/Tanakh/Daat Zkenim/Daat Zkenim on Leviticus/English/merged.json
+Commentary/Tanakh/Daat Zkenim/Daat Zkenim on Numbers/Hebrew/merged.json
+Commentary/Tanakh/Daat Zkenim/Daat Zkenim on Numbers/English/merged.json
+Commentary/Tanakh/Daat Zkenim/Daat Zkenim on Deuteronomy/Hebrew/merged.json
+Commentary/Tanakh/Daat Zkenim/Daat Zkenim on Deuteronomy/English/merged.json
+Commentary/Tanakh/Haamek Davar/Haamek Davar on Genesis/Hebrew/merged.json
+Commentary/Tanakh/Haamek Davar/Haamek Davar on Genesis/English/merged.json
+Commentary/Tanakh/Haamek Davar/Haamek Davar on Exodus/Hebrew/merged.json
+Commentary/Tanakh/Haamek Davar/Haamek Davar on Exodus/English/merged.json
+Commentary/Tanakh/Haamek Davar/Haamek Davar on Leviticus/Hebrew/merged.json
+Commentary/Tanakh/Haamek Davar/Haamek Davar on Numbers/Hebrew/merged.json
+Commentary/Tanakh/Haamek Davar/Haamek Davar on Numbers/English/merged.json
+Commentary/Tanakh/Haamek Davar/Haamek Davar on Deuteronomy/Hebrew/merged.json
+Commentary/Tanakh/Haamek Davar/Haamek Davar on Deuteronomy/English/merged.json
+Commentary/Tanakh/Ikar Siftei Hachamim/Ikar Siftei Hachamim on Genesis/Hebrew/merged.json
+Commentary/Tanakh/Ikar Siftei Hachamim/Ikar Siftei Hachamim on Genesis/English/merged.json
+Commentary/Tanakh/Ikar Siftei Hachamim/Ikar Siftei Hachamim on Exodus/Hebrew/merged.json
+Commentary/Tanakh/Ikar Siftei Hachamim/Ikar Siftei Hachamim on Exodus/English/merged.json
+Commentary/Tanakh/Ikar Siftei Hachamim/Ikar Siftei Hachamim on Leviticus/Hebrew/merged.json
+Commentary/Tanakh/Ikar Siftei Hachamim/Ikar Siftei Hachamim on Numbers/Hebrew/merged.json
+Commentary/Tanakh/Ikar Siftei Hachamim/Ikar Siftei Hachamim on Deuteronomy/Hebrew/merged.json
+Commentary/Tanakh/Kitzur Baal Haturim/Kitzur Baal Haturim on Genesis/Hebrew/merged.json
+Commentary/Tanakh/Kitzur Baal Haturim/Kitzur Baal Haturim on Genesis/English/merged.json
+Commentary/Tanakh/Kitzur Baal Haturim/Kitzur Baal Haturim on Exodus/Hebrew/merged.json
+Commentary/Tanakh/Kitzur Baal Haturim/Kitzur Baal Haturim on Exodus/English/merged.json
+Commentary/Tanakh/Kitzur Baal Haturim/Kitzur Baal Haturim on Leviticus/Hebrew/merged.json
+Commentary/Tanakh/Kitzur Baal Haturim/Kitzur Baal Haturim on Numbers/Hebrew/merged.json
+Commentary/Tanakh/Kitzur Baal Haturim/Kitzur Baal Haturim on Numbers/English/merged.json
+Commentary/Tanakh/Kitzur Baal Haturim/Kitzur Baal Haturim on Deuteronomy/Hebrew/merged.json
+Commentary/Tanakh/Kitzur Baal Haturim/Kitzur Baal Haturim on Deuteronomy/English/merged.json
+Commentary/Tanakh/Kli Yakar/Kli Yakar on Genesis/Hebrew/merged.json
+Commentary/Tanakh/Kli Yakar/Kli Yakar on Genesis/English/merged.json
+Commentary/Tanakh/Kli Yakar/Kli Yakar on Exodus/Hebrew/merged.json
+Commentary/Tanakh/Kli Yakar/Kli Yakar on Leviticus/Hebrew/merged.json
+Commentary/Tanakh/Kli Yakar/Kli Yakar on Leviticus/English/merged.json
+Commentary/Tanakh/Kli Yakar/Kli Yakar on Numbers/Hebrew/merged.json
+Commentary/Tanakh/Kli Yakar/Kli Yakar on Deuteronomy/Hebrew/merged.json
+Commentary/Tanakh/Kli Yakar/Kli Yakar on Deuteronomy/English/merged.json
+Commentary/Tanakh/Malbim/Malbim on I Samuel/Hebrew/merged.json
+Commentary/Tanakh/Malbim/Malbim on I Samuel/English/merged.json
+Commentary/Tanakh/Malbim/Malbim on II Samuel/Hebrew/merged.json
+Commentary/Tanakh/Malbim/Malbim on II Samuel/English/merged.json
+Commentary/Tanakh/Malbim/Malbim on I Kings/Hebrew/merged.json
+Commentary/Tanakh/Malbim/Malbim on I Kings/English/merged.json
+Commentary/Tanakh/Malbim/Malbim on II Kings/Hebrew/merged.json
+Commentary/Tanakh/Malbim/Malbim on Isaiah/Hebrew/merged.json
+Commentary/Tanakh/Malbim/Malbim on Isaiah/English/merged.json
+Commentary/Tanakh/Malbim/Malbim on Jeremiah/Hebrew/merged.json
+Commentary/Tanakh/Malbim/Malbim on Jeremiah/English/merged.json
+Commentary/Tanakh/Malbim/Malbim on Ezekiel/Hebrew/merged.json
+Commentary/Tanakh/Malbim/Malbim on Ezekiel/English/merged.json
+Commentary/Tanakh/Malbim/Malbim on Zechariah/Hebrew/merged.json
+Commentary/Tanakh/Malbim/Malbim on Zechariah/English/merged.json
+Commentary/Tanakh/Malbim/Malbim on Psalms/Hebrew/merged.json
+Commentary/Tanakh/Malbim/Malbim on Psalms/English/merged.json
+Commentary/Tanakh/Malbim/Malbim on Esther/Hebrew/merged.json
+Commentary/Tanakh/Malbim/Malbim on Esther/English/merged.json
+Commentary/Tanakh/Malbim Beur Hamilot/Malbim Beur Hamilot on Isaiah/Hebrew/merged.json
+Commentary/Tanakh/Malbim Beur Hamilot/Malbim Beur Hamilot on Isaiah/English/merged.json
+Commentary/Tanakh/Malbim Beur Hamilot/Malbim Beur Hamilot on Jeremiah/Hebrew/merged.json
+Commentary/Tanakh/Malbim Beur Hamilot/Malbim Beur Hamilot on Ezekiel/Hebrew/merged.json
+Commentary/Tanakh/Malbim Beur Hamilot/Malbim Beur Hamilot on Psalms/Hebrew/merged.json
+Commentary/Tanakh/Malbim Beur Hamilot/Malbim Beur Hamilot on Psalms/English/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Joshua/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Joshua/English/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Judges/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Judges/English/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on I Samuel/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on I Samuel/English/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on II Samuel/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on II Samuel/English/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on I Kings/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on I Kings/English/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on II Kings/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on II Kings/English/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Isaiah/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Isaiah/English/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Jeremiah/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Jeremiah/English/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Ezekiel/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Hosea/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Joel/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Amos/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Obadiah/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Jonah/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Micah/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Micah/English/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Nahum/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Habakkuk/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Zephaniah/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Haggai/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Zechariah/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Zechariah/English/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Malachi/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Psalms/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Psalms/English/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Proverbs/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Proverbs/English/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Job/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Song of Songs/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Ecclesiastes/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Ecclesiastes/English/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Daniel/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Ezra/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Nehemiah/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on Nehemiah/English/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on I Chronicles/Hebrew/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on I Chronicles/English/merged.json
+Commentary/Tanakh/Metzudat David/Metzudat David on II Chronicles/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on Joshua/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on Judges/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on I Samuel/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on II Samuel/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on I Kings/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on II Kings/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on II Kings/English/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on Isaiah/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on Jeremiah/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on Ezekiel/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on Hosea/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on Joel/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on Amos/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on Obadiah/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on Jonah/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on Micah/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on Nahum/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on Habakkuk/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on Zephaniah/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on Haggai/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on Zechariah/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on Zechariah/English/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on Malachi/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on Malachi/English/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on Psalms/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on Proverbs/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on Job/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on Song of Songs/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on Ecclesiastes/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on Daniel/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on Ezra/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on Nehemiah/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on I Chronicles/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on II Chronicles/Hebrew/merged.json
+Commentary/Tanakh/Metzudat Zion/Metzudat Zion on II Chronicles/English/merged.json
+Commentary/Tanakh/Or HaChaim/Or HaChaim on Genesis/Hebrew/merged.json
+Commentary/Tanakh/Or HaChaim/Or HaChaim on Genesis/English/merged.json
+Commentary/Tanakh/Or HaChaim/Or HaChaim on Exodus/Hebrew/merged.json
+Commentary/Tanakh/Or HaChaim/Or HaChaim on Exodus/English/merged.json
+Commentary/Tanakh/Or HaChaim/Or HaChaim on Leviticus/Hebrew/merged.json
+Commentary/Tanakh/Or HaChaim/Or HaChaim on Leviticus/English/merged.json
+Commentary/Tanakh/Or HaChaim/Or HaChaim on Numbers/Hebrew/merged.json
+Commentary/Tanakh/Or HaChaim/Or HaChaim on Numbers/English/merged.json
+Commentary/Tanakh/Or HaChaim/Or HaChaim on Deuteronomy/Hebrew/merged.json
+Commentary/Tanakh/Or HaChaim/Or HaChaim on Deuteronomy/English/merged.json
+Commentary/Tanakh/Penei Dovid/Penei Dovid on Genesis/Hebrew/merged.json
+Commentary/Tanakh/Penei Dovid/Penei Dovid on Genesis/English/merged.json
+Commentary/Tanakh/Rabbeinu Bachya/Rabbeinu Bachya on Genesis/Hebrew/merged.json
+Commentary/Tanakh/Rabbeinu Bachya/Rabbeinu Bachya on Genesis/English/merged.json
+Commentary/Tanakh/Rabbeinu Chananel/Rabbeinu Chananel on Genesis/English/merged.json
+Commentary/Tanakh/Rabbeinu Chananel/Rabbeinu Chananel on Exodus/English/merged.json
+Commentary/Tanakh/Rabbeinu Chananel/Rabbeinu Chananel on Leviticus/English/merged.json
+Commentary/Tanakh/Rabbeinu Chananel/Rabbeinu Chananel on Numbers/English/merged.json
+Commentary/Tanakh/Rabbeinu Chananel/Rabbeinu Chananel on Deuteronomy/English/merged.json
+Commentary/Tanakh/Radak/Radak on Genesis/Hebrew/merged.json
+Commentary/Tanakh/Radak/Radak on Genesis/English/merged.json
+Commentary/Tanakh/Radak/Radak on II Samuel/English/merged.json
+Commentary/Tanakh/Radak/Radak on II Kings/English/merged.json
+Commentary/Tanakh/Radak/Radak on Nahum/Hebrew/merged.json
+Commentary/Tanakh/Radak/Radak on Zechariah/Hebrew/merged.json
+Commentary/Tanakh/Radak/Radak on Zechariah/English/merged.json
+Commentary/Tanakh/Radak/Radak on Psalms/English/merged.json
+Commentary/Tanakh/Ralbag/Ralbag on Joshua/Hebrew/merged.json
+Commentary/Tanakh/Ralbag/Ralbag on Judges/Hebrew/merged.json
+Commentary/Tanakh/Ralbag/Ralbag on Judges/English/merged.json
+Commentary/Tanakh/Ralbag/Ralbag on I Samuel/Hebrew/merged.json
+Commentary/Tanakh/Ralbag/Ralbag on II Samuel/Hebrew/merged.json
+Commentary/Tanakh/Ralbag/Ralbag on II Samuel/English/merged.json
+Commentary/Tanakh/Ralbag/Ralbag on I Kings/Hebrew/merged.json
+Commentary/Tanakh/Ralbag/Ralbag on I Kings/English/merged.json
+Commentary/Tanakh/Ralbag/Ralbag on II Kings/Hebrew/merged.json
+Commentary/Tanakh/Ralbag/Ralbag on II Kings/English/merged.json
+Commentary/Tanakh/Ralbag/Ralbag on Proverbs/Hebrew/merged.json
+Commentary/Tanakh/Ralbag/Ralbag on Job/Hebrew/merged.json
+Commentary/Tanakh/Ralbag/Ralbag on Ezra/Hebrew/merged.json
+Commentary/Tanakh/Ralbag/Ralbag on Nehemiah/Hebrew/merged.json
+Commentary/Tanakh/Ralbag/Ralbag on I Chronicles/Hebrew/merged.json
+Commentary/Tanakh/Ralbag/Ralbag on II Chronicles/Hebrew/merged.json
+Commentary/Tanakh/Saadia Gaon/Saadia Gaon on Exodus/English/merged.json
+Commentary/Tanakh/Saadia Gaon/Saadia Gaon on Numbers/English/merged.json
+Commentary/Tanakh/Saadia Gaon/Saadia Gaon on Deuteronomy/English/merged.json
+Commentary/Tanakh/Sepher Torat Elohim/Sepher Torat Elohim on Genesis/Hebrew/merged.json
+Commentary/Tanakh/Sepher Torat Elohim/Sepher Torat Elohim on Genesis/English/merged.json
+Commentary/Tanakh/Shadal/Shadal on Genesis/Hebrew/merged.json
+Commentary/Tanakh/Shadal/Shadal on Genesis/English/merged.json
+Commentary/Tanakh/Shadal/Shadal on Exodus/Hebrew/merged.json
+Commentary/Tanakh/Shadal/Shadal on Exodus/English/merged.json
+Commentary/Tanakh/Shadal/Shadal on Leviticus/Hebrew/merged.json
+Commentary/Tanakh/Shadal/Shadal on Leviticus/English/merged.json
+Commentary/Tanakh/Shadal/Shadal on Numbers/Hebrew/merged.json
+Commentary/Tanakh/Shadal/Shadal on Numbers/English/merged.json
+Commentary/Tanakh/Shadal/Shadal on Deuteronomy/Hebrew/merged.json
+Commentary/Tanakh/Torah Temimah/Torah Temimah on Psalms/Hebrew/merged.json
+Tanakh/Commentary/Haamek Davar/Harchev Davar on Deuteronomy/Hebrew/merged.json
+Tanakh/Commentary/Haamek Davar/Harchev Davar on Exodus/Hebrew/merged.json
+Tanakh/Commentary/Haamek Davar/Harchev Davar on Genesis/Hebrew/merged.json
+Tanakh/Commentary/Haamek Davar/Harchev Davar on Leviticus/Hebrew/merged.json
+Tanakh/Commentary/Haamek Davar/Harchev Davar on Numbers/Hebrew/merged.json
+Other/Commentary2/Tanakh/Abarbanel/Abarbanel on Torah/Hebrew/merged.json
+Other/Commentary2/Tanakh/Abarbanel/Abarbanel on Torah/English/merged.json
+Other/Commentary2/Tanakh/Akeidat Yitzchak/Akeidat Yitzchak/Hebrew/merged.json
+Other/Commentary2/Tanakh/Akeidat Yitzchak/Akeidat Yitzchak/English/merged.json
+Other/Commentary2/Tanakh/Chizkuni/Chizkuni/Hebrew/merged.json
+Other/Commentary2/Tanakh/Chizkuni/Chizkuni/English/merged.json
+Other/Commentary2/Tanakh/Gur Aryeh/Gur Aryeh on Bamidbar/Hebrew/merged.json
+Other/Commentary2/Tanakh/Gur Aryeh/Gur Aryeh on Bereishit/Hebrew/merged.json
+Other/Commentary2/Tanakh/Gur Aryeh/Gur Aryeh on Devarim/Hebrew/merged.json
+Other/Commentary2/Tanakh/Gur Aryeh/Gur Aryeh on Shemot/Hebrew/merged.json
+Other/Commentary2/Tanakh/Gur Aryeh/Gur Aryeh on Vayikra/Hebrew/merged.json
+Other/Commentary2/Tanakh/Meshech Hochma/Meshech Hochma/Hebrew/merged.json
+Other/Commentary2/Tanakh/Shney Luchot HaBrit/Shney Luchot HaBrit/English/merged.json
+Tanakh/Targum/Targum Jonathan on Genesis/Hebrew/merged.json
+Tanakh/Targum/Targum Jonathan on Genesis/English/merged.json
+Tanakh/Targum/Targum Jonathan on Exodus/Hebrew/merged.json
+Tanakh/Targum/Targum Jonathan on Exodus/English/merged.json
+Tanakh/Targum/Targum Jonathan on Leviticus/Hebrew/merged.json
+Tanakh/Targum/Targum Jonathan on Numbers/Hebrew/merged.json
+Tanakh/Targum/Targum Jonathan on Numbers/English/merged.json
+Tanakh/Targum/Targum Jonathan on Deuteronomy/Hebrew/merged.json
+Tanakh/Targum/Targum Jonathan on Deuteronomy/English/merged.json
+Tanakh/Targum/Aramaic Targum to Song of Songs/Hebrew/merged.json
+Tanakh/Targum/Aramaic Targum to Song of Songs/English/merged.json
+Tanakh/Targum/Targum Neofiti/Hebrew/merged.json
+Tanakh/Targum/Targum Neofiti/English/merged.json
 Commentary/Mishnah/Bartenura/Bartenura on Mishnah Berakhot/Hebrew/merged.json
 Commentary/Mishnah/Bartenura/Bartenura on Mishnah Berakhot/English/merged.json
 Commentary/Mishnah/Bartenura/Bartenura on Mishnah Peah/Hebrew/merged.json
@@ -819,6 +823,7 @@ Commentary/Mishnah/Ikar Tosafot Yom Tov/Ikar Tosafot Yom Tov on Mishnah Nedarim/
 Commentary/Mishnah/Ikar Tosafot Yom Tov/Ikar Tosafot Yom Tov on Mishnah Nazir/Hebrew/merged.json
 Commentary/Mishnah/Ikar Tosafot Yom Tov/Ikar Tosafot Yom Tov on Mishnah Nazir/English/merged.json
 Commentary/Mishnah/Ikar Tosafot Yom Tov/Ikar Tosafot Yom Tov on Mishnah Sotah/Hebrew/merged.json
+Commentary/Mishnah/Ikar Tosafot Yom Tov/Ikar Tosafot Yom Tov on Mishnah Sotah/English/merged.json
 Commentary/Mishnah/Ikar Tosafot Yom Tov/Ikar Tosafot Yom Tov on Mishnah Gittin/Hebrew/merged.json
 Commentary/Mishnah/Ikar Tosafot Yom Tov/Ikar Tosafot Yom Tov on Mishnah Kiddushin/Hebrew/merged.json
 Commentary/Mishnah/Ikar Tosafot Yom Tov/Ikar Tosafot Yom Tov on Mishnah Bava Kamma/Hebrew/merged.json
@@ -1039,6 +1044,7 @@ Commentary/Talmud/Tosafot/Tosafot on Temurah/Hebrew/merged.json
 Commentary/Talmud/Tosafot/Tosafot on Keritot/Hebrew/merged.json
 Commentary/Talmud/Tosafot/Tosafot on Meilah/Hebrew/merged.json
 Commentary/Talmud/Tosafot/Tosafot on Niddah/Hebrew/merged.json
+Commentary/Talmud/Tosafot Yeshanim/Tosafot Yeshanim on Keritot/Hebrew/merged.json
 Commentary/Talmud/Rashbam/Rashbam on Pesachim/Hebrew/merged.json
 Commentary/Talmud/Rashbam/Rashbam on Pesachim/English/merged.json
 Commentary/Talmud/Rashbam/Rashbam on Bava Batra/Hebrew/merged.json
@@ -1139,12 +1145,12 @@ Other/Commentary2/Talmud/Korban Netanel/Korban Netanel on Gittin/Hebrew/merged.j
 Other/Commentary2/Talmud/Korban Netanel/Korban Netanel on Ketubot/Hebrew/merged.json
 Other/Commentary2/Talmud/Korban Netanel/Korban Netanel on Kiddushin/Hebrew/merged.json
 Other/Commentary2/Talmud/Korban Netanel/Korban Netanel on Megillah/Hebrew/merged.json
+Other/Commentary2/Talmud/Korban Netanel/Korban Netanel on Nedarim/Hebrew/merged.json
 Other/Commentary2/Talmud/Korban Netanel/Korban Netanel on Pesachim/Hebrew/merged.json
 Other/Commentary2/Talmud/Korban Netanel/Korban Netanel on Rosh Hashanah/Hebrew/merged.json
 Other/Commentary2/Talmud/Korban Netanel/Korban Netanel on Sukkah/Hebrew/merged.json
 Other/Commentary2/Talmud/Korban Netanel/Korban Netanel on Taanit/Hebrew/merged.json
 Other/Commentary2/Talmud/Korban Netanel/Korban Netanel on Yevamot/Hebrew/merged.json
-Other/Commentary2/Talmud/Korban Netanel/Korban Netanel on Nedarim/Hebrew/merged.json
 Other/Commentary2/Talmud/Maadaney Yom Tov/Maadaney Yom Tov on Berakhot/Hebrew/merged.json
 Other/Commentary2/Talmud/Maadaney Yom Tov/Maadaney Yom Tov on Menachot/Hebrew/merged.json
 Other/Commentary2/Talmud/Maadaney Yom Tov/Maadaney Yom Tov on Niddah/Hebrew/merged.json
@@ -1195,7 +1201,9 @@ Other/Commentary2/Talmud/Rosh/Rosh on Taanit/Hebrew/merged.json
 Other/Commentary2/Talmud/Rosh/Rosh on Yevamot/Hebrew/merged.json
 Other/Commentary2/Talmud/Shita Mekubetzet/Shita Mekubetzet on Bava Batra/Hebrew/merged.json
 Other/Commentary2/Talmud/Shita Mekubetzet/Shita Mekubetzet on Bava Kamma/Hebrew/merged.json
+Other/Commentary2/Talmud/Shita Mekubetzet/Shita Mekubetzet on Bava Kamma/English/merged.json
 Other/Commentary2/Talmud/Shita Mekubetzet/Shita Mekubetzet on Bava Metzia/Hebrew/merged.json
+Other/Commentary2/Talmud/Shita Mekubetzet/Shita Mekubetzet on Bava Metzia/English/merged.json
 Other/Commentary2/Talmud/Shita Mekubetzet/Shita Mekubetzet on Beitzah/Hebrew/merged.json
 Other/Commentary2/Talmud/Shita Mekubetzet/Shita Mekubetzet on Berakhot/Hebrew/merged.json
 Other/Commentary2/Talmud/Shita Mekubetzet/Shita Mekubetzet on Berakhot/English/merged.json
@@ -1205,11 +1213,11 @@ Other/Commentary2/Talmud/Shita Mekubetzet/Shita Mekubetzet on Nedarim/Hebrew/mer
 Other/Commentary2/Talmud/Shita Mekubetzet/Shita Mekubetzet on Sotah/Hebrew/merged.json
 Other/Commentary2/Talmud/Tiferet Shmuel/Tiferet Shmuel on Gittin/Hebrew/merged.json
 Other/Commentary2/Talmud/Tiferet Shmuel/Tiferet Shmuel on Kiddushin/Hebrew/merged.json
+Other/Commentary2/Talmud/Tiferet Shmuel/Tiferet Shmuel on Nedarim/Hebrew/merged.json
 Other/Commentary2/Talmud/Tiferet Shmuel/Tiferet Shmuel on Pesachim/Hebrew/merged.json
 Other/Commentary2/Talmud/Tiferet Shmuel/Tiferet Shmuel on Shevuot/Hebrew/merged.json
 Other/Commentary2/Talmud/Tiferet Shmuel/Tiferet Shmuel on Sukkah/Hebrew/merged.json
 Other/Commentary2/Talmud/Tiferet Shmuel/Tiferet Shmuel on Yevamot/Hebrew/merged.json
-Other/Commentary2/Talmud/Tiferet Shmuel/Tiferet Shmuel on Nedarim/Hebrew/merged.json
 Other/Commentary2/Talmud/Yad Ramah/Yad Ramah on Bava Batra/Hebrew/merged.json
 Tosefta/Seder Zeraim/Tosefta Berakhot/Hebrew/merged.json
 Tosefta/Seder Zeraim/Tosefta Berakhot/English/merged.json
@@ -1304,6 +1312,7 @@ Midrash/Aggadic Midrash/Midrash Tanchuma/Hebrew/merged.json
 Midrash/Aggadic Midrash/Midrash Tanchuma/English/merged.json
 Midrash/Aggadic Midrash/Midrash Tehillim/Hebrew/merged.json
 Midrash/Aggadic Midrash/Midrash Tehillim/English/merged.json
+Midrash/Aggadic Midrash/Otzar Midrashim/Hebrew/merged.json
 Midrash/Aggadic Midrash/Pesikta D'Rav Kahanna/Hebrew/merged.json
 Midrash/Aggadic Midrash/Pesikta D'Rav Kahanna/English/merged.json
 Midrash/Aggadic Midrash/Pesikta Rabbati/Hebrew/merged.json
@@ -1348,8 +1357,6 @@ Midrash/Halachic Midrash/Sifrei Bamidbar/Hebrew/merged.json
 Midrash/Halachic Midrash/Sifrei Bamidbar/English/merged.json
 Commentary/Midrash/Buber footnotes/Buber footnotes on Midrash Mishlei/Hebrew/merged.json
 Commentary/Midrash/Footnotes/Footnotes on Mekhilta DeRabbi Shimon Bar Yochai/Hebrew/merged.json
-Halakhah/Arbaah Turim/Hebrew/merged.json
-Halakhah/Arbaah Turim/English/merged.json
 Halakhah/Avodat HaKodesh/Hebrew/merged.json
 Halakhah/Bedikat HaSakin/Hebrew/merged.json
 Halakhah/Ben Ish Hai/Hebrew/merged.json
@@ -1381,7 +1388,6 @@ Halakhah/Torat HaBayit HaKatzar/Hebrew/merged.json
 Halakhah/Aruch HaShulchan/Hebrew/merged.json
 Halakhah/Aruch HaShulchan/English/merged.json
 Halakhah/Siftei Cohen on Yoreh De'ah/Hebrew/merged.json
-Halakhah/Beit Yosef on Arba'ah Turim/Hebrew/merged.json
 Halakhah/Nehar Misrayim/Hebrew/merged.json
 Halakhah/Nehar Misrayim/English/merged.json
 Halakhah/Sefer Hasidim/Hebrew/merged.json
@@ -1412,6 +1418,7 @@ Halakhah/Mishneh Torah/Sefer Ahavah/Mishneh Torah, Prayer and the Priestly Bless
 Halakhah/Mishneh Torah/Sefer Ahavah/Mishneh Torah, Tefillin, Mezuzah and the Torah Scroll/Hebrew/merged.json
 Halakhah/Mishneh Torah/Sefer Ahavah/Mishneh Torah, Tefillin, Mezuzah and the Torah Scroll/English/merged.json
 Halakhah/Mishneh Torah/Sefer Ahavah/Mishneh Torah, Fringes/Hebrew/merged.json
+Halakhah/Mishneh Torah/Sefer Ahavah/Mishneh Torah, Fringes/English/merged.json
 Halakhah/Mishneh Torah/Sefer Ahavah/Mishneh Torah, Blessings/Hebrew/merged.json
 Halakhah/Mishneh Torah/Sefer Ahavah/Mishneh Torah, Blessings/English/merged.json
 Halakhah/Mishneh Torah/Sefer Ahavah/Mishneh Torah, Circumcision/Hebrew/merged.json
@@ -1548,8 +1555,9 @@ Halakhah/Shulchan Arukh/Beit Shmuel/Hebrew/merged.json
 Halakhah/Shulchan Arukh/Chelkat Mechokek/Hebrew/merged.json
 Halakhah/Shulchan Arukh/Magen Avraham/Hebrew/merged.json
 Halakhah/Shulchan Arukh/Magen Avraham/English/merged.json
-Halakhah/Commentary/Mishneh Torah/Sefer Madda/Kessef Mishneh on Mishneh Torah, Torah Study/Hebrew/merged.json
 Halakhah/Commentary/Mishneh Torah/Sefer Madda/Kessef Mishneh on Mishneh Torah, Foreign Worship and Customs of the Nations/Hebrew/merged.json
+Halakhah/Commentary/Mishneh Torah/Sefer Madda/Kessef Mishneh on Mishneh Torah, Foreign Worship and Customs of the Nations/English/merged.json
+Halakhah/Commentary/Mishneh Torah/Sefer Madda/Kessef Mishneh on Mishneh Torah, Torah Study/Hebrew/merged.json
 Halakhah/Commentary/Mishneh Torah/Sefer Madda/Kessef Mishneh on Mishneh Torah, Foundations of the Torah/Hebrew/merged.json
 Halakhah/Commentary/Mishneh Torah/Sefer Madda/Kessef Mishneh on Mishneh Torah, Human Dispositions/Hebrew/merged.json
 Halakhah/Commentary/Mishneh Torah/Sefer Madda/Kessef Mishneh on Mishneh Torah, Repentance/Hebrew/merged.json
@@ -1636,6 +1644,12 @@ Commentary/Halakhah/Bedek HaBayit/Bedek HaBayit on Torat HaBayit HaAroch/Hebrew/
 Commentary/Halakhah/Mishmeret HaBayit/Mishmeret HaBayit on Torat HaBayit HaAroch/Hebrew/merged.json
 Commentary/Halakhah/Summary of Shakh/Summary of Shakh on Shulchan Arukh, Yoreh De'ah/English/merged.json
 Commentary/Halakhah/Summary of Taz/Summary of Taz on Shulchan Arukh, Yoreh De'ah/English/merged.json
+Halakhah/Tur and Commentaries/Bach/Hebrew/merged.json
+Halakhah/Tur and Commentaries/Beit Yosef/Hebrew/merged.json
+Halakhah/Tur and Commentaries/Drisha/Hebrew/merged.json
+Halakhah/Tur and Commentaries/Tur/Hebrew/merged.json
+Halakhah/Tur and Commentaries/Tur/English/merged.json
+Halakhah/Tur and Commentaries/Prisha/Hebrew/merged.json
 Kabbalah/Zohar/Hebrew/merged.json
 Kabbalah/Zohar/English/merged.json
 Kabbalah/Assarah Perakim L'Ramchal/Hebrew/merged.json
@@ -1733,14 +1747,11 @@ Philosophy/Maharal/Netivot Olam/English/merged.json
 Philosophy/Maharal/Netzach Yisrael/Hebrew/merged.json
 Philosophy/Maharal/Ohr Chadash/Hebrew/merged.json
 Philosophy/Maharal/Tiferet Yisrael/Hebrew/merged.json
-Parshanut/Akeidat Yitzchak/Hebrew/merged.json
-Parshanut/Akeidat Yitzchak/English/merged.json
-Parshanut/Meshech Hochma/Hebrew/merged.json
-Parshanut/Shney Luchot HaBrit/English/merged.json
 Chasidut/Chayei Moharan/Hebrew/merged.json
 Chasidut/Derekh Mitsvotekha/Hebrew/merged.json
 Chasidut/Kedushat Levi/Hebrew/merged.json
 Chasidut/Kedushat Levi/English/merged.json
+Chasidut/Maggid Devarav leYaakov/Hebrew/merged.json
 Chasidut/Shivchei HaBesht/Hebrew/merged.json
 Chasidut/Shivchei Haran/Hebrew/merged.json
 Chasidut/Sichot HaRan/Hebrew/merged.json
@@ -1763,7 +1774,6 @@ Musar/Kochvei Ohr/Hebrew/merged.json
 Musar/Letter from Ramban to his son/Hebrew/merged.json
 Musar/Letter from Ramban to his son/English/merged.json
 Musar/Messilat Yesharim/Hebrew/merged.json
-Musar/Messilat Yesharim/English/merged.json
 Musar/Nefesh HaChaim/Hebrew/merged.json
 Musar/Orchot Chaim L'HaRosh/Hebrew/merged.json
 Musar/Orchot Chaim L'HaRosh/English/merged.json
@@ -1774,8 +1784,10 @@ Musar/Pele Yoetz/English/merged.json
 Musar/Sefer HaYashar/Hebrew/merged.json
 Musar/Sefer Tomer Devorah/Hebrew/merged.json
 Musar/Sefer Tomer Devorah/English/merged.json
+Musar/Shaar Habitachon/English/merged.json
 Musar/Shaarei Teshuvah/Hebrew/merged.json
 Musar/Shuvah Yisrael/Hebrew/merged.json
+Musar/Tzavot HaRivash/Hebrew/merged.json
 Musar/Kitzur Sefer Haredim of Rabbi Elazar Azcari/Hebrew/merged.json
 Musar/Sha'ar Ha'Gemul of the Ramban/Hebrew/merged.json
 Responsa/Havot Yair/Hebrew/merged.json
@@ -1842,6 +1854,7 @@ Commentary/Apocrypha/Meir Ayin/Meir Ayin on Seder Olam Rabbah/Hebrew/merged.json
 Commentary/Apocrypha/Vilna Gaon/Vilna Gaon on Seder Olam Rabbah/Hebrew/merged.json
 Commentary/Apocrypha/Yaakov Emden/Yaakov Emden on Seder Olam Rabbah/Hebrew/merged.json
 Modern Works/Abraham Cohen Footnotes to the English Translation of Masechet Berakhot/English/merged.json
+Modern Works/B'Mareh HaBazak Part Seven/Hebrew/merged.json
 Modern Works/Daf Shevui to Ketubot/English/merged.json
 Modern Works/Daf Shevui to Megillah/English/merged.json
 Modern Works/Daf Shevui to Sukkot/English/merged.json

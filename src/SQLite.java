@@ -24,7 +24,7 @@ import org.json.JSONTokener;
 
 public class SQLite {
 
-	protected static final int DB_VERION_NUM = 175;
+	protected static final int DB_VERION_NUM = 200;
 	public static final String DB_NAME_PART = "test" + DB_VERION_NUM;
 	public static final String DB_NAME_FULL = "testDBs/" + DB_NAME_PART + ".db";
 	public static final String DB_NAME_COPY = "testDBs/UpdateForSefariaMobileDatabase.db";//copy_" + DB_NAME_PART + ".db";
@@ -298,9 +298,9 @@ public class SQLite {
 	}
 	private static JSONObject [] getEnHeJSONs(String line, String tempLine, String path) throws IOException{
 		if(!
-				tempLine.replace("English/merged.json", "").replace("Hebrew/merged.json", "").replace("../../JPS/Tanach/","Tanach/")
+				tempLine.replace("English/merged.json", "").replace("Hebrew/merged.json", "").replace("../../JPS/Tanakh/","Tanakh/")
 				.equals(
-						line.replace("English/merged.json", "").replace("Hebrew/merged.json", "").replace("../../JPS/Tanach/","Tanach/")
+						line.replace("English/merged.json", "").replace("Hebrew/merged.json", "").replace("../../JPS/Tanakh/","Tanakh/")
 				)
 		){
 			tempLine = "";//They are not equal so don't use tempLine
