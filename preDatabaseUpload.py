@@ -1,5 +1,5 @@
 #!/usr/bin/python2
-import csv;
+import csv
 import os
 import json
 from pprint import pprint
@@ -7,13 +7,18 @@ import re
 from shutil import copyfile
 	
 
+path = '../Sefaria-Export/'
+compPath = path + 'json' #cant have extra / signs b/c this is used in a replace()
+compPath.replace("//","/")
+indexPath = path + "/table_of_contents.json"
+path = compPath
+
 
 def main():
 	print("Creating Links")
 	links()
 	print("Creating File List")
 	createFileList()
-
 
 
 def links():
@@ -81,48 +86,31 @@ def conncetionType(connString):
 	#return map[connString]
 	
 
-
-###########createFileList
-
-
-
-mergedFiles = []
-path = '../Sefaria-Export/'
-compPath = path + 'json' #cant have extra / signs b/c this is used in a replace()
-printFilesLength = 0
-
 def createFileList():
-	
-	indexPath = path + "/table_of_contents.json"
-
-	json.dumps(path_to_dict(path)) #get the mergedFiles list
-
-
+	# -- deal wih index -- 
 	with open(indexPath) as data_file:    
-	    data = json.load(data_file)
-		
-	jsonString = json.dumps(data)
+	    indexData = json.load(data_file)
+	indexStr = json.dumps(indexData)
+	names = ["testDBs/index.json", 'testDBs/sefaria_mobile_updating_index.json.jar']
+	for name in names:
+		smallJSON = open(name,'w')
+		smallJSON.write(indexStr)
+		smallJSON.close()
+	parseIndex(indexData, "") #get the orderTitles list
 
-	smallJSON = open("testDBs/index.json",'w')
-	smallJSON.write(jsonString)
-	smallJSON.close()
-
-	smallJSON = open('testDBs/sefaria_mobile_updating_index.json.jar','w')
-	smallJSON.write(jsonString)
-	smallJSON.close()
-
-	parseIndex(data, "") #get the orderTitles list
-
-
+	# -- deal with mergedFiles
+	mergedFiles = []
+	path_to_dict(path, mergedFiles) #get the mergedFiles list
 	fileBuffer = []
 	mergedFilesLength = len(mergedFiles)
 	
-	
+	printFilesLength = 0
 	for title in orderTitles:
 		heTitle = "/" + title + "/Hebrew/merged.json"
 		enTitle = "/" + title + "/English/merged.json"
-		foundHe = findMatch(heTitle, fileBuffer)
-		foundEn = findMatch(enTitle, fileBuffer)
+		foundHe = findMatch(heTitle, fileBuffer, mergedFiles)
+		foundEn = findMatch(enTitle, fileBuffer, mergedFiles)
+		printFilesLength += foundHe + foundEn
 		
 		if((not foundHe) and (not foundEn)):
 			print("In index but not in dataDump: " + title)
@@ -142,21 +130,9 @@ def createFileList():
 	print("mergedFilesLength: " + str(mergedFilesLength))
 
 
-"""
-def makeFolderJSON(path):
-	# - create a json of the folder structure (not used for anything)
-	f = open('folder.json', 'w')
-	fp = open('folderPreaty.json', 'w')
-	fp.write(json.dumps(path_to_dict(path), sort_keys=True, indent=4, separators=(',', ': '))); 
-	f.write(json.dumps(path_to_dict(path))); 
-"""
-
 def reorderFiles(unordered):
-
-
 	#note: this only works for the list of Commentaries that serperated from the rest of the list.
 	# so it doesn't include Other/Commentary2
-	
 	specials = [
 	'^Tanakh/Torah/','^Tanakh/Prophets/', '^Tanakh/Writings/',
 	'^Mishnah/Seder ', '^Talmud/Bavli/Seder ', '^Talmud/Yerushalmi/Seder ',
@@ -164,24 +140,18 @@ def reorderFiles(unordered):
 	'^Commentary/Tanakh/Rashi', '^Tanakh/Targum/Onkelos', '^Commentary/Tanakh/Ibn Ezra', '^Commentary/Tanakh/Ramban', '^Commentary/Tanakh/Sforno', '^Commentary/Tanakh/Rashbam',
 	'^Commentary/Tanakh', '^Tanakh/Commentary/', '^Other/Commentary2/Tanakh/', '^Tanakh/Targum/', # make sure that the rest of the Tanakh commentaries come b/f any other category commenary
 	
-
 	'^Commentary/Mishnah/Bartenura', '^Commentary/Mishnah/Ikar Tosafot Yom Tov', '/Mishnah/Tosafot Yom Tov', '^Commentary/Mishnah/', '^Other/Commentary2/Mishnah/', # make sure that the rest of the mishna commentaries come b/f any other category commenary
 	
-
-
 	'^Commentary/Talmud/Rashi', '^Commentary/Talmud/Tosafot', '/Talmud/Rashba', '^Talmud/Rif/',
 	'^Commentary/Talmud/', '^Other/Commentary2/Talmud/',
 
 	'^Tosefta/Seder '
-
 	]
-
 
 	ordered1 = []
 	ordered2 = unordered
 
 	ordered2New = []
-
 
 	for special in specials:
 		for item in ordered2:
@@ -193,32 +163,20 @@ def reorderFiles(unordered):
 		ordered2 = ordered2New
 		ordered2New = []
 
-
 	return ordered1 + ordered2
 
 
-def path_to_dict(path):
-	#print(path, os.path.basename(path))
+def path_to_dict(path, mergedFiles):
 	d = {'name': os.path.basename(path)}
 	if os.path.isdir(path):
 			d['type'] = "directory"
-			d['children'] = [path_to_dict(os.path.join(path,x)) for x in os.listdir(path)]
+			d['children'] = [path_to_dict(os.path.join(path,x), mergedFiles) for x in os.listdir(path)]
 	else:
 		d['type'] = "file"
 		if os.path.basename(path) == "merged.json":
-			#global listString
-			#listString += path.replace(compPath + "/", "") + "\n"
-			#global listD
-			global it
-			global mergedFiles
-			#listD[str(it)] = path.replace(compPath + "/", "")
 			mergedFiles.append(path.replace(compPath + "/", ""))
-			#it +=1;
 	return d
 	
-
-
-
 
 totalNum = 0
 orderTitles = []
@@ -257,17 +215,13 @@ def parseIndex(data, catStr):
 		pass
 	
 
-def findMatch(newTitle, fileBuffer):
-	global mergedFiles
+def findMatch(newTitle, fileBuffer, mergedFiles):
 	for merged in mergedFiles:
 		if(merged.find(newTitle) > 0):
 			fileBuffer.append(merged)
 			mergedFiles.remove(merged)
-			global printFilesLength
-			printFilesLength += 1
 			return True
 	return False
-
 
 
 def replaceJPS(fileName):
@@ -281,5 +235,3 @@ def replaceJPS(fileName):
 
 if __name__ == "__main__":
 	main()
-
-	

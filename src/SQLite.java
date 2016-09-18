@@ -24,19 +24,19 @@ import org.json.JSONTokener;
 
 public class SQLite {
 
-	protected static final int DB_VERION_NUM = 200;
+	protected static final int DB_VERION_NUM = 208;
 	public static final String DB_NAME_PART = "test" + DB_VERION_NUM;
 	public static final String DB_NAME_FULL = "testDBs/" + DB_NAME_PART + ".db";
 	public static final String DB_NAME_COPY = "testDBs/UpdateForSefariaMobileDatabase.db";//copy_" + DB_NAME_PART + ".db";
 	public static final String DB_NAME_API = "testDBs/API_UpdateForSefariaMobileDatabase.db";
 
-	private static final int OLD_DB_NUM_TO_COPY_FROM = 157;
+	private static final int OLD_DB_NUM_TO_COPY_FROM = 208;
 	private static final String OLD_DB_TO_COPY_FROM = "testDBs/" + OLD_DB_NUM_TO_COPY_FROM + "/test" + OLD_DB_NUM_TO_COPY_FROM + ".db";
 	private static final boolean USE_TEST_FILES = false;
 	
-	private static final boolean CREATE_FRESH_FULL_DB = true;
+	private static final boolean CREATE_FRESH_FULL_DB = false;
 	private static final boolean CREATE_API = true;
-	private static final boolean CREATE_COPY = true;
+	private static final boolean CREATE_COPY = false;
 	
 
 
@@ -74,7 +74,10 @@ public class SQLite {
 				insertStuff();
 			}
 			if(CREATE_API){
-				Huffman.copyNewAPIDB(OLD_DB_TO_COPY_FROM,DB_NAME_API);
+				if(CREATE_FRESH_FULL_DB)
+					Huffman.copyNewAPIDB(DB_NAME_FULL,DB_NAME_API);
+				else
+					Huffman.copyNewAPIDB(OLD_DB_TO_COPY_FROM,DB_NAME_API);
 			}
 			if(CREATE_COPY){
 				if(CREATE_FRESH_FULL_DB)
