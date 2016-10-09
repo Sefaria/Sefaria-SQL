@@ -475,6 +475,10 @@ public class Node extends SQLite{
 		int [] start = null;
 		try {
 			String [] startStop = ref.replace(title, "").split("-");
+			if(startStop.length == 1){
+				startStop = ref.replace(title, "").split("\u2013"); //This is "–" which slightly different char then "-" (it's a different UTF8 value)
+				//EN DASH vs. HYPHEN-MINUS
+			}
 			start = halfRef2Levels(startStop[0]);
 			int [] stop = start;
 			if(startStop.length == 2)
@@ -494,7 +498,6 @@ public class Node extends SQLite{
 						tempStop[i] = start[i];
 					}
 					stop = tempStop;
-					//println("ref:" + ref + "__" + start[0] + "," + start[1]+ "___"+ stop[0] + "," + stop[1]);
 				}			
 				start = add1sForMissingLevels(start, textDepth);
 				stop = add1sForMissingLevels(stop, textDepth);
@@ -502,6 +505,7 @@ public class Node extends SQLite{
 			startTid = Text.getTid(c, bid, start, 0, textDepth,true,null);
 			endTid = Text.getTid(c, bid, stop, 0, textDepth,true,null);
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.err.println("Error in Node.Schema.ref2Tids: problem getting Tids. ref:" + ref);
 		}
 

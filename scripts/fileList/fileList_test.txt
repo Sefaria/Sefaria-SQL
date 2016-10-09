@@ -1,22 +1,10 @@
-Tanach/Torah/Genesis/Hebrew/merged.json
-Tanach/Torah/Genesis/English/merged.json
-Tanach/Torah/Exodus/Hebrew/merged.json
-Tanach/Torah/Exodus/English/merged.json
-Tanach/Torah/Leviticus/Hebrew/merged.json
-Tanach/Torah/Leviticus/English/merged.json
-Tanach/Torah/Numbers/Hebrew/merged.json
-Tanach/Torah/Numbers/English/merged.json
-Tanach/Torah/Deuteronomy/Hebrew/merged.json
-Tanach/Torah/Deuteronomy/English/merged.json
-Liturgy/Pesach Haggadah/Hebrew/merged.json
-Liturgy/Pesach Haggadah/English/merged.json
-Midrash/Halachic Midrash/Sifrei Bamidbar/Hebrew/merged.json
-Midrash/Halachic Midrash/Sifrei Bamidbar/English/merged.json
-Commentary/Liturgy/Ephod Bad/Ephod Bad on Pesach Haggadah/English/merged.json
-Commentary/Liturgy/Kimcha Davshuna/Kimcha Davshuna on Pesach Haggadah/English/merged.json
-Commentary/Liturgy/Kos Shel Eliyahu/Kos Shel Eliyahu on Pesach Haggadah/English/merged.json
-Commentary/Liturgy/Maarechet Heidenheim/Maarechet Heidenheim on Pesach Haggadah/English/merged.json
-Commentary/Liturgy/Maaseh Nissim/Maaseh Nissim on Pesach Haggadah/English/merged.json
-Commentary/Liturgy/Marbeh Lisaper/Marbeh Lisaper on Pesach Haggadah/English/merged.json
-Commentary/Liturgy/Naftali Seva Ratzon/Naftali Seva Ratzon on Pesach Haggadah/English/merged.json
-Commentary/Liturgy/Yismach Yisrael/Yismach Yisrael on Pesach Haggadah/English/merged.json
+Tanakh/Torah/Genesis/Hebrew/merged.json
+../../JPS/Tanakh/Torah/Genesis/English/merged.json
+Tanakh/Torah/Exodus/Hebrew/merged.json
+../../JPS/Tanakh/Torah/Exodus/English/merged.json
+Tanakh/Torah/Leviticus/Hebrew/merged.json
+../../JPS/Tanakh/Torah/Leviticus/English/merged.json
+Tanakh/Torah/Numbers/Hebrew/merged.json
+../../JPS/Tanakh/Torah/Numbers/English/merged.json
+Tanakh/Torah/Deuteronomy/Hebrew/merged.json
+../../JPS/Tanakh/Torah/Deuteronomy/English/merged.json
