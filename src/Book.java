@@ -3,6 +3,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.regex.Pattern;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,6 +28,7 @@ public class Book extends SQLite{
 			"minTid INTEGER DEFAULT -1, " +
 			"maxTid INTEGER DEFAULT -1, " + 
 			"rootNode INTEGER, " + 
+			"path TEXT, " +
 			"	CONSTRAINT uniqueTitle UNIQUE " + "(" + Ktitle + "),\r\n" + 
 			"	FOREIGN KEY (" + KcommentsOn + ") REFERENCES " + TABLE_BOOKS + "(_id)\r\n" + 
 			"	FOREIGN KEY (rootNode) REFERENCES " + " Nodes " + "(_id)\r\n" + 
@@ -146,7 +148,6 @@ public class Book extends SQLite{
 	protected static int idCount = 0;
 	
 	public static void addBook(Connection c, JSONObject enJSON, JSONObject heJSON,boolean complexText) throws JSONException, SQLException {		
-		
 		int langSum = 0;
 		JSONObject json;
 		if(enJSON != null && heJSON != null){
@@ -177,8 +178,9 @@ public class Book extends SQLite{
 				+ "_id" + ", "
 				+ KcommentsOn + ", " + KsectionNames + ","  + Kcategories + ", " + KtextDepth + ", " 
 				+ KwherePage + "," + Klengths + "," + Ktitle + ", " + KheTitle + ", "
-				+ KversionTitle + ", " + KdataVersion +", " + Kversions + ", " + Klanguages  + ", heSectionNames "+ ") "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+				+ KversionTitle + ", " + KdataVersion +", " + Kversions + ", " + Klanguages  + ", heSectionNames "+ "" +
+						", path) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 
 		stmt.setInt(1, id);//_id
 		String commentedOnBook = title.replaceFirst(".* on ", "");
@@ -211,16 +213,13 @@ public class Book extends SQLite{
 			stmt.setString(3,sectionNames); // KsectionNames
 			stmt.setString(14, heSectionNames);
 		}
-		stmt.setString(4, json.get("categories").toString().replace("\"Liturgy\"", "\"Tefillah\"")); // Kcategories
-
-
+		JSONArray categories = (JSONArray) json.get("categories"); 
+		stmt.setString(4, categories.toString().replace("\"Liturgy\"", "\"Tefillah\"")); // Kcategories
 
 		if(textDepth >= 4)
 			System.out.println("4!!!");
 		//System.out.println("\t" + textDepth);
 		stmt.setInt(5,textDepth); // KtextDepth
-
-
 
 		int wherePageNum = 0;
 		if(textDepth == 1) 	
@@ -241,6 +240,14 @@ public class Book extends SQLite{
 		//stmt.setString(12, json.getString(Kversions )); // Kversions
 		stmt.setInt(13,langSum); // Klanguages
 		//stmt.setString(14, heSectionNames) is in if statement above
+		StringBuilder path = new StringBuilder();
+		
+		for(int i = 0; i < categories.length(); i++){
+			path.append(categories.getString(i) + "/");
+		}
+		path.append(title);
+		stmt.setString(15,path.toString());
+		
 
 		stmt.executeUpdate();
 		stmt.close();
@@ -249,6 +256,7 @@ public class Book extends SQLite{
 		booksInDBbid.put(title,id);
 		booksInDBtextDepth.put(title,textDepth);
 		booksInDB.put(title, langSum); //make sure we have a good list of which books are in the db (for when we try to add a second language).
+		booksIsComplex.put(id, complexText);
 		return;
 
 	}

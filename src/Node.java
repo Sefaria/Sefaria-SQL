@@ -56,6 +56,7 @@ public class Node extends SQLite{
 			"	endTid INTEGER,\r\n" +  //maybe only used with refferences on alt structure
 			"	extraTids TEXT,\r\n" +  //maybe only used with refferences on alt structure ex. "[34-70,98-200]"
 			"	startLevels TEXT,\r\n" +  //
+			"	key TEXT,\r\n" +  //
 			//maybe some stuff like to display chap name and or number (ei. maybe add some displaying info)
 
 	//		"	FOREIGN KEY (bid) \r\n" + 
@@ -68,7 +69,7 @@ public class Node extends SQLite{
 
 				")";
 
-
+	
 	public static class NodeInfo{
 		public int parentID;
 		public int bid;
@@ -112,7 +113,7 @@ public class Node extends SQLite{
 	};
 
 
-	protected static int addText(Connection c, JSONObject enJSON, JSONObject heJSON) throws JSONException{
+	protected static int addText(Connection c, JSONObject enJSON, JSONObject heJSON, JSONObject schemaFile) throws JSONException{
 		if(enJSON == null && heJSON == null){
 			System.err.print("Both JSONs are null in Node.addText()");
 			return -1;
@@ -167,7 +168,13 @@ public class Node extends SQLite{
 		if(heJSON != null){
 			heText = (JSONObject) heJSON.get("text");
 		}
-		insertNode(c, node,enText,heText, 0,0,bid,0,lang);
+		JSONObject schema = null;
+		try{
+			schema = schemaFile.getJSONObject("schema");
+		}catch(JSONException e){
+			e.printStackTrace();
+		}
+		insertNode(c, schema, enText,heText, 0,0,bid,0,lang);
 		return 1; //it worked
 	}
 
@@ -199,11 +206,11 @@ public class Node extends SQLite{
 
 	private static void insertSingleNodeToDB(Connection c, Integer nid, Integer bid, Integer parentNode,Integer nodeType, Integer siblingNum,
 			String enTitle, String heTitle, Integer structNum, Integer textDepth, Integer startTid, Integer endTid,
-			String extraTids, String sectionNames, String heSectionNames, String startLevels
+			String extraTids, String sectionNames, String heSectionNames, String startLevels, String key
 			){
 		final String INSERT_NODE = "INSERT INTO Nodes (" +
-				"_id,bid,parentNode,nodeType,siblingNum,enTitle,heTitle,structNum,textDepth,startTid,endTid,extraTids,sectionNames,heSectionNames,startLevels)"
-				+ "VALUES (?,?, ?, ?, ?, ?, ?, ?,?, ?, ?,?,?,?,?);";
+				"_id,bid,parentNode,nodeType,siblingNum,enTitle,heTitle,structNum,textDepth,startTid,endTid,extraTids,sectionNames,heSectionNames, startLevels,key )"
+				+ "VALUES (?,?, ?, ?, ?, ?, ?, ?,?, ?, ?,?,?,?,?,?);";
 
 		PreparedStatement stmt;
 		try {
@@ -222,13 +229,17 @@ public class Node extends SQLite{
 			if(sectionNames != null) stmt.setString(13,sectionNames);
 			if(heSectionNames != null) stmt.setString(14,heSectionNames);
 			if(startLevels != null) stmt.setString(15,startLevels);
+			if(key != null) stmt.setString(16, key);
 			stmt.executeUpdate();
 			stmt.close();
 			
 			NodeInfo nodeInfo = new NodeInfo(bid, parentNode, enTitle);
 			NodePair nodePair = new NodePair(nid, textDepth);
-			//println("nodeInfo:" + nodeInfo + "... nodePair:" + nodePair);			
 			allNodesInDB.put(nodeInfo, nodePair);
+			if("default".equals(key)){
+				allDefaultNodesByBID.put(bid, nodePair);
+				allDefaultNodesByNID.put(nid, nodePair);
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -241,8 +252,53 @@ public class Node extends SQLite{
 			System.err.println("Both JSONs are null in insertNode");
 			return -1;
 		}
-		String heTitle = node.getString("heTitle");
-		String enTitle = node.getString("enTitle");
+		String enTitle = null, heTitle = null;
+		String key = null;
+		try{
+			key = node.getString("key");
+		}catch(Exception e){
+			System.err.print(".key fail. " + " ..." + e.toString() + "\n");
+		}
+		try{
+			JSONArray titles = node.getJSONArray("titles");
+			for(int i = 0; i < titles.length(); i++){
+				JSONObject titleObj = titles.getJSONObject(i);
+				try{
+					if(titleObj.getBoolean("primary")){
+						String titleLang = titleObj.getString("lang");
+						if("he".equals(titleLang)){
+							heTitle = titleObj.getString("text");
+						}else if("en".equals(titleLang)){
+							enTitle = titleObj.getString("text");
+						}
+					}
+				}catch(JSONException e1){//couldn't get primary (or lang)
+					;
+				}
+			}
+		}catch(JSONException e){ //couldn't find titles
+			try{
+				enTitle = node.getString("title"); //enTitle
+			}catch(JSONException e1){
+				enTitle = key;
+			}
+			try{
+				heTitle = node.getString("heTitle");		
+			}catch(JSONException e1){
+				heTitle = enTitle;
+			}
+		}
+		
+		
+		if(enTitle == null){
+			System.err.println("Problem getting enTitle");
+			enTitle = key;
+		}
+		if(heTitle == null){
+			System.err.println("Problem getting heTitle");
+			heTitle = enTitle;
+		}
+		
 		int nodeID = ++nodeCount;
 		int nodeType;
 		JSONArray nodes = null;
@@ -278,7 +334,7 @@ public class Node extends SQLite{
 			nodeType = getNodeType(true, (hasEnglish || hasHebrew), false, false);
 		}
 		insertSingleNodeToDB(c, nodeID, bid, parentNode, nodeType, siblingNum, enTitle, heTitle, 1,
-				null, null, null, null, null, null,null);
+				null, null, null, null, null, null,null, key);
 		if((nodeType & IS_TEXT_SECTION) == 0 && nodes != null){ //it's a branch and not a TEXT_SECTION
 			for(int i =0;i<nodes.length();i++){
 				insertNode(c, (JSONObject) nodes.get(i),enText,heText,depth+1,i,bid,nodeID,lang);
@@ -304,6 +360,15 @@ public class Node extends SQLite{
 				stmt.setInt(2, nodeID);
 				stmt.executeUpdate();
 				stmt.close();
+				NodePair nodePair = allDefaultNodesByNID.get(nodeID);
+				if(nodePair != null){ //updating the nodePair textDepth value
+					nodePair.textDepth = textDepth;
+				}
+				NodeInfo nodeInfo = new NodeInfo(bid, parentNode, enTitle);
+				nodePair = allNodesInDB.get(nodeInfo);
+				if(nodePair != null){ //updating the nodePair textDepth value
+					nodePair.textDepth = textDepth;
+				}
 			} catch (SQLException e) {
 				System.err.println("Error 1 in InsertNode: " + e);
 
@@ -363,12 +428,33 @@ public class Node extends SQLite{
 	 * @return
 	 * @throws JSONException
 	 */
-	private static int addSchemaNodes(Connection c, JSONArray nodes,int bid,int parentNode, int structNum) throws JSONException{
+	private static int addSchemaRefNodes(Connection c, JSONArray nodes, int bid, int parentNode, int structNum) throws JSONException{
 		for(int j =0;j<nodes.length();j++){
 			JSONObject node = nodes.getJSONObject(j);
 			String enTitle = node.getString("title");
 			String heTitle = node.getString("heTitle");
-			String nodeTypeString =  node.getString("nodeType");
+			String nodeTypeString;
+			try{
+				 nodeTypeString = node.getString("nodeType");
+			}catch(JSONException e){ // this seems to mean that there's another layer of depth first... going to test theory by getting "nodes"
+				try{
+					JSONArray nodes2 = node.getJSONArray("nodes");
+					int nodeType = getNodeType(true, false, false, false);
+					int nodeID = ++nodeCount;
+					insertSingleNodeToDB(c, nodeID, bid, parentNode, nodeType, j,enTitle, heTitle, structNum,null,null,null,null,null,null,null,null);
+					addSchemaRefNodes(c, nodes2, bid, nodeID, structNum);
+					continue;
+				}catch(JSONException e1){
+					System.err.println(e1);
+					throw e;	
+				}
+			}
+			String key = null;
+			try{
+				key = node.getString("key");
+			}catch(Exception e){
+				;//I think this happens everytime but I'm going to keep this in here just in case there is a key
+			}
 			int nodeType;
 			if(!nodeTypeString.equals("ArrayMapNode")){
 				System.err.println("Error not a ref");
@@ -376,26 +462,30 @@ public class Node extends SQLite{
 			}
 			
 			String sectionNames = "[",heSectionNames = "[";
-			JSONArray sectionNamesArray = node.getJSONArray("sectionNames");
-			if(sectionNamesArray.length()>0){
-				sectionNames += "\"";
-				heSectionNames += "\"";
-			}
-			for(int i=0;i<sectionNamesArray.length();i++){
-				String name = sectionNamesArray.getString(i);
-				if(name.length() == 0)
-					name = "Section";
-				String heName = tryToGetHebrewName(name);
-				if(i<sectionNamesArray.length()-1){
-					name += "\",\"";
-					heName += "\",\"";
+			try{
+				JSONArray sectionNamesArray = node.getJSONArray("sectionNames");
+				if(sectionNamesArray.length()>0){
+					sectionNames += "\"";
+					heSectionNames += "\"";
 				}
-				sectionNames += name;
-				heSectionNames += heName;
-			}
-			if(sectionNamesArray.length()>0){
-				sectionNames += "\"";
-				heSectionNames += "\"";
+				for(int i=0;i<sectionNamesArray.length();i++){
+					String name = sectionNamesArray.getString(i);
+					if(name.length() == 0)
+						name = "Section";
+					String heName = tryToGetHebrewName(name);
+					if(i<sectionNamesArray.length()-1){
+						name += "\",\"";
+						heName += "\",\"";
+					}
+					sectionNames += name;
+					heSectionNames += heName;
+				}
+				if(sectionNamesArray.length()>0){
+					sectionNames += "\"";
+					heSectionNames += "\"";
+				}
+			}catch(JSONException e){
+				;
 			}
 			sectionNames += "]";
 			heSectionNames += "]";
@@ -408,7 +498,7 @@ public class Node extends SQLite{
 				nodeType = getNodeType(true, false, false, false);//NODE_REFS;
 				refs = node.getJSONArray("refs");
 				insertSingleNodeToDB(c, nodeID, bid, parentNode, nodeType, j, enTitle, heTitle, structNum,
-						null, null, null, null, sectionNames, heSectionNames,null);
+						null, null, null, null, sectionNames, heSectionNames,null, key);
 
 				//System.out.println(enTitle + " " +  heTitle + " " + nodeType + " " + sectionNames + refs);
 				int subParentNode = nodeID;
@@ -422,7 +512,7 @@ public class Node extends SQLite{
 					int endTID = refValues.endTid;
 					insertSingleNodeToDB(c, nodeID, bid, subParentNode, nodeType,
 							i, "", "", structNum, null, startTID, endTID, ref,
-							sectionNames, heSectionNames,refValues.startLevels);
+							sectionNames, heSectionNames,refValues.startLevels, key);
 				}
 			}else if(depth == 0){ //so the refs aren't in a grid
 				int nodeID = ++nodeCount;
@@ -435,7 +525,7 @@ public class Node extends SQLite{
 				int endTID = refValues.endTid;
 				insertSingleNodeToDB(c, nodeID, bid, parentNode, nodeType,
 						j, enTitle, heTitle, structNum, null, startTID, endTID, ref,
-						sectionNames, heSectionNames,refValues.startLevels);
+						sectionNames, heSectionNames,refValues.startLevels, key);
 			}else{
 				System.err.println("Node.addSchemaNodes(): I don't know how to deal with this depth:" + depth);
 			}
@@ -457,21 +547,38 @@ public class Node extends SQLite{
 
 	private static class RefValues{
 		
-		public RefValues(int startTid,int endTid,int [] start){
+		public RefValues(int startTid,int endTid,int [] start, String ref){
 			this.startTid = startTid;
 			this.endTid = endTid;
 			this.startLevels = Arrays.toString(start);
+			this.ref = ref;
 		}
 		public int startTid;
 		public int endTid;
 		public String startLevels;
+		public String ref;
 	}
 	
 	private static RefValues ref2Tids(Connection c, String ref, int bid){
 		String title = booksInDBbid2Title.get(bid);
 		int textDepth = booksInDBtextDepth.get(title);
+		int parentNode = 0; // this will be 0 unless there's a complex text that it's a ref to
+		if(textDepth == 0){ //its compex
+			Node.NodePair nodePair = null;
+			try{
+				String pathNoNum = ref.replaceAll(" [0-9].*","");
+				nodePair = Link.getParentID(title, pathNoNum, bid);
+				ref = ref.replace(pathNoNum, "");//Converting ref to just the number part
+			}catch(Exception e){//idk
+				nodePair = allDefaultNodesByBID.get(bid);
+			}
+			if(nodePair != null){
+				textDepth = nodePair.textDepth;
+				parentNode = nodePair.nid;
+			}
+		}
 		//println("ref: " + ref + " title: " + title);
-		int startTid = 0,endTid =0;
+		int startTid = 0, endTid =0;
 		int [] start = null;
 		try {
 			String [] startStop = ref.replace(title, "").split("-");
@@ -502,15 +609,21 @@ public class Node extends SQLite{
 				start = add1sForMissingLevels(start, textDepth);
 				stop = add1sForMissingLevels(stop, textDepth);
 			}
-			startTid = Text.getTid(c, bid, start, 0, textDepth,true,null);
-			endTid = Text.getTid(c, bid, stop, 0, textDepth,true,null);
+			startTid = Text.getTid(c, bid, start, parentNode, textDepth, true, null);
+			endTid = Text.getTid(c, bid, stop, parentNode, textDepth, true, null);
+			if(startTid < 0 || endTid < 0){
+				throw new Exception();
+			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.err.println("Error in Node.Schema.ref2Tids: problem getting Tids. ref:" + ref);
+			String newRef = ref.replace(".", " ");
+			if(!newRef.equals(ref)){
+				return ref2Tids(c, newRef, bid);
+			}
+			System.err.println("623478 Error in Node.Schema.ref2Tids: problem getting Tids. ref: " + ref + ". " + e);
 		}
 
 
-		return new RefValues(startTid, endTid, start);
+		return new RefValues(startTid, endTid, start, ref);
 	}
 		
 	static private int [] add1sForMissingLevels(int [] levels,int textDepth){
@@ -599,7 +712,8 @@ public class Node extends SQLite{
 		 return sectionNameMap.getOrDefault(enName, enName);
 	}
 
-	protected static int addSchemas(Connection c, JSONObject schemas) throws JSONException{
+	
+	protected static int addWholeSchemas(Connection c, JSONObject schemas) throws JSONException{
 		try{
 			JSONObject alts = schemas.getJSONObject("alts");
 			String bookTitle = schemas.getString("title");
@@ -627,7 +741,7 @@ public class Node extends SQLite{
 				String sectionNames = "[\"" + enTitle + "\"]";
 				String heSectionNames = "[\"" + heTitle + "\"]";
 				insertSingleNodeToDB(c, nodeID, bid, 0, nodeType, 0,enTitle , heTitle, structNum,
-						null, null, null, null, sectionNames, heSectionNames,null);
+						null, null, null, null, sectionNames, heSectionNames,null, null);
 				JSONArray nodes;
 				try{
 					nodes = alt.getJSONArray("nodes");
@@ -636,7 +750,7 @@ public class Node extends SQLite{
 					nodes = new JSONArray(altArray);
 				}
 				
-				addSchemaNodes(c, nodes, bid,nodeID,structNum);
+				addSchemaRefNodes(c, nodes, bid, nodeID, structNum);
 			}
 		}catch(JSONException e1){
 			if(!e1.toString().equals("org.json.JSONException: JSONObject[\"alts\"] not found.")){

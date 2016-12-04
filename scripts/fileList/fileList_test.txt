@@ -1,10 +1,6 @@
-Tanakh/Torah/Genesis/Hebrew/merged.json
-../../JPS/Tanakh/Torah/Genesis/English/merged.json
-Tanakh/Torah/Exodus/Hebrew/merged.json
-../../JPS/Tanakh/Torah/Exodus/English/merged.json
-Tanakh/Torah/Leviticus/Hebrew/merged.json
-../../JPS/Tanakh/Torah/Leviticus/English/merged.json
-Tanakh/Torah/Numbers/Hebrew/merged.json
-../../JPS/Tanakh/Torah/Numbers/English/merged.json
-Tanakh/Torah/Deuteronomy/Hebrew/merged.json
-../../JPS/Tanakh/Torah/Deuteronomy/English/merged.json
+Halakhah/Sefer HaChinukh/Hebrew/merged.json
+Halakhah/Sefer HaChinukh/English/merged.json
+Halakhah/Tur and Commentaries/Tur/Hebrew/merged.json
+Halakhah/Tur and Commentaries/Tur/English/merged.json
+Responsa/Terumat HaDeshen/Hebrew/merged.json
+Responsa/Terumat HaDeshen/English/merged.json

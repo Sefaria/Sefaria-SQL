@@ -24,20 +24,24 @@ import org.json.JSONTokener;
 
 public class SQLite {
 
-	protected static final int DB_VERION_NUM = 212;
+	protected static final int DB_VERION_NUM = 227;
 	public static final String DB_NAME_PART = "test" + DB_VERION_NUM;
 	public static final String DB_NAME_FULL = "testDBs/" + DB_NAME_PART + ".db";
 	public static final String DB_NAME_COPY = "testDBs/UpdateForSefariaMobileDatabase.db";//copy_" + DB_NAME_PART + ".db";
+	public static final String DB_NAME_HE_ONLY_COPY = "testDBs/heTexts_" + DB_VERION_NUM + ".db";
 	public static final String DB_NAME_API = "testDBs/API_UpdateForSefariaMobileDatabase.db";
 
-	private static final int OLD_DB_NUM_TO_COPY_FROM = 208;
+	private static final int OLD_DB_NUM_TO_COPY_FROM = 225;//215;
 	private static final String OLD_DB_TO_COPY_FROM = "testDBs/" + OLD_DB_NUM_TO_COPY_FROM + "/test" + OLD_DB_NUM_TO_COPY_FROM + ".db";
 	private static final boolean USE_TEST_FILES = false;
+	
+	
 	
 	private static final boolean CREATE_FRESH_FULL_DB = true;
 	private static final boolean CREATE_API = true;
 	private static final boolean CREATE_COPY = true;
-	
+	private static final boolean CREATE_HE_ONLY_COPY = false;
+	private static final Searching.SEARCH_METHOD USE_SEARCH_METHOD_IN_COPY = Searching.SEARCH_METHOD.COPY;
 
 
 	final static boolean ignoreSchemaError = false;
@@ -48,6 +52,10 @@ public class SQLite {
 	protected static Map<String,Integer> booksInDBbid = new HashMap<String, Integer>();
 	protected static Map<String,Integer> booksInDBtextDepth = new HashMap<String, Integer>();
 	protected static Map<Integer,String> booksInDBbid2Title = new HashMap<Integer,String>();
+	protected static Map<Integer, Boolean> booksIsComplex = new HashMap<Integer, Boolean>();
+	
+	protected static Map<Integer, Node.NodePair> allDefaultNodesByBID = new HashMap<Integer, Node.NodePair>();
+	protected static Map<Integer, Node.NodePair> allDefaultNodesByNID = new HashMap<Integer, Node.NodePair>();
 	
 	protected static Map<Node.NodeInfo,Node.NodePair> allNodesInDB = new HashMap<Node.NodeInfo,Node.NodePair>();
 
@@ -81,9 +89,15 @@ public class SQLite {
 			}
 			if(CREATE_COPY){
 				if(CREATE_FRESH_FULL_DB)
-					Huffman.copyNewDB(DB_NAME_FULL,DB_NAME_COPY);
+					Huffman.copyNewDB(DB_NAME_FULL,DB_NAME_COPY, USE_SEARCH_METHOD_IN_COPY);
 				else
-					Huffman.copyNewDB(OLD_DB_TO_COPY_FROM,DB_NAME_COPY);
+					Huffman.copyNewDB(OLD_DB_TO_COPY_FROM,DB_NAME_COPY, USE_SEARCH_METHOD_IN_COPY);
+			}
+			if(CREATE_HE_ONLY_COPY){
+				if(CREATE_FRESH_FULL_DB)
+					Huffman.copyNewHeTextOnlyDB(DB_NAME_FULL,DB_NAME_HE_ONLY_COPY, USE_SEARCH_METHOD_IN_COPY);
+				else
+					Huffman.copyNewHeTextOnlyDB(OLD_DB_TO_COPY_FROM,DB_NAME_HE_ONLY_COPY, USE_SEARCH_METHOD_IN_COPY);
 			}
 		
 			System.out.println("Good stuff");
@@ -217,6 +231,15 @@ public class SQLite {
 						continue;
 					}
 
+					JSONObject schemas = null;
+					try{
+						String schemaPath = exportPath + "schemas/" + title.replaceAll(" ", "_") + ".json";
+						schemas = openJSON(schemaPath);
+					}catch(Exception e){
+						if(!ignoreSchemaError || !(e.toString().contains("java.nio.file.NoSuchFileException: ") && e.toString().contains("schema")))
+							System.err.println("576578 Error adding Schema: " + e);
+					}
+					
 					try{
 						//non complex texts
 						Book.addBook(c,enJSON,heJSON,false);					
@@ -229,21 +252,21 @@ public class SQLite {
 								&& doComplex){
 							System.out.println("Complex Text");
 							Book.addBook(c, enJSON, heJSON,true);							
-							Node.addText(c,enJSON,heJSON);
+							Node.addText(c,enJSON,heJSON, schemas);
 						}else{
 							System.err.println("Error2: " + e);
 							failedBooksCount++;
 						}
 					}
-					try{
-						String schemaPath = exportPath + "schemas/" + title.replaceAll(" ", "_") + ".json";
-						JSONObject schemas = openJSON(schemaPath);
-						Node.addSchemas(c, schemas);
 
+					try{
+						if(schemas != null)
+							Node.addWholeSchemas(c, schemas);
 					}catch(Exception e){
 						if(!ignoreSchemaError || !(e.toString().contains("java.nio.file.NoSuchFileException: ") && e.toString().contains("schema")))
-							System.err.println("Error adding Schema: " + e);
+							System.err.println("75765 Error adding Schema: " + e);
 					}
+					
 					c.commit();
 
 				}catch(Exception e){
@@ -256,8 +279,8 @@ public class SQLite {
 			//System.out.println("TEXTS: en: " + Text.en + " he: " + Text.he + " u2: " + Text.u2 + " u3: " + Text.u3 + " u4: " + Text.u4);
 
 
-			//Searching.putInCountWords(c);
-			//c.commit();
+			Searching.putInCountWords(c, Searching.SEARCH_METHOD.FRESH_COMPRESS_INDEX);
+			c.commit();
 			System.out.println("ADDING LINKS...");
 			CSVReader reader = new CSVReader(new InputStreamReader(new FileInputStream("scripts/links/links0.csv")));
 			Link.addLinkFile(c, reader);

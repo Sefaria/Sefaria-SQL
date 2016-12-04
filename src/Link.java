@@ -67,9 +67,17 @@ public class Link extends SQLite{
 		return fullPath;
 	}
 	
-	static int [] getParentID(String title, String fullPath, int bid){
-		if(title.equals(fullPath))
-			return new int [] {0,booksInDBtextDepth.get(title)};
+	public static Node.NodePair getParentID(String title, String fullPath, int bid){
+		if(title.equals(fullPath)){ //it's referencing the book directly... A good example of this is when there's a default structre that it's referencing (or anything without subnodes)
+			Node.NodePair nodePair = null;
+			if(booksIsComplex.get(bid)){
+				nodePair = allDefaultNodesByBID.get(bid);
+			}
+			if(nodePair == null){
+				nodePair = new Node.NodePair(0, booksInDBtextDepth.get(title));
+			}
+			return nodePair;
+		}
 		String [] nodes = fullPath.split(", ");
 		int parentNode = 0;
 		int textDepth = 0;
@@ -82,7 +90,7 @@ public class Link extends SQLite{
 		if(nodePair != null)
 			textDepth = nodePair.textDepth;
 		
-		return new int [] {parentNode,textDepth};
+		return new Node.NodePair(parentNode,textDepth);
 	}
 	
 	static void addLinkFile(Connection c, CSVReader reader){
@@ -90,6 +98,7 @@ public class Link extends SQLite{
 		String next[] = {};
 		int linkCount = 0;
 		int linkfailed = 0;
+		int noBookLinksFailed = 0;
 
 		try{
 			PrintWriter writer = new PrintWriter("logs/linkErrors_" + SQLite.DB_NAME_PART + ".txt", "UTF-8");
@@ -102,25 +111,26 @@ public class Link extends SQLite{
 				next = reader.readNext();
 				if(next != null) {
 					linkCount++;
-				
+					int parentIDa = -1,parentIDb = -1;
+					int textDeptha = -1, textDepthb = -1;
 					try{
 						String titleA = getTitleFromComplex(next[0]);
 						String titleB = getTitleFromComplex(next[7]);
 						if(titleA == null || titleB == null){ //we don't have the book (so don't add the link).
-							linkfailed++;
+							noBookLinksFailed++;
 							continue;
 						}
 						int bida =  booksInDBbid.get(titleA);
 						int bidb = booksInDBbid.get(titleB);
 						
-						int textDeptha, textDepthb,parentIDa,parentIDb;
-						int [] nodeValues = getParentID(titleA, next[0],bida);
-						parentIDa = nodeValues[0];
-						textDeptha = nodeValues[1];
+						
+						Node.NodePair nodeValues = getParentID(titleA, next[0], bida);
+						parentIDa = nodeValues.nid;
+						textDeptha = nodeValues.textDepth;
 
-						nodeValues = getParentID(titleB, next[7],bidb);
-						parentIDb = nodeValues[0];
-						textDepthb = nodeValues[1]; 
+						nodeValues = getParentID(titleB, next[7], bidb);
+						parentIDb = nodeValues.nid;
+						textDepthb = nodeValues.textDepth; 
 						
 						next = repositionRow(next, bida, textDeptha, bidb, textDepthb);
 
@@ -128,59 +138,37 @@ public class Link extends SQLite{
 							next[6] = "1";
 						if(catchDafs(next[13]) == 0)
 							next[13] = "1";
-						if(true){//catchDafs(next[6]) != 0 && catchDafs(next[13]) != 0){	//making it include even when ==0 (and convert to == 1)...
-							String select1 = "SELECT T1._id FROM Texts T1 WHERE T1.bid = ? AND T1.level1 = ? AND T1.level2 = ? AND T1.level3 = ? AND T1.level4 = ? AND T1.level5 = ? AND T1.level6 = ? AND T1.parentNode = " + parentIDa;
-							String select2 = "SELECT T2._id FROM Texts T2 WHERE T2.bid = ? AND T2.level1 = ? AND T2.level2 = ? AND T2.level3 = ? AND T2.level4 = ? AND T2.level5 = ? AND T2.level6 = ? AND T2.parentNode = " + parentIDb;
-							String sql = "INSERT INTO Links_small (" +
-									" tid1, tid2 " +
-									//", connType" +
-									" ) VALUES (" +
-									"(" + select1 + ")," + 
-									"(" + select2 + ")" +
-									//",?" + 
-									");";
-							PreparedStatement stmt = c.prepareStatement(sql);
-							stmt = putValues(stmt, next,bida, bidb, false);
-							stmt.executeUpdate();
-							stmt.close();
-							
-							/*
-							//add Text.hasLink (boolean)
-							sql = "UPDATE Texts SET hasLink = 1 WHERE _id in ("
-							+ select1 + ") OR  + _id in ( " +  select2 + ");";
-							stmt = c.prepareStatement(sql);
-							stmt = putValues(stmt, next,bida, bidb, false);//there's no connType that I want to add, so false
-							stmt.executeUpdate();
-							stmt.close();
-							*/
-							
-						}else{
-						PreparedStatement stmtLink = c.prepareStatement("INSERT INTO Links (" +
-									Kbida + ", " + 
-									Klevel1a + ", " + 
-									Klevel2a + ", " + 
-									Klevel3a + ", " + 
-									Klevel4a + ", " + 
-									Klevel5a + ", " + 
-									Klevel6a + ", " + 
-									Kbidb + ", " + 
-									Klevel1b + ", " + 
-									Klevel2b + ", " + 
-									Klevel3b + ", " + 
-									Klevel4b + ", " + 
-									Klevel5b + ", " + 
-									Klevel6b + ", " +
-									KconnType +
-									") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
-						stmtLink = putValues(stmtLink, next,bida, bidb, true);
-						stmtLink.executeUpdate();
-						stmtLink.close();
-						}
-
+						
+						//catchDafs(next[6]) != 0 && catchDafs(next[13]) != 0){	//making it include even when ==0 (and convert to == 1)...
+						String select1 = "SELECT T1._id FROM Texts T1 WHERE T1.bid = ? AND T1.level1 = ? AND T1.level2 = ? AND T1.level3 = ? AND T1.level4 = ? AND T1.level5 = ? AND T1.level6 = ? AND T1.parentNode = " + parentIDa;
+						String select2 = "SELECT T2._id FROM Texts T2 WHERE T2.bid = ? AND T2.level1 = ? AND T2.level2 = ? AND T2.level3 = ? AND T2.level4 = ? AND T2.level5 = ? AND T2.level6 = ? AND T2.parentNode = " + parentIDb;
+						String sql = "INSERT INTO Links_small (" +
+								" tid1, tid2 " +
+								//", connType" +
+								" ) VALUES (" +
+								"(" + select1 + ")," + 
+								"(" + select2 + ")" +
+								//",?" + 
+								");";
+						PreparedStatement stmt = c.prepareStatement(sql);
+						stmt = putValues(stmt, next,bida, bidb, false);
+						stmt.executeUpdate();
+						stmt.close();
+						
+						/*
+						//add Text.hasLink (boolean)
+						sql = "UPDATE Texts SET hasLink = 1 WHERE _id in ("
+						+ select1 + ") OR  + _id in ( " +  select2 + ");";
+						stmt = c.prepareStatement(sql);
+						stmt = putValues(stmt, next,bida, bidb, false);//there's no connType that I want to add, so false
+						stmt.executeUpdate();
+						stmt.close();
+						*/
 					} catch (Exception e){
 						//e.printStackTrace();
 						//System.err.println(e.getMessage());
-						writer.println( linkCount + "\t" + e);
+						writer.println( linkCount + "\t" + e + "___" + next[0] + ":" + parentIDa + "."
+						+ textDeptha + "..." + next[7] + ":" + parentIDb + "." + textDepthb);
 						//System.err.println("Error (link-" + linkCount + "): " + e);
 						linkfailed++;
 					}
@@ -194,7 +182,7 @@ public class Link extends SQLite{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("Good Link: " + String.valueOf(linkCount - linkfailed) + "\nFailed Links: " + linkfailed);
+		System.out.println("\nGood Link: " + String.valueOf(linkCount - (linkfailed- noBookLinksFailed)) + "\nFailed Links: " + linkfailed + " noBooksLinksFailed:" + noBookLinksFailed);
 		return;
 	}
 	

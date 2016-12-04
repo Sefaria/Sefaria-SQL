@@ -172,7 +172,10 @@ public class Text extends SQLite{
 				preparedStatement.execute();
 			}
 			stmt.close();
-			preparedStatement.close();
+			if(preparedStatement != null)
+				preparedStatement.close();
+			else
+				System.err.println("There were no links for hasLink\n");
 			c.commit();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -337,7 +340,7 @@ public class Text extends SQLite{
 			stmt.setInt(LEVEL_IN_STATEMENT_START +MAX_LEVELS, parentNodeID);
 			stmt.executeUpdate();
 			stmt.close();
-			Searching.countWords(lang,theText, ++textsUploaded);		
+			Searching.countWords(lang,theText, ++textsUploaded, Searching.SEARCH_METHOD.FRESH_COMPRESS_INDEX);		
 
 		}catch(SQLException e){
 			if(e.getMessage().equals(HAS_TEXT_SQL_ERROR)){ //this text has already been placed into the db, so now you just want to add the text in the new lang.
@@ -363,7 +366,7 @@ public class Text extends SQLite{
 					//count words for searching table
 					if(lang == LANG_HE){
 						int tid = getTid(c, bid, levels, parentNodeID,textDepth,false,it);
-						Searching.countWords(lang,theText, tid);
+						Searching.countWords(lang,theText, tid, Searching.SEARCH_METHOD.FRESH_COMPRESS_INDEX);
 					}
 
 				}catch(Exception e1){
@@ -393,7 +396,7 @@ public class Text extends SQLite{
 	 * @throws SQLException
 	 */
 	public static int getTid(Connection c, int bid, int [] levels, int parentNodeID, int textDepth,boolean useRealLevels,int[] it) throws SQLException{
-		String findTID = "SELECT _id FROM Texts WHERE " + whereClause(bid, levels,parentNodeID);
+		String findTID = "SELECT _id FROM Texts WHERE " + whereClause(bid, levels, parentNodeID);
 		PreparedStatement stmt = c.prepareStatement(findTID);
 		ResultSet rs;
 		stmt.setInt(1, bid); //bid
@@ -414,8 +417,9 @@ public class Text extends SQLite{
 		if ( rs.next() ) {
 			tid = rs.getInt(1);
 		}
-		else
-			System.err.println("couldn't find tid");
+		else{
+			System.err.print("tidError...");// + bid + " level1:" + levels[0] + " parNode:" + parentNodeID + "\n");
+		}
 		return tid;
 	}
 

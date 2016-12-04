@@ -165,7 +165,7 @@ public class Huffman extends SQLite{
 			while (rs.next()) {
 				statement2 = newDBConnection.prepareStatement("UPDATE Texts SET enTextCompress = ?, heTextCompress= ?,flags=? where _id = ?");
 				int tid = rs.getInt("_id");
-				if(tid % 10000 == 0){
+				if(tid % 200000 == 0){
 					System.out.println("tid:" + tid);
 					newDBConnection.commit();
 				}
@@ -294,9 +294,8 @@ public class Huffman extends SQLite{
 		}
 	}
 
-	private static void copyTable(Connection c, String tableName, String create, String newDB) throws SQLException{
+	static void copyTable(Connection c, String tableName, String create, String newDB) throws SQLException{
 		copyTable(c, tableName, create, newDB, null);
-		
 	}
 	
 	private static void copyTable(Connection c, String tableName, String create, String newDB, String columns) throws SQLException{
@@ -325,8 +324,7 @@ public class Huffman extends SQLite{
 		Huffman.compressAndMoveAllTexts(oldDBConnection, newDBConnection);
 	}
 
-
-	public static void copyNewDB(String oldDB, String newDB){
+	public static void copyNewDB(String oldDB, String newDB, Searching.SEARCH_METHOD searchMethod){
 		System.out.println("Copying DB");
 		try {
 			File file = new File(newDB);
@@ -345,9 +343,43 @@ public class Huffman extends SQLite{
 			copyTable(c, "android_metadata", CREATE_TABLE_METADATA, newDB);
 			copyTable(c, "Settings", CREATE_TABLE_SETTINGS, newDB);
 			//copyTable(c, "Searching", Searching.CREATE_SEARCH, newDB);
+			Searching.makeSearching(searchMethod, c, oldDB, newDB);
+			
 			setSettings("version", DB_VERION_NUM +"", c);
 			
 			copyTextTable(c, oldDB);
+			c.close();
+
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Finished Copying DB");
+	}
+	
+	
+	
+	public static void copyNewHeTextOnlyDB(String oldDB, String newDB, Searching.SEARCH_METHOD searchMethod){
+		System.out.println("Copying heText Only DB");
+		try {
+			File file = new File(newDB);
+			
+			file.delete();
+			Connection c = getDBConnection(newDB);
+			c.prepareStatement("ATTACH DATABASE \"" + oldDB + "\" AS oldDB").execute();
+			
+			
+			
+			Statement stmt = c.createStatement();
+			stmt.executeUpdate("CREATE TABLE heTexts( heText TEXT\r)");
+			stmt.close();
+		
+			String columns = "heText";
+			c.prepareStatement("INSERT INTO heTexts (" + columns + ") SELECT " + columns + " FROM oldDB.Texts").execute();
+						
+			Searching.makeSearching(searchMethod, c, oldDB, newDB);
+			setSettings("version", DB_VERION_NUM +"", c);
+			
 			c.close();
 
 
