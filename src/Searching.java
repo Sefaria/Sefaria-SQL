@@ -24,7 +24,7 @@ public class Searching {
 	private static Hashtable<String, ArrayList<Integer>> allTermLocations = new Hashtable<String, ArrayList<Integer>>();
 	
 	
-	final static int CHUNK_SIZE = 512;
+	final static int CHUNK_SIZE = 312;
 
 	
 	final static private String SEARCHING_FULL_INDEX_NAME = "SearchingFull";

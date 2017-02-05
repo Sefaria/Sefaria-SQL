@@ -24,19 +24,17 @@ import org.json.JSONTokener;
 
 public class SQLite {
 
-	protected static final int DB_VERION_NUM = 227;
+	protected static final int DB_VERION_NUM = 260;
 	public static final String DB_NAME_PART = "test" + DB_VERION_NUM;
 	public static final String DB_NAME_FULL = "testDBs/" + DB_NAME_PART + ".db";
 	public static final String DB_NAME_COPY = "testDBs/UpdateForSefariaMobileDatabase.db";//copy_" + DB_NAME_PART + ".db";
 	public static final String DB_NAME_HE_ONLY_COPY = "testDBs/heTexts_" + DB_VERION_NUM + ".db";
 	public static final String DB_NAME_API = "testDBs/API_UpdateForSefariaMobileDatabase.db";
 
-	private static final int OLD_DB_NUM_TO_COPY_FROM = 225;//215;
-	private static final String OLD_DB_TO_COPY_FROM = "testDBs/" + OLD_DB_NUM_TO_COPY_FROM + "/test" + OLD_DB_NUM_TO_COPY_FROM + ".db";
+	private static final int OLD_DB_NUM_TO_COPY_FROM = 215;
+	private static final String OLD_DB_TO_COPY_FROM = "testDBs/215/UpdateForSefariaMobileDatabase.db" ;//"testDBs/" + OLD_DB_NUM_TO_COPY_FROM + "/test" + OLD_DB_NUM_TO_COPY_FROM + ".db";
+	
 	private static final boolean USE_TEST_FILES = false;
-	
-	
-	
 	private static final boolean CREATE_FRESH_FULL_DB = true;
 	private static final boolean CREATE_API = true;
 	private static final boolean CREATE_COPY = true;
@@ -95,9 +93,9 @@ public class SQLite {
 			}
 			if(CREATE_HE_ONLY_COPY){
 				if(CREATE_FRESH_FULL_DB)
-					Huffman.copyNewHeTextOnlyDB(DB_NAME_FULL,DB_NAME_HE_ONLY_COPY, USE_SEARCH_METHOD_IN_COPY);
+					Huffman.copyNewHeTextOnlyDB(DB_NAME_FULL, DB_NAME_HE_ONLY_COPY, USE_SEARCH_METHOD_IN_COPY);
 				else
-					Huffman.copyNewHeTextOnlyDB(OLD_DB_TO_COPY_FROM,DB_NAME_HE_ONLY_COPY, USE_SEARCH_METHOD_IN_COPY);
+					Huffman.copyNewHeTextOnlyDB(OLD_DB_TO_COPY_FROM, DB_NAME_HE_ONLY_COPY, USE_SEARCH_METHOD_IN_COPY);
 			}
 		
 			System.out.println("Good stuff");

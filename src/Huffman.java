@@ -375,7 +375,7 @@ public class Huffman extends SQLite{
 			stmt.close();
 		
 			String columns = "heText";
-			c.prepareStatement("INSERT INTO heTexts (" + columns + ") SELECT " + columns + " FROM oldDB.Texts").execute();
+			c.prepareStatement("INSERT INTO heTexts (" + columns + ") SELECT " + "heTextCompress" + " FROM oldDB.Texts").execute();
 						
 			Searching.makeSearching(searchMethod, c, oldDB, newDB);
 			setSettings("version", DB_VERION_NUM +"", c);

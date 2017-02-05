@@ -23,53 +23,55 @@ def main():
 
 def links():
 	path = '../Sefaria-Export/'
-	fileName = path + 'links/links.csv';
+	in_file_number = 0
 
-	ifile = open(fileName, 'rb');
-	reader = csv.reader(ifile)
+	filew = 'scripts/links/links{}.csv'.format(0)
+	with open(filew, 'wb') as ofile:
+		writer = csv.writer(ofile)
 
-	firstRow = True;
-	numberOfLines = 0
-	numberOfLinesPerFile = 100000000 #7000
-	for row in reader:
-		if numberOfLines % numberOfLinesPerFile == 0:
-			try:
-				ofile.close()
-			except:
-				pass
-			filew = 'scripts/links/links' + str(numberOfLines/numberOfLinesPerFile) + '.csv'
-			ofile = open(filew, 'wb');
-			writer = csv.writer(ofile);
-			
-		if  firstRow:
-			firstRow = False;
-			continue;
-		thisLine = []
-		thisLine += [row[3]]
-		thisLine += convert2Levels(row[0].replace(row[3] + " " ,"").split(':'), row[5]);
-		thisLine += [row[4]]
-		thisLine += convert2Levels(row[1].replace(row[4] + " " ,"").split(':'), row[6]);
-		thisLine += [conncetionType(row[2])]
-		writer.writerow(thisLine);
-		numberOfLines += 1;
+		while True:
+			filename = '{}links/links{}.csv'.format(path, in_file_number)
+			if not os.path.isfile(filename):
+				break
+			else:
+				print(filename)
+
+			numberOfLines = 0
+			with open(filename, 'rb') as ifile:
+				reader = csv.reader(ifile)
+				firstRow = True
+
+				for row in reader:
+					if  firstRow:
+						firstRow = False
+					else:
+						thisLine = []
+						thisLine += [row[3]]
+						thisLine += convert2Levels(row[0].replace(row[3] + " " ,"").split(':'), row[5], row[0])
+						thisLine += [row[4]]
+						thisLine += convert2Levels(row[1].replace(row[4] + " " ,"").split(':'), row[6], row[1])
+						thisLine += [conncetionType(row[2])]
+						writer.writerow(thisLine)
+						numberOfLines += 1
+			in_file_number += 1
 
 
-	ifile.close()
-
-
-def convert2Levels(item, category):
+def convert2Levels(item, category, title):
 	zeroList = [];
 	for i in range(len(item), 6):
 		zeroList += ['0'];
 	if category == "Talmud":
-		item[0] = daf2Num(item[0])
+		try:
+			item[0] = daf2Num(item[0])
+		except RuntimeError as e:
+			if not title.startswith('Introduction'):
+				# if Intro it's therefore expected to not be a daf 
+				print(str(e), title)
 	return zeroList + item
 
 def daf2Num(daf):
 	if (daf[-1] != 'a' and daf[-1] != 'b'):
-		print(daf[-1]);
-		print(daf + " ERROR.... it's not a daf")
-		return daf
+		raise RuntimeError(daf + " ERROR.... it's not a daf")
 	if "-" in daf[0:-1]:
 		return daf
 	value = int(daf[0:-1])*2 - 1

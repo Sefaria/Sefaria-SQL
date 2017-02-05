@@ -512,7 +512,7 @@ public class Node extends SQLite{
 					int endTID = refValues.endTid;
 					insertSingleNodeToDB(c, nodeID, bid, subParentNode, nodeType,
 							i, "", "", structNum, null, startTID, endTID, ref,
-							sectionNames, heSectionNames,refValues.startLevels, key);
+							sectionNames, heSectionNames, refValues.startLevels, key);
 				}
 			}else if(depth == 0){ //so the refs aren't in a grid
 				int nodeID = ++nodeCount;
