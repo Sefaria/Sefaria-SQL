@@ -147,7 +147,7 @@ public class Book extends SQLite{
 
 	protected static int idCount = 0;
 	
-	public static void addBook(Connection c, JSONObject enJSON, JSONObject heJSON,boolean complexText) throws JSONException, SQLException {		
+	public static void addBook(Connection c, JSONObject enJSON, JSONObject heJSON, boolean complexText, JSONObject schema) throws JSONException, SQLException {		
 		int langSum = 0;
 		JSONObject json;
 		if(enJSON != null && heJSON != null){
@@ -183,16 +183,19 @@ public class Book extends SQLite{
 				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 
 		stmt.setInt(1, id);//_id
-		String commentedOnBook = title.replaceFirst(".* on ", "");
-		int commentsOn = 0;
+
+		try{
+			JSONArray baseTextTitles = schema.getJSONArray("base_text_titles");
+			for(int i = 0; i < baseTextTitles.length(); i++){
+				String commentedOnBook = baseTextTitles.getString(i);
+				if(booksInDB.containsKey(commentedOnBook)){
+					int commentsOn = booksInDBbid.get(commentedOnBook);
+					stmt.setInt(2, commentsOn); // KcommentsOn
+					break; // We can only handle one commentsOn book at this point
+				}
+			}
+		}catch(JSONException e){}
 		int textDepth = 0;
-		if(booksInDB.containsKey(commentedOnBook)){
-			commentsOn = booksInDBbid.get(commentedOnBook);
-			stmt.setInt(2, commentsOn); // KcommentsOn
-		} else if(booksInDB.containsKey(title.replaceFirst("^Onkelos ", "").replaceFirst("^Rif ", ""))){ //added in so that Onkelos would be considered a commentary
-			commentsOn = booksInDBbid.get(title.replaceFirst("^Onkelos ", "").replaceFirst("^Rif ", ""));
-			stmt.setInt(2, commentsOn); // KcommentsOn
-		}
 
 		if(!complexText){//only simple texts have section names
 			String sectionNames = json.get("sectionNames").toString().replace("\"\"", "\"Section\"");

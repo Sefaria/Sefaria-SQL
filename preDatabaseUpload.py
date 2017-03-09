@@ -64,8 +64,9 @@ def convert2Levels(item, category, title):
 		try:
 			item[0] = daf2Num(item[0])
 		except RuntimeError as e:
-			if not title.startswith('Introduction'):
-				# if Intro it's therefore expected to not be a daf 
+			if not title.startswith('Introduction') and not ' on ' in title:
+				# if Intro or ' on ' (commentary) it's therefore expected to not be a daf
+
 				print(str(e), title)
 	return zeroList + item
 

@@ -24,7 +24,7 @@ import org.json.JSONTokener;
 
 public class SQLite {
 
-	protected static final int DB_VERION_NUM = 260;
+	protected static final int DB_VERION_NUM = 262;
 	public static final String DB_NAME_PART = "test" + DB_VERION_NUM;
 	public static final String DB_NAME_FULL = "testDBs/" + DB_NAME_PART + ".db";
 	public static final String DB_NAME_COPY = "testDBs/UpdateForSefariaMobileDatabase.db";//copy_" + DB_NAME_PART + ".db";
@@ -229,10 +229,10 @@ public class SQLite {
 						continue;
 					}
 
-					JSONObject schemas = null;
+					JSONObject schema = null;
 					try{
 						String schemaPath = exportPath + "schemas/" + title.replaceAll(" ", "_") + ".json";
-						schemas = openJSON(schemaPath);
+						schema = openJSON(schemaPath);
 					}catch(Exception e){
 						if(!ignoreSchemaError || !(e.toString().contains("java.nio.file.NoSuchFileException: ") && e.toString().contains("schema")))
 							System.err.println("576578 Error adding Schema: " + e);
@@ -240,17 +240,17 @@ public class SQLite {
 					
 					try{
 						//non complex texts
-						Book.addBook(c,enJSON,heJSON,false);					
+						Book.addBook(c, enJSON, heJSON, false, schema);					
 						if(heJSON != null)
-							Text.addText(c,heJSON);
+							Text.addText(c, heJSON);
 						if(enJSON != null)
 							Text.addText(c,enJSON);
 					}catch(JSONException e){ //IT's a COMPLEX TEXT
 						if(e.toString().equals("org.json.JSONException: JSONObject[\"sectionNames\"] not found.")
 								&& doComplex){
 							System.out.println("Complex Text");
-							Book.addBook(c, enJSON, heJSON,true);							
-							Node.addText(c,enJSON,heJSON, schemas);
+							Book.addBook(c, enJSON, heJSON, true, schema);							
+							Node.addText(c, enJSON, heJSON, schema);
 						}else{
 							System.err.println("Error2: " + e);
 							failedBooksCount++;
@@ -258,8 +258,8 @@ public class SQLite {
 					}
 
 					try{
-						if(schemas != null)
-							Node.addWholeSchemas(c, schemas);
+						if(schema != null)
+							Node.addWholeSchemas(c, schema);
 					}catch(Exception e){
 						if(!ignoreSchemaError || !(e.toString().contains("java.nio.file.NoSuchFileException: ") && e.toString().contains("schema")))
 							System.err.println("75765 Error adding Schema: " + e);
