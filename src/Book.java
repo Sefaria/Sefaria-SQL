@@ -29,6 +29,8 @@ public class Book extends SQLite{
 			"maxTid INTEGER DEFAULT -1, " + 
 			"rootNode INTEGER, " + 
 			"path TEXT, " +
+			"enCollectiveTitle TEXT, " +
+			"heCollectiveTitle TEXT, " +
 			"	CONSTRAINT uniqueTitle UNIQUE " + "(" + Ktitle + "),\r\n" + 
 			"	FOREIGN KEY (" + KcommentsOn + ") REFERENCES " + TABLE_BOOKS + "(_id)\r\n" + 
 			"	FOREIGN KEY (rootNode) REFERENCES " + " Nodes " + "(_id)\r\n" + 
@@ -179,19 +181,22 @@ public class Book extends SQLite{
 				+ KcommentsOn + ", " + KsectionNames + ","  + Kcategories + ", " + KtextDepth + ", " 
 				+ KwherePage + "," + Klengths + "," + Ktitle + ", " + KheTitle + ", "
 				+ KversionTitle + ", " + KdataVersion +", " + Kversions + ", " + Klanguages  + ", heSectionNames "+ "" +
-						", path) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+						", path, enCollectiveTitle, heCollectiveTitle) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 
 		stmt.setInt(1, id);//_id
 
 		try{
-			JSONArray baseTextTitles = schema.getJSONArray("base_text_titles");
-			for(int i = 0; i < baseTextTitles.length(); i++){
-				String commentedOnBook = baseTextTitles.getString(i);
-				if(booksInDB.containsKey(commentedOnBook)){
-					int commentsOn = booksInDBbid.get(commentedOnBook);
-					stmt.setInt(2, commentsOn); // KcommentsOn
-					break; // We can only handle one commentsOn book at this point
+			String dependence = schema.getString("dependence");
+			if("Commentary".equals(dependence)){
+				JSONArray baseTextTitles = schema.getJSONArray("base_text_titles");
+				for(int i = 0; i < baseTextTitles.length(); i++){
+					String commentedOnBook = baseTextTitles.getString(i);
+					if(booksInDB.containsKey(commentedOnBook)){
+						int commentsOn = booksInDBbid.get(commentedOnBook);
+						stmt.setInt(2, commentsOn); // KcommentsOn
+						break; // We can only handle one commentsOn book at this point
+					}
 				}
 			}
 		}catch(JSONException e){}
@@ -250,6 +255,21 @@ public class Book extends SQLite{
 		}
 		path.append(title);
 		stmt.setString(15,path.toString());
+		
+		try{
+			String enCollectiveTitle = schema.getString("collective_title");
+			stmt.setString(16, enCollectiveTitle);//collectiveTitle
+			JSONArray authors = schema.getJSONArray("authors");
+			for(int i = 0; i < authors.length(); i++){
+				JSONObject author = authors.getJSONObject(i);
+				String enAuthor = author.getString("en");
+				if(enCollectiveTitle.equals(enAuthor)){
+					String heAuthor = author.getString("he");
+					stmt.setString(17, heAuthor);//hecollectiveTitle
+					break;
+				}
+			}
+		}catch(JSONException e){}
 		
 
 		stmt.executeUpdate();
