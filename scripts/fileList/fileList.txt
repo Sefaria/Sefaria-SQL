@@ -411,7 +411,7 @@ Tanakh/Commentary/Ibn Ezra/Writings/Ibn Ezra on Proverbs/Hebrew/merged.json
 Tanakh/Commentary/Ibn Ezra/Writings/Ibn Ezra on Proverbs/English/merged.json
 Tanakh/Commentary/Ibn Ezra/Writings/Ibn Ezra on Job/Hebrew/merged.json
 Tanakh/Commentary/Ibn Ezra/Writings/Ibn Ezra on Ruth/Hebrew/merged.json
-Tanakh/Commentary/Ibn Ezra/Writings/Eben Ezra on Lamentations/Hebrew/merged.json
+Tanakh/Commentary/Ibn Ezra/Writings/Iben Ezra on Lamentations/Hebrew/merged.json
 Tanakh/Commentary/Ibn Ezra/Writings/Ibn Ezra on Daniel/Hebrew/merged.json
 Tanakh/Commentary/Ibn Ezra/Writings/Ibn Ezra on Daniel/English/merged.json
 Tanakh/Commentary/Ibn Ezra/Writings/Ibn Ezra on Ezra/Hebrew/merged.json
@@ -650,7 +650,7 @@ Tanakh/Commentary/Ralbag/Prophets/Ralbag on II Kings/Hebrew/merged.json
 Tanakh/Commentary/Ralbag/Prophets/Ralbag on II Kings/English/merged.json
 Tanakh/Commentary/Ralbag/Writings/Ralbag on Proverbs/Hebrew/merged.json
 Tanakh/Commentary/Ralbag/Writings/Ralbag on Job/Hebrew/merged.json
-Tanakh/Commentary/Ralbag/Writings/Ralbag Song of Songs/Hebrew/merged.json
+Tanakh/Commentary/Ralbag/Writings/Ralbag on Song of Songs/Hebrew/merged.json
 Tanakh/Commentary/Ralbag/Writings/Ralbag Ruth/Hebrew/merged.json
 Tanakh/Commentary/Ralbag/Writings/Ralbag Esther/Hebrew/merged.json
 Tanakh/Commentary/Ralbag/Writings/Ralbag on Ezra/Hebrew/merged.json
@@ -934,17 +934,19 @@ Mishnah/Commentary/Rambam/Rambam Mishnah Terumot/Hebrew/merged.json
 Mishnah/Commentary/Rambam/Rambam Mishnah Tevul Yom/Hebrew/merged.json
 Mishnah/Commentary/Rambam/Rambam Mishnah Yadayim/Hebrew/merged.json
 Mishnah/Commentary/Rambam/Rambam Mishnah Zavim/Hebrew/merged.json
+Mishnah/Commentary/Rambam/Rambam Pirkei Avot/Hebrew/merged.json
+Mishnah/Commentary/Rambam/Rambam Pirkei Avot/English/merged.json
 Mishnah/Commentary/Rambam/Rambam Mishnah Beitzah/Hebrew/merged.json
 Mishnah/Commentary/Rambam/Rambam Mishnah Middot/Hebrew/merged.json
 Mishnah/Commentary/Rambam/Rambam Mishnah Nedarim/Hebrew/merged.json
 Mishnah/Commentary/Rambam/Rambam Mishnah Sukkah/Hebrew/merged.json
 Mishnah/Commentary/Rambam/Rambam Mishnah Taanit/Hebrew/merged.json
 Mishnah/Commentary/Rambam/Rambam Mishnah Yoma/Hebrew/merged.json
-Mishnah/Commentary/Rambam/Rambam Pirkei Avot/Hebrew/merged.json
 Mishnah/Commentary/Rambam/Rambam Mishnah Chagigah/Hebrew/merged.json
 Mishnah/Commentary/Rambam/Seder Zeraim/Rambam on Mishnah Berakhot/Hebrew/merged.json
 Mishnah/Commentary/Rambam/Seder Moed/Rambam on Mishnah Shabbat/Hebrew/merged.json
 Mishnah/Commentary/Rambam/Seder Moed/Rambam on Mishnah Pesachim/Hebrew/merged.json
+Mishnah/Commentary/Rambam/Seder Moed/Rambam on Mishnah Shekalim/Hebrew/merged.json
 Mishnah/Commentary/Rambam/Seder Moed/Rambam on Mishnah Rosh Hashanah/Hebrew/merged.json
 Mishnah/Commentary/Rambam/Seder Moed/Rambam on Mishnah Megillah/Hebrew/merged.json
 Mishnah/Commentary/Rambam/Seder Moed/Rambam on Mishnah Moed Katan/Hebrew/merged.json
@@ -974,6 +976,7 @@ Mishnah/Commentary/Rambam/Seder Kodashim/Rambam on Mishnah Meilah/Hebrew/merged.
 Mishnah/Commentary/Rambam/Seder Kodashim/Rambam on Mishnah Tamid/Hebrew/merged.json
 Mishnah/Commentary/Rambam/Seder Kodashim/Rambam on Mishnah Kinnim/Hebrew/merged.json
 Mishnah/Commentary/Rambam/Seder Tahorot/Rambam on Mishnah Niddah/Hebrew/merged.json
+Mishnah/Commentary/Rambam/Seder Tahorot/Rambam Introduction to Seder Tahorot/Hebrew/merged.json
 Mishnah/Commentary/Bartenura/Seder Zeraim/Bartenura on Mishnah Berakhot/Hebrew/merged.json
 Mishnah/Commentary/Bartenura/Seder Zeraim/Bartenura on Mishnah Berakhot/English/merged.json
 Mishnah/Commentary/Bartenura/Seder Zeraim/Bartenura on Mishnah Peah/Hebrew/merged.json
@@ -1184,6 +1187,8 @@ Mishnah/Commentary/Ikar Tosafot Yom Tov/Seder Tahorot/Ikar Tosafot Yom Tov on Mi
 Mishnah/Commentary/Lechem Shamayim/Seder Nezikin/Lechem Shamayim on Pirkei Avot/Hebrew/merged.json
 Mishnah/Commentary/Rabbeinu Yonah/Seder Nezikin/Rabbeinu Yonah on Pirkei Avot/Hebrew/merged.json
 Mishnah/Commentary/Rabbeinu Yonah/Seder Nezikin/Rabbeinu Yonah on Pirkei Avot/English/merged.json
+Mishnah/Commentary/Tosafot Yom Tov/Tosafot Yom Tov Introduction to the Mishnah/Hebrew/merged.json
+Mishnah/Commentary/Tosafot Yom Tov/Tosafot Yom Tov Introduction to the Mishnah/English/merged.json
 Mishnah/Commentary/Tosafot Yom Tov/Seder Zeraim/Tosafot Yom Tov on Mishnah Berakhot/Hebrew/merged.json
 Mishnah/Commentary/Tosafot Yom Tov/Seder Zeraim/Tosafot Yom Tov on Mishnah Peah/Hebrew/merged.json
 Mishnah/Commentary/Tosafot Yom Tov/Seder Zeraim/Tosafot Yom Tov on Mishnah Demai/Hebrew/merged.json
@@ -1748,6 +1753,8 @@ Halakhah/Sefer Hasidim/Hebrew/merged.json
 Halakhah/Sefer Hasidim/English/merged.json
 Halakhah/Shulchan Aruch HaRav/Hebrew/merged.json
 Halakhah/Shulchan Aruch HaRav/English/merged.json
+Halakhah/Treasures Hidden in the Sand/Hebrew/merged.json
+Halakhah/Treasures Hidden in the Sand/English/merged.json
 Halakhah/Mishneh Torah/Introduction/Mishneh Torah, Transmission of the Oral Law/Hebrew/merged.json
 Halakhah/Mishneh Torah/Introduction/Mishneh Torah, Transmission of the Oral Law/English/merged.json
 Halakhah/Mishneh Torah/Introduction/Mishneh Torah, Positive Mitzvot/Hebrew/merged.json
@@ -2075,6 +2082,7 @@ Liturgy/Birkat Hamazon/Hebrew/merged.json
 Liturgy/Birkat Hamazon/English/merged.json
 Liturgy/Kabbolos Shabbos/Hebrew/merged.json
 Liturgy/Pesach Haggadah Edot Hamizrah/Hebrew/merged.json
+Liturgy/Tikkun HaKlali/Hebrew/merged.json
 Liturgy/Unetaneh Tokef/Hebrew/merged.json
 Liturgy/Unetaneh Tokef/English/merged.json
 Liturgy/Siddur/Siddur Ashkenaz/Hebrew/merged.json
@@ -2287,13 +2295,14 @@ Modern Works/Daf Shevui to Sukkah/English/merged.json
 Modern Works/Footnotes to Kohelet by Bruce Heitler/English/merged.json
 Modern Works/Redeeming Relevance/English/merged.json
 Modern Works/Redeeming Relevance; Exodus/English/merged.json
-Parshanut/Tosafot Yom Tov Introduction to the Mishnah/Hebrew/merged.json
-Parshanut/Tosafot Yom Tov Introduction to the Mishnah/English/merged.json
 Other/Dictionary/Kovetz Ha'Aros on Meseches Bava Basra/Hebrew/merged.json
 Other/Grammatica Hebraica/Mahberet Menachem/Hebrew/merged.json
 Other/Grammatica Hebraica/Sefer haBachur/Hebrew/merged.json
 Other/Tanaitic/Masechtot Ketanot/Avot D'Rabbi Natan/Hebrew/merged.json
+Other/Tanaitic/Masechtot Ketanot/Avot D'Rabbi Natan/English/merged.json
+Other/Tanaitic/Masechtot Ketanot/Tractate Derekh Eretz Rabbah/Hebrew/merged.json
 Other/Tanaitic/Masechtot Ketanot/Tractate Gerim/Hebrew/merged.json
+Other/Tanaitic/Masechtot Ketanot/Tractate Kallah Rabbati/Hebrew/merged.json
 Other/Tanaitic/Masechtot Ketanot/Tractate Sefer Torah/Hebrew/merged.json
 Other/Tanaitic/Masechtot Ketanot/Tractate Sefer Torah/English/merged.json
 Other/Tanaitic/Masechtot Ketanot/Tractate Soferim/Hebrew/merged.json
@@ -2305,15 +2314,19 @@ Other/Tanaitic/Commentary/Binyan Yehoshua/Masechtot Ketanot/Binyan Yehoshua on A
 Other/Tanaitic/Commentary/Commentary of Chida/Masechtot Ketanot/Commentary of Chida on Tractate Gerim/Hebrew/merged.json
 Other/Tanaitic/Commentary/Gra's Nuschah/Masechtot Ketanot/Gra's Nuschah on Avot D'Rabbi Natan/Hebrew/merged.json
 Other/Tanaitic/Commentary/Gra's Nuschah/Masechtot Ketanot/Gra's Nuschah on Tractate Soferim/Hebrew/merged.json
+Other/Tanaitic/Commentary/Gra's Nuschah/Masechtot Ketanot/Gra's Nuschah on Tractate Derekh Eretz Rabbah/Hebrew/merged.json
 Other/Tanaitic/Commentary/Haggahot/Masechtot Ketanot/Haggahot on Tractate Avadim/Hebrew/merged.json
 Other/Tanaitic/Commentary/Haggahot/Masechtot Ketanot/Haggahot on Tractate Mezuzah/Hebrew/merged.json
 Other/Tanaitic/Commentary/Haggahot/Masechtot Ketanot/Haggahot on Tractate Tefillin/Hebrew/merged.json
 Other/Tanaitic/Commentary/Haggahot/Masechtot Ketanot/Haggahot on Tractate Tzitzit/Hebrew/merged.json
 Other/Tanaitic/Commentary/Haggahot R' Yeshaya Berlin/Masechtot Ketanot/Haggahot R' Yeshaya Berlin on Avot D'Rabbi Natan/Hebrew/merged.json
+Other/Tanaitic/Commentary/Haggahot R' Yeshaya Berlin/Masechtot Ketanot/Haggahot R' Yeshaya Berlin on Tractate Derekh Eretz Rabbah/Hebrew/merged.json
 Other/Tanaitic/Commentary/Haggahot R' Yeshaya Berlin/Masechtot Ketanot/Haggahot R' Yeshaya Berlin on Tractate Soferim/Hebrew/merged.json
 Other/Tanaitic/Commentary/Haggahot R' Yeshaya Berlin/Masechtot Ketanot/Haggahot R' Yeshaya Berlin on Tractate Gerim/Hebrew/merged.json
 Other/Tanaitic/Commentary/Haggahot Ya'avetz/Masechtot Ketanot/Haggahot Ya'avetz on Avot D'Rabbi Natan/Hebrew/merged.json
+Other/Tanaitic/Commentary/Haggahot Ya'avetz/Masechtot Ketanot/Haggahot Ya'avetz on Tractate Derekh Eretz Rabbah/Hebrew/merged.json
 Other/Tanaitic/Commentary/Haggahot Ya'avetz/Masechtot Ketanot/Haggahot Ya'avetz on Tractate Soferim/Hebrew/merged.json
+Other/Tanaitic/Commentary/Haggahot and Marei Mekomot/Masechtot Ketanot/Haggahot and Marei Mekomot on Tractate Kallah Rabbati/Hebrew/merged.json
 Other/Tanaitic/Commentary/Kisse Rahamim/Masechtot Ketanot/Kisse Rahamim on Avot D'Rabbi Natan/Hebrew/merged.json
 Other/Tanaitic/Commentary/Kisse Rahamim/Masechtot Ketanot/Kisse Rahamim on Tractate Soferim/Hebrew/merged.json
 Other/Tanaitic/Commentary/Mesorat HaShas/Masechtot Ketanot/Mesorat HaShas on Tractate Avadim/Hebrew/merged.json
@@ -2324,6 +2337,7 @@ Other/Tanaitic/Commentary/Mesorat HaShas/Masechtot Ketanot/Mesorat HaShas on Tra
 Other/Tanaitic/Commentary/Mitzpeh Etan/Masechtot Ketanot/Mitzpeh Etan on Avot D'Rabbi Natan/Hebrew/merged.json
 Other/Tanaitic/Commentary/Nahalat Yaakov/Masechtot Ketanot/Nahalat Yaakov on Tractate Gerim/Hebrew/merged.json
 Other/Tanaitic/Commentary/Nahalat Yaakov/Masechtot Ketanot/Nahalat Yaakov on Tractate Soferim/Hebrew/merged.json
+Other/Tanaitic/Commentary/Nahalat Yaakov/Masechtot Ketanot/Nahalat Yaakov on Tractate Derekh Eretz Rabbah/Hebrew/merged.json
 Other/Tanaitic/Commentary/New Nuschah/Masechtot Ketanot/New Nuschah on Tractate Gerim/Hebrew/merged.json
 Other/Tanaitic/Commentary/Nuschaot from Manuscripts/Masechtot Ketanot/Nuschaot from Manuscripts on Tractate Soferim/Hebrew/merged.json
 Other/Tanaitic/Commentary/Rishon Letzion/Masechtot Ketanot/Rishon Letzion on Avot D'Rabbi Natan/Hebrew/merged.json
