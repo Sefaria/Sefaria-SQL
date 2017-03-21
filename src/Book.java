@@ -1,6 +1,8 @@
+import java.lang.reflect.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import org.json.JSONArray;
@@ -29,6 +31,9 @@ public class Book extends SQLite{
 			"maxTid INTEGER DEFAULT -1, " + 
 			"rootNode INTEGER, " + 
 			"path TEXT, " +
+			"enCollectiveTitle TEXT, " +
+			"heCollectiveTitle TEXT, " +
+			"commentsOnMultiple TEXT, " + // This value should be "[<bid, bid2...> ]"
 			"	CONSTRAINT uniqueTitle UNIQUE " + "(" + Ktitle + "),\r\n" + 
 			"	FOREIGN KEY (" + KcommentsOn + ") REFERENCES " + TABLE_BOOKS + "(_id)\r\n" + 
 			"	FOREIGN KEY (rootNode) REFERENCES " + " Nodes " + "(_id)\r\n" + 
@@ -147,7 +152,7 @@ public class Book extends SQLite{
 
 	protected static int idCount = 0;
 	
-	public static void addBook(Connection c, JSONObject enJSON, JSONObject heJSON,boolean complexText) throws JSONException, SQLException {		
+	public static void addBook(Connection c, JSONObject enJSON, JSONObject heJSON, boolean complexText, JSONObject schema) throws JSONException, SQLException {		
 		int langSum = 0;
 		JSONObject json;
 		if(enJSON != null && heJSON != null){
@@ -179,20 +184,31 @@ public class Book extends SQLite{
 				+ KcommentsOn + ", " + KsectionNames + ","  + Kcategories + ", " + KtextDepth + ", " 
 				+ KwherePage + "," + Klengths + "," + Ktitle + ", " + KheTitle + ", "
 				+ KversionTitle + ", " + KdataVersion +", " + Kversions + ", " + Klanguages  + ", heSectionNames "+ "" +
-						", path) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+						", path, enCollectiveTitle, heCollectiveTitle, commentsOnMultiple) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 
 		stmt.setInt(1, id);//_id
-		String commentedOnBook = title.replaceFirst(".* on ", "");
-		int commentsOn = 0;
+
+		try{
+			ArrayList<Integer> commentsOnMultiple = new ArrayList<Integer>();
+			String dependence = schema.getString("dependence");
+			if(dependence.length() > 0){
+				// dependence is currently Commentary or Targum. 
+				// But in the future it could be more, so as long as it's something
+				// we're going to include it as a CommentsOn book
+				JSONArray baseTextTitles = schema.getJSONArray("base_text_titles");
+				for(int i = 0; i < baseTextTitles.length(); i++){
+					String commentedOnBook = baseTextTitles.getString(i);
+					if(booksInDB.containsKey(commentedOnBook)){
+						int commentsOn = booksInDBbid.get(commentedOnBook);
+						commentsOnMultiple.add(commentsOn);
+						stmt.setInt(2, commentsOn); // KcommentsOn
+					}
+				}
+			}
+			stmt.setString(18, commentsOnMultiple.toString());
+		}catch(JSONException e){}
 		int textDepth = 0;
-		if(booksInDB.containsKey(commentedOnBook)){
-			commentsOn = booksInDBbid.get(commentedOnBook);
-			stmt.setInt(2, commentsOn); // KcommentsOn
-		} else if(booksInDB.containsKey(title.replaceFirst("^Onkelos ", "").replaceFirst("^Rif ", ""))){ //added in so that Onkelos would be considered a commentary
-			commentsOn = booksInDBbid.get(title.replaceFirst("^Onkelos ", "").replaceFirst("^Rif ", ""));
-			stmt.setInt(2, commentsOn); // KcommentsOn
-		}
 
 		if(!complexText){//only simple texts have section names
 			String sectionNames = json.get("sectionNames").toString().replace("\"\"", "\"Section\"");
@@ -247,6 +263,21 @@ public class Book extends SQLite{
 		}
 		path.append(title);
 		stmt.setString(15,path.toString());
+		
+		try{
+			String enCollectiveTitle = schema.getString("collective_title");
+			stmt.setString(16, enCollectiveTitle);//collectiveTitle
+			JSONArray authors = schema.getJSONArray("authors");
+			for(int i = 0; i < authors.length(); i++){
+				JSONObject author = authors.getJSONObject(i);
+				String enAuthor = author.getString("en");
+				if(enCollectiveTitle.equals(enAuthor)){
+					String heAuthor = author.getString("he");
+					stmt.setString(17, heAuthor);//hecollectiveTitle
+					break;
+				}
+			}
+		}catch(JSONException e){}
 		
 
 		stmt.executeUpdate();

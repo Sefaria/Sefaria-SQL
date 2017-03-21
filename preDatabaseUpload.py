@@ -64,8 +64,9 @@ def convert2Levels(item, category, title):
 		try:
 			item[0] = daf2Num(item[0])
 		except RuntimeError as e:
-			if not title.startswith('Introduction'):
-				# if Intro it's therefore expected to not be a daf 
+			if not title.startswith('Introduction') and not ' on ' in title:
+				# if Intro or ' on ' (commentary) it's therefore expected to not be a daf
+
 				print(str(e), title)
 	return zeroList + item
 
@@ -139,13 +140,13 @@ def reorderFiles(unordered):
 	'^Tanakh/Torah/','^Tanakh/Prophets/', '^Tanakh/Writings/',
 	'^Mishnah/Seder ', '^Talmud/Bavli/Seder ', '^Talmud/Yerushalmi/Seder ',
 
-	'^Commentary/Tanakh/Rashi', '^Tanakh/Targum/Onkelos', '^Commentary/Tanakh/Ibn Ezra', '^Commentary/Tanakh/Ramban', '^Commentary/Tanakh/Sforno', '^Commentary/Tanakh/Rashbam',
-	'^Commentary/Tanakh', '^Tanakh/Commentary/', '^Other/Commentary2/Tanakh/', '^Tanakh/Targum/', # make sure that the rest of the Tanakh commentaries come b/f any other category commenary
+	'^Tanakh/Commentary/Rashi', '^Tanakh/Targum/Onkelos', '^Tanakh/Commentary/Ibn Ezra', '^Tanakh/Commentary/Ramban', '^Tanakh/Commentary/Sforno', '^Tanakh/Commentary/Rashbam',
+	'^Tanakh/Commentary', '^Tanakh/Commentary/', '^Other/Commentary2/Tanakh/', '^Tanakh/Targum/', # make sure that the rest of the Tanakh commentaries come b/f any other category commenary
 	
-	'^Commentary/Mishnah/Bartenura', '^Commentary/Mishnah/Ikar Tosafot Yom Tov', '/Mishnah/Tosafot Yom Tov', '^Commentary/Mishnah/', '^Other/Commentary2/Mishnah/', # make sure that the rest of the mishna commentaries come b/f any other category commenary
+	'^Mishnah/Commentary/Bartenura', '^Mishnah/Commentary/Ikar Tosafot Yom Tov', '/Mishnah/Tosafot Yom Tov', '^Mishnah/Commentary/', '^Other/Commentary2/Mishnah/', # make sure that the rest of the mishna commentaries come b/f any other category commenary
 	
-	'^Commentary/Talmud/Rashi', '^Commentary/Talmud/Tosafot', '/Talmud/Rashba', '^Talmud/Rif/',
-	'^Commentary/Talmud/', '^Other/Commentary2/Talmud/',
+	'^Talmud/Commentary/Rashi', '^Talmud/Commentary/Tosafot', '/Talmud/Rashba', '^Talmud/Rif/',
+	'^Talmud/Commentary/', '^Other/Commentary2/Talmud/',
 
 	'^Tosefta/Seder '
 	]
