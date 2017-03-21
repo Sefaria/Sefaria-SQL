@@ -944,8 +944,6 @@ Mishnah/Commentary/Rambam/Rambam Pirkei Avot/Hebrew/merged.json
 Mishnah/Commentary/Rambam/Rambam Mishnah Chagigah/Hebrew/merged.json
 Mishnah/Commentary/Rambam/Seder Zeraim/Rambam on Mishnah Berakhot/Hebrew/merged.json
 Mishnah/Commentary/Rambam/Seder Moed/Rambam on Mishnah Shabbat/Hebrew/merged.json
-Mishnah/Commentary/Rambam/Seder Moed/Rambam on Mishnah Eruvin/Hebrew/merged.json
-Mishnah/Commentary/Rambam/Seder Moed/Rambam on Mishnah Eruvin/English/merged.json
 Mishnah/Commentary/Rambam/Seder Moed/Rambam on Mishnah Pesachim/Hebrew/merged.json
 Mishnah/Commentary/Rambam/Seder Moed/Rambam on Mishnah Rosh Hashanah/Hebrew/merged.json
 Mishnah/Commentary/Rambam/Seder Moed/Rambam on Mishnah Megillah/Hebrew/merged.json
@@ -1911,7 +1909,9 @@ Halakhah/Shulchan Arukh/Ba'er Hetev on Shulchan Arukh, Orach Chayyim/Hebrew/merg
 Halakhah/Shulchan Arukh/Ba'er Hetev on Shulchan Arukh, Yoreh De'ah/Hebrew/merged.json
 Halakhah/Shulchan Arukh/Ba'er Hetev on Shulchan Arukh, Yoreh De'ah/English/merged.json
 Halakhah/Shulchan Arukh/Beit Shmuel/Hebrew/merged.json
+Halakhah/Shulchan Arukh/Beit Shmuel/English/merged.json
 Halakhah/Shulchan Arukh/Chelkat Mechokek/Hebrew/merged.json
+Halakhah/Shulchan Arukh/Chelkat Mechokek/English/merged.json
 Halakhah/Shulchan Arukh/Magen Avraham/Hebrew/merged.json
 Halakhah/Shulchan Arukh/Magen Avraham/English/merged.json
 Halakhah/Tur and Commentaries/Bach/Hebrew/merged.json
@@ -2081,8 +2081,8 @@ Liturgy/Siddur/Siddur Ashkenaz/Hebrew/merged.json
 Liturgy/Siddur/Siddur Ashkenaz/English/merged.json
 Liturgy/Siddur/Siddur, Edot HaMizrach/Hebrew/merged.json
 Liturgy/Siddur/Siddur, Edot HaMizrach/English/merged.json
-Liturgy/Siddur/Siddur, Sefard/Hebrew/merged.json
-Liturgy/Siddur/Siddur, Sefard/English/merged.json
+Liturgy/Siddur/Siddur Sefard/Hebrew/merged.json
+Liturgy/Siddur/Siddur Sefard/English/merged.json
 Liturgy/Piyutim/Shir HaKavod/Hebrew/merged.json
 Liturgy/Piyutim/Shir HaKavod/English/merged.json
 Liturgy/Piyutim/Yedid Nefesh/Hebrew/merged.json
@@ -2169,6 +2169,7 @@ Chasidut/Tzidkat HaTzadick/Hebrew/merged.json
 Chasidut/Tzidkat HaTzadick/English/merged.json
 Chasidut/Beit Aharon/Hebrew/merged.json
 Chasidut/Darkhei Yesharim/Hebrew/merged.json
+Chasidut/Likutei Halachot/Hebrew/merged.json
 Chasidut/Me'or Einayim/English/merged.json
 Chasidut/Avodat Yisrael/Hebrew/merged.json
 Chasidut/Ba'al Shem Tov on the Torah/English/merged.json
@@ -2269,13 +2270,16 @@ Responsa/Rosh/Teshuvot HaRosh part IV/English/merged.json
 Responsa/Rosh/Teshuvot HaRosh part VIII/English/merged.json
 Responsa/Rosh/Teshuvot HaRosh part XVII/English/merged.json
 Responsa/Commentary/Footnotes/Rashba/Footnotes on Teshuvot haRashba Meyuchas LehaRamban/Hebrew/merged.json
+Apocrypha/Book of Jubilees/Hebrew/merged.json
 Apocrypha/Megillat Antiochus/Hebrew/merged.json
 Apocrypha/Megillat Antiochus/English/merged.json
 Apocrypha/Megillat Taanit/Hebrew/merged.json
 Apocrypha/Megillat Taanit/English/merged.json
+Apocrypha/Sefer Yehudit/Hebrew/merged.json
 Apocrypha/The Book of Maccabees I/Hebrew/merged.json
 Apocrypha/The Book of Maccabees I/English/merged.json
 Apocrypha/The Book of Maccabees II/Hebrew/merged.json
+Apocrypha/The Book of Susanna/Hebrew/merged.json
 Modern Works/Abraham Cohen Footnotes to the English Translation of Masechet Berakhot/English/merged.json
 Modern Works/Daf Shevui to Ketubot/English/merged.json
 Modern Works/Daf Shevui to Megillah/English/merged.json

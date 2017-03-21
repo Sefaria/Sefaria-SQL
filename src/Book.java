@@ -1,6 +1,8 @@
+import java.lang.reflect.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import org.json.JSONArray;
@@ -31,6 +33,7 @@ public class Book extends SQLite{
 			"path TEXT, " +
 			"enCollectiveTitle TEXT, " +
 			"heCollectiveTitle TEXT, " +
+			"commentsOnMultiple TEXT, " + // This value should be "[<bid, bid2...> ]"
 			"	CONSTRAINT uniqueTitle UNIQUE " + "(" + Ktitle + "),\r\n" + 
 			"	FOREIGN KEY (" + KcommentsOn + ") REFERENCES " + TABLE_BOOKS + "(_id)\r\n" + 
 			"	FOREIGN KEY (rootNode) REFERENCES " + " Nodes " + "(_id)\r\n" + 
@@ -181,24 +184,29 @@ public class Book extends SQLite{
 				+ KcommentsOn + ", " + KsectionNames + ","  + Kcategories + ", " + KtextDepth + ", " 
 				+ KwherePage + "," + Klengths + "," + Ktitle + ", " + KheTitle + ", "
 				+ KversionTitle + ", " + KdataVersion +", " + Kversions + ", " + Klanguages  + ", heSectionNames "+ "" +
-						", path, enCollectiveTitle, heCollectiveTitle) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+						", path, enCollectiveTitle, heCollectiveTitle, commentsOnMultiple) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 
 		stmt.setInt(1, id);//_id
 
 		try{
+			ArrayList<Integer> commentsOnMultiple = new ArrayList<Integer>();
 			String dependence = schema.getString("dependence");
-			if("Commentary".equals(dependence)){
+			if(dependence.length() > 0){
+				// dependence is currently Commentary or Targum. 
+				// But in the future it could be more, so as long as it's something
+				// we're going to include it as a CommentsOn book
 				JSONArray baseTextTitles = schema.getJSONArray("base_text_titles");
 				for(int i = 0; i < baseTextTitles.length(); i++){
 					String commentedOnBook = baseTextTitles.getString(i);
 					if(booksInDB.containsKey(commentedOnBook)){
 						int commentsOn = booksInDBbid.get(commentedOnBook);
+						commentsOnMultiple.add(commentsOn);
 						stmt.setInt(2, commentsOn); // KcommentsOn
-						break; // We can only handle one commentsOn book at this point
 					}
 				}
 			}
+			stmt.setString(18, commentsOnMultiple.toString());
 		}catch(JSONException e){}
 		int textDepth = 0;
 
