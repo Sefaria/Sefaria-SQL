@@ -1316,6 +1316,7 @@ Tosefta/Seder Nezikin/Tosefta Sanhedrin/English/merged.json
 Tosefta/Seder Nezikin/Tosefta Makkot/Hebrew/merged.json
 Tosefta/Seder Nezikin/Tosefta Shevuot/Hebrew/merged.json
 Tosefta/Seder Nezikin/Tosefta Eduyot/Hebrew/merged.json
+Tosefta/Seder Nezikin/Tosefta Eduyot/English/merged.json
 Tosefta/Seder Nezikin/Tosefta Avodah Zarah/Hebrew/merged.json
 Tosefta/Seder Nezikin/Tosefta Avodah Zarah/English/merged.json
 Tosefta/Seder Nezikin/Tosefta Horayot/Hebrew/merged.json
@@ -2123,8 +2124,8 @@ Liturgy/Hallel/English/merged.json
 Liturgy/Ketubah Text/Hebrew/merged.json
 Liturgy/Perek Shirah/Hebrew/merged.json
 Liturgy/Perek Shirah/English/merged.json
-Liturgy/Pesach Haggadah/Hebrew/merged.json
-Liturgy/Pesach Haggadah/English/merged.json
+Liturgy/Haggadah/Pesach Haggadah/Hebrew/merged.json
+Liturgy/Haggadah/Pesach Haggadah/English/merged.json
 Liturgy/Seder Ma'amadot/Hebrew/merged.json
 Liturgy/Shalom Alechem/Hebrew/merged.json
 Liturgy/Shalom Alechem/English/merged.json
@@ -2133,7 +2134,7 @@ Liturgy/Yizkor/English/merged.json
 Liturgy/Birkat Hamazon/Hebrew/merged.json
 Liturgy/Birkat Hamazon/English/merged.json
 Liturgy/Kabbolos Shabbos/Hebrew/merged.json
-Liturgy/Pesach Haggadah Edot Hamizrah/Hebrew/merged.json
+Liturgy/Haggadah/Pesach Haggadah Edot Hamizrah/Hebrew/merged.json
 Liturgy/Tikkun HaKlali/Hebrew/merged.json
 Liturgy/Unetaneh Tokef/Hebrew/merged.json
 Liturgy/Unetaneh Tokef/English/merged.json
@@ -2147,14 +2148,14 @@ Liturgy/Piyutim/Shir HaKavod/Hebrew/merged.json
 Liturgy/Piyutim/Shir HaKavod/English/merged.json
 Liturgy/Piyutim/Yedid Nefesh/Hebrew/merged.json
 Liturgy/Piyutim/Yedid Nefesh/English/merged.json
-Liturgy/Commentary/Ephod Bad/Ephod Bad on Pesach Haggadah/English/merged.json
-Liturgy/Commentary/Kimcha Davshuna/Kimcha Davshuna on Pesach Haggadah/English/merged.json
-Liturgy/Commentary/Kos Shel Eliyahu/Kos Shel Eliyahu on Pesach Haggadah/English/merged.json
-Liturgy/Commentary/Maarechet Heidenheim/Maarechet Heidenheim on Pesach Haggadah/English/merged.json
-Liturgy/Commentary/Maaseh Nissim/Maaseh Nissim on Pesach Haggadah/English/merged.json
-Liturgy/Commentary/Marbeh Lisaper/Marbeh Lisaper on Pesach Haggadah/English/merged.json
-Liturgy/Commentary/Naftali Seva Ratzon/Naftali Seva Ratzon on Pesach Haggadah/English/merged.json
-Liturgy/Commentary/Yismach Yisrael/Yismach Yisrael on Pesach Haggadah/English/merged.json
+Liturgy/Haggadah/Commentary/Ephod Bad on Pesach Haggadah/English/merged.json
+Liturgy/Haggadah/Commentary/Kimcha Davshuna on Pesach Haggadah/English/merged.json
+Liturgy/Haggadah/Commentary/Kos Shel Eliyahu on Pesach Haggadah/English/merged.json
+Liturgy/Haggadah/Commentary/Maarechet Heidenheim on Pesach Haggadah/English/merged.json
+Liturgy/Haggadah/Commentary/Maaseh Nissim on Pesach Haggadah/English/merged.json
+Liturgy/Haggadah/Commentary/Marbeh Lisaper on Pesach Haggadah/English/merged.json
+Liturgy/Haggadah/Commentary/Naftali Seva Ratzon on Pesach Haggadah/English/merged.json
+Liturgy/Haggadah/Commentary/Yismach Yisrael on Pesach Haggadah/English/merged.json
 Philosophy/Darashos HaRan/Hebrew/merged.json
 Philosophy/Darashos HaRan/English/merged.json
 Philosophy/Derech Hashem/Hebrew/merged.json
