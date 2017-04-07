@@ -1,6 +1,8 @@
+import java.lang.reflect.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import org.json.JSONArray;
@@ -29,6 +31,9 @@ public class Book extends SQLite{
 			"maxTid INTEGER DEFAULT -1, " + 
 			"rootNode INTEGER, " + 
 			"path TEXT, " +
+			"enCollectiveTitle TEXT, " +
+			"heCollectiveTitle TEXT, " +
+			"commentsOnMultiple TEXT, " + // This value should be "[<bid, bid2...> ]"
 			"	CONSTRAINT uniqueTitle UNIQUE " + "(" + Ktitle + "),\r\n" + 
 			"	FOREIGN KEY (" + KcommentsOn + ") REFERENCES " + TABLE_BOOKS + "(_id)\r\n" + 
 			"	FOREIGN KEY (rootNode) REFERENCES " + " Nodes " + "(_id)\r\n" + 
@@ -106,7 +111,7 @@ public class Book extends SQLite{
 		"\u05E4\u05E8\u05E9\u05D4",
 		"\u05E4\u05E8\u05E9\u05D4",
 		"\u05E4\u05E8\u05E9\u05D4",
-		"\u05E4\u05E8\u05E9\u05D4", //τψωδ
+		"\u05E4\u05E8\u05E9\u05D4", //Χ¤Χ¨Χ©Χ”
 		"\u05E1\u05E2\u05D9\u05E3",
 		"\u05E1\u05E2\u05D9\u05E3",
 		"\u05E1\u05D9\u05DE\u05DF",
@@ -130,18 +135,18 @@ public class Book extends SQLite{
 		"\u05E1\u05E4\u05E8",
 		"\u05E9\u05E2\u05E8",
 		"\u05E1\u05D3\u05E8",
-		"\u05D7\u05DC\u05E7", //ημχ
-		"\u05E4\u05E1\u05D5\u05E7", //τρεχ
-		"\u05E1\u05E4\u05E8", //ρτψ
-		"\u05EA\u05E9\u05D5\u05D1\u05D4", //ϊωεαδ
-		"\u05EA\u05D5\u05E1\u05E4\u05EA\u05D0",//ϊερτϊΰ
-		"\u05D4\u05DC\u05DB\u05D4", //δμλδ
-		"\u05E7\u05D5\u05D1\u05E5",  //χεαυ
-		"\u05E0\u05EA\u05D9\u05D1\u05D4", //πϊιαδ
-		"\u05DE\u05D3\u05E8\u05E9", //ξγψω
-		"\u05DE\u05E6\u05D5\u05D4", //ξφεδ
-		"\u05EA\u05E4\u05D9\u05DC\u05D4", //ϊτιμδ
-		"\u05EA\u05D5\u05E8\u05D4" //ϊεψδ
+		"\u05D7\u05DC\u05E7", //Χ—ΧΧ§
+		"\u05E4\u05E1\u05D5\u05E7", //Χ¤Χ΅Χ•Χ§
+		"\u05E1\u05E4\u05E8", //Χ΅Χ¤Χ¨
+		"\u05EA\u05E9\u05D5\u05D1\u05D4", //ΧªΧ©Χ•Χ‘Χ”
+		"\u05EA\u05D5\u05E1\u05E4\u05EA\u05D0",//ΧªΧ•Χ΅Χ¤ΧªΧ
+		"\u05D4\u05DC\u05DB\u05D4", //Χ”ΧΧ›Χ”
+		"\u05E7\u05D5\u05D1\u05E5",  //Χ§Χ•Χ‘Χ¥
+		"\u05E0\u05EA\u05D9\u05D1\u05D4", //Χ ΧªΧ™Χ‘Χ”
+		"\u05DE\u05D3\u05E8\u05E9", //ΧΧ“Χ¨Χ©
+		"\u05DE\u05E6\u05D5\u05D4", //ΧΧ¦Χ•Χ”
+		"\u05EA\u05E4\u05D9\u05DC\u05D4", //ΧªΧ¤Χ™ΧΧ”
+		"\u05EA\u05D5\u05E8\u05D4" //ΧªΧ•Χ¨Χ”
 	};
 
 
@@ -179,21 +184,29 @@ public class Book extends SQLite{
 				+ KcommentsOn + ", " + KsectionNames + ","  + Kcategories + ", " + KtextDepth + ", " 
 				+ KwherePage + "," + Klengths + "," + Ktitle + ", " + KheTitle + ", "
 				+ KversionTitle + ", " + KdataVersion +", " + Kversions + ", " + Klanguages  + ", heSectionNames "+ "" +
-						", path) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+						", path, enCollectiveTitle, heCollectiveTitle, commentsOnMultiple) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 
 		stmt.setInt(1, id);//_id
 
 		try{
-			JSONArray baseTextTitles = schema.getJSONArray("base_text_titles");
-			for(int i = 0; i < baseTextTitles.length(); i++){
-				String commentedOnBook = baseTextTitles.getString(i);
-				if(booksInDB.containsKey(commentedOnBook)){
-					int commentsOn = booksInDBbid.get(commentedOnBook);
-					stmt.setInt(2, commentsOn); // KcommentsOn
-					break; // We can only handle one commentsOn book at this point
+			ArrayList<Integer> commentsOnMultiple = new ArrayList<Integer>();
+			String dependence = schema.getString("dependence");
+			if(dependence.length() > 0){
+				// dependence is currently Commentary or Targum. 
+				// But in the future it could be more, so as long as it's something
+				// we're going to include it as a CommentsOn book
+				JSONArray baseTextTitles = schema.getJSONArray("base_text_titles");
+				for(int i = 0; i < baseTextTitles.length(); i++){
+					String commentedOnBook = baseTextTitles.getJSONObject(i).getString("en");
+					if(booksInDB.containsKey(commentedOnBook)){
+						int commentsOn = booksInDBbid.get(commentedOnBook);
+						commentsOnMultiple.add(commentsOn);
+						stmt.setInt(2, commentsOn); // KcommentsOn
+					}
 				}
 			}
+			stmt.setString(18, commentsOnMultiple.toString());
 		}catch(JSONException e){}
 		int textDepth = 0;
 
@@ -250,6 +263,12 @@ public class Book extends SQLite{
 		}
 		path.append(title);
 		stmt.setString(15,path.toString());
+		
+		try{
+			JSONObject collectiveTitle = schema.getJSONObject("collective_title");
+			stmt.setString(16, collectiveTitle.getString("en"));//collectiveTitle
+			stmt.setString(17, collectiveTitle.getString("he"));//collectiveTitle
+		}catch(JSONException e){}
 		
 
 		stmt.executeUpdate();
