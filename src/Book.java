@@ -198,7 +198,7 @@ public class Book extends SQLite{
 				// we're going to include it as a CommentsOn book
 				JSONArray baseTextTitles = schema.getJSONArray("base_text_titles");
 				for(int i = 0; i < baseTextTitles.length(); i++){
-					String commentedOnBook = baseTextTitles.getString(i);
+					String commentedOnBook = baseTextTitles.getJSONObject(i).getString("en");
 					if(booksInDB.containsKey(commentedOnBook)){
 						int commentsOn = booksInDBbid.get(commentedOnBook);
 						commentsOnMultiple.add(commentsOn);
@@ -265,18 +265,9 @@ public class Book extends SQLite{
 		stmt.setString(15,path.toString());
 		
 		try{
-			String enCollectiveTitle = schema.getString("collective_title");
-			stmt.setString(16, enCollectiveTitle);//collectiveTitle
-			JSONArray authors = schema.getJSONArray("authors");
-			for(int i = 0; i < authors.length(); i++){
-				JSONObject author = authors.getJSONObject(i);
-				String enAuthor = author.getString("en");
-				if(enCollectiveTitle.equals(enAuthor)){
-					String heAuthor = author.getString("he");
-					stmt.setString(17, heAuthor);//hecollectiveTitle
-					break;
-				}
-			}
+			JSONObject collectiveTitle = schema.getJSONObject("collective_title");
+			stmt.setString(16, collectiveTitle.getString("en"));//collectiveTitle
+			stmt.setString(17, collectiveTitle.getString("he"));//collectiveTitle
 		}catch(JSONException e){}
 		
 
