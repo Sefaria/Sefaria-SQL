@@ -33,7 +33,7 @@ public class Book extends SQLite{
 			"path TEXT, " +
 			"enCollectiveTitle TEXT, " +
 			"heCollectiveTitle TEXT, " +
-			"commentsOnMultiple TEXT, " + // This value should be "[<bid, bid2...> ]"
+			"commentsOnMultiple TEXT, " + // This value should be "[<(bid), (bid2),...> ]"
 			"	CONSTRAINT uniqueTitle UNIQUE " + "(" + Ktitle + "),\r\n" + 
 			"	FOREIGN KEY (" + KcommentsOn + ") REFERENCES " + TABLE_BOOKS + "(_id)\r\n" + 
 			"	FOREIGN KEY (rootNode) REFERENCES " + " Nodes " + "(_id)\r\n" + 
@@ -206,7 +206,14 @@ public class Book extends SQLite{
 					}
 				}
 			}
-			stmt.setString(18, commentsOnMultiple.toString());
+			//to make it super easy to sql query for a number later
+			
+			String myDumpCommentsOnMultipleStr = "[";
+			for(Integer num: commentsOnMultiple){
+				myDumpCommentsOnMultipleStr += "(" + num + "),";
+			}
+			myDumpCommentsOnMultipleStr += "]";
+			stmt.setString(18, myDumpCommentsOnMultipleStr);
 		}catch(JSONException e){}
 		int textDepth = 0;
 
