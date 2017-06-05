@@ -365,7 +365,7 @@ public class Text extends SQLite{
 
 					//count words for searching table
 					if(lang == LANG_HE){
-						int tid = getTid(c, bid, levels, parentNodeID,textDepth,false,it);
+						int tid = getTid(c, bid, levels, parentNodeID,textDepth,false,it, true);
 						Searching.countWords(lang,theText, tid, Searching.SEARCH_METHOD.FRESH_COMPRESS_INDEX);
 					}
 
@@ -395,22 +395,32 @@ public class Text extends SQLite{
 	 * @return
 	 * @throws SQLException
 	 */
-	public static int getTid(Connection c, int bid, int [] levels, int parentNodeID, int textDepth,boolean useRealLevels,int[] it) throws SQLException{
+	public static int getTid(Connection c, int bid, int [] levels, int parentNodeID, int textDepth, boolean useRealLevels, int[] it, boolean getStart) throws SQLException{
 		String findTID = "SELECT _id FROM Texts WHERE " + whereClause(bid, levels, parentNodeID);
+		if(!getStart){
+			findTID += " ORDER BY _id desc";
+		}
 		PreparedStatement stmt = c.prepareStatement(findTID);
 		ResultSet rs;
 		stmt.setInt(1, bid); //bid
 		final int LEVEL_IN_UPDATE_START_2 = 2;
+		int numberOfZeros = 0;
 		if(!useRealLevels){
 			for(int i =1; i<=textDepth; i++){
-				stmt.setInt(LEVEL_IN_UPDATE_START_2 + i - 1,it[i] + 1);
+				stmt.setInt(LEVEL_IN_UPDATE_START_2 + i - 1, it[i] + 1);
 			}
 		}else{
 			for(int i =0; i<textDepth; i++){
-				stmt.setInt(LEVEL_IN_UPDATE_START_2 + i,levels[i]);
+				if(levels[i] != 0){
+					stmt.setInt(LEVEL_IN_UPDATE_START_2 + i - numberOfZeros, levels[i]);
+				}else{
+					//this means that we don't want to include this level.
+					// probably b/c we want to get last item instead of first
+					numberOfZeros++;
+				}
 			}
 		}
-		stmt.setInt(LEVEL_IN_UPDATE_START_2 + textDepth, parentNodeID);
+		stmt.setInt(LEVEL_IN_UPDATE_START_2 + textDepth - numberOfZeros, parentNodeID);
 		//System.out.println(findTID + "\n" + (LEVEL_IN_UPDATE_START_2 + textDepth) + ":"+ parentNodeID + ":"+ bid);
 		rs = stmt.executeQuery();
 		int tid = -1;
@@ -423,6 +433,31 @@ public class Text extends SQLite{
 		return tid;
 	}
 
+	public static int getTidFromNode(Connection c, int bid, int parentNodeID, boolean getFirst) throws SQLException{
+		String findTID = "SELECT _id FROM Texts WHERE bid=" + bid + " AND (parentNode=" + parentNodeID
+		+ " OR parentNode in (SELECT _id FROM Nodes WHERE parentNode = " + parentNodeID + "))";
+		if(getFirst){
+			findTID += " ORDER BY _id";
+		}else{
+			findTID += " ORDER BY _id desc ";
+		}
+		
+		findTID += " limit 1";
+		PreparedStatement stmt = c.prepareStatement(findTID);
+		ResultSet rs;
+		rs = stmt.executeQuery();
+		int tid = -1;
+		if ( rs.next() ) {
+			tid = rs.getInt(1);
+		}
+		else{
+			System.err.print("tidError...");
+		}
+		return tid;
+	}
+
+	
+	
 	private static String convertLangToLangText(String lang){
 		if(lang.equals("en"))
 			return KenText;

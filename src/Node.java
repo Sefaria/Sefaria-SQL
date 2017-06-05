@@ -1,3 +1,4 @@
+import java.awt.PageAttributes.OriginType;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -23,6 +24,8 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.text.html.parser.Entity;
 
@@ -497,21 +500,28 @@ public class Node extends SQLite{
 				int nodeID = ++nodeCount;
 				nodeType = getNodeType(true, false, false, false);//NODE_REFS;
 				refs = node.getJSONArray("refs");
+				int offset;
+				try{
+					offset = node.getInt("offset");
+				}catch(JSONException e){
+					//default offset to 0
+					offset = 0;
+				}
 				insertSingleNodeToDB(c, nodeID, bid, parentNode, nodeType, j, enTitle, heTitle, structNum,
 						null, null, null, null, sectionNames, heSectionNames,null, key);
 
 				//System.out.println(enTitle + " " +  heTitle + " " + nodeType + " " + sectionNames + refs);
 				int subParentNode = nodeID;
-				for(int i=0;i<refs.length();i++){
+				for(int i = 0; i < refs.length(); i++){
 					String ref = refs.getString(i);
 					if(ref.equals("")) continue;
 					nodeID = ++nodeCount;
 					nodeType = getNodeType(true, true, true, true);
-					RefValues refValues = ref2Tids(c,ref, bid);
+					RefValues refValues = ref2Tids(c, ref, bid);
 					int startTID = refValues.startTid;
 					int endTID = refValues.endTid;
 					insertSingleNodeToDB(c, nodeID, bid, subParentNode, nodeType,
-							i, "", "", structNum, null, startTID, endTID, ref,
+							i + offset, "", "", structNum, null, startTID, endTID, ref,
 							sectionNames, heSectionNames, refValues.startLevels, key);
 				}
 			}else if(depth == 0){ //so the refs aren't in a grid
@@ -560,13 +570,16 @@ public class Node extends SQLite{
 	}
 	
 	private static RefValues ref2Tids(Connection c, String ref, int bid){
+		// (space or ".") then has (numbers dash or a/b (for dafs)) and goes to end
+		final String regex_numbersDashestoEnd = "[\\s\\.][0-9a-b" + "\u2013"  + "-]*$";
+		String fullRef = ref;
 		String title = booksInDBbid2Title.get(bid);
 		int textDepth = booksInDBtextDepth.get(title);
 		int parentNode = 0; // this will be 0 unless there's a complex text that it's a ref to
 		if(textDepth == 0){ //its compex
 			Node.NodePair nodePair = null;
 			try{
-				String pathNoNum = ref.replaceAll(" [0-9].*","");
+				String pathNoNum = ref.replaceAll(regex_numbersDashestoEnd, "");
 				nodePair = Link.getParentID(title, pathNoNum, bid);
 				ref = ref.replace(pathNoNum, "");//Converting ref to just the number part
 			}catch(Exception e){//idk
@@ -577,61 +590,94 @@ public class Node extends SQLite{
 				parentNode = nodePair.nid;
 			}
 		}
-		//println("ref: " + ref + " title: " + title);
+		
 		int startTid = 0, endTid =0;
-		int [] start = null;
-		try {
+		int [] start = null, stop = null;
+		try{
+		try{
 			String [] startStop = ref.replace(title, "").split("-");
 			if(startStop.length == 1){
-				startStop = ref.replace(title, "").split("\u2013"); //This is "–" which slightly different char then "-" (it's a different UTF8 value)
+				 //This is "–" which slightly different char then "-" (it's a different UTF8 value)
+				startStop = ref.replace(title, "").split("\u2013");
 				//EN DASH vs. HYPHEN-MINUS
 			}
-			start = halfRef2Levels(startStop[0]);
-			int [] stop = start;
-			if(startStop.length == 2)
+			
+			stop = start;
+			if(startStop.length == 2){
+				start = halfRef2Levels(startStop[0]);
 				stop = halfRef2Levels(startStop[1]);
-			else if(startStop.length == 1)
+				
+			}else if(startStop.length == 1){
+				try{
+					start = halfRef2Levels(startStop[0]);
+				}catch(NumberFormatException e){
+					//If length is 1, it's probably just listing out the whole node. (could be text or number)
+					final Pattern p = Pattern.compile("\\d+[ab]?"); // number (and maybe an a or b for daf amud)
+					Matcher m = p.matcher(startStop[0]);
+					if(!m.find()){
+						//Ex. Ben Ish Hai: "wholeRef": "Ben Ish Hai, Halachot 1st Year, Bereshit"
+						startTid = Text.getTidFromNode(c, bid, parentNode, true);
+						endTid = Text.getTidFromNode(c, bid, parentNode, false);
+						return new RefValues(startTid, endTid, start, fullRef);
+					}else{
+						throw e;
+					}
+				}
 				stop = start;
-			else{
+			}else{
 				System.err.println("Error in Node.Schema.ref2Tids: wrong number of startStop. ref:" + ref);
 			}
-			if(textDepth != start.length || textDepth != stop.length){
-				if(stop.length < start.length){
-					int [] tempStop = new int [start.length];
-					for(int i=0;i<stop.length;i++){
-						tempStop[i] = stop[i];
-					}
-					for(int i=stop.length;i<start.length;i++){
-						tempStop[i] = start[i];
-					}
-					stop = tempStop;
-				}			
-				start = add1sForMissingLevels(start, textDepth);
-				stop = add1sForMissingLevels(stop, textDepth);
-			}
-			startTid = Text.getTid(c, bid, start, parentNode, textDepth, true, null);
-			endTid = Text.getTid(c, bid, stop, parentNode, textDepth, true, null);
-			if(startTid < 0 || endTid < 0){
-				throw new Exception();
-			}
-		} catch (Exception e) {
-			String newRef = ref.replace(".", " ");
-			if(!newRef.equals(ref)){
+		}catch(NumberFormatException e){
+			String newRef = fullRef.replace(".", " ");
+			if(!newRef.equals(fullRef)){
 				return ref2Tids(c, newRef, bid);
 			}
-			System.err.println("623478 Error in Node.Schema.ref2Tids: problem getting Tids. ref: " + ref + ". " + e);
+			throw e;
 		}
-
-
-		return new RefValues(startTid, endTid, start, ref);
+		if(textDepth != start.length || textDepth != stop.length){
+			if(stop.length < start.length){
+				int [] tempStop = new int [start.length];
+				for(int i=0;i<stop.length;i++){
+					tempStop[i] = stop[i];
+				}
+				for(int i=stop.length;i<start.length;i++){
+					tempStop[i] = start[i];
+				}
+				stop = tempStop;
+			}			
+			start = add1sForMissingLevels(start, textDepth, true); 
+			stop = add1sForMissingLevels(stop, textDepth, false);
+		}
+		try {
+			startTid = Text.getTid(c, bid, start, parentNode, textDepth, true, null, true);
+			endTid = Text.getTid(c, bid, stop, parentNode, textDepth, true, null, false);
+		} catch (SQLException e) {
+			throw new Exception();
+		}
+		if(startTid < 0 || endTid < 0){
+			throw new Exception();
+		}
+		}catch(Exception e){
+			System.err.println("Error in Node.Schema.ref2Tids: " + e.toString());
+		}
+		//System.out.println(fullRef + "...s,e: " + startTid + ", "  + endTid);
+		return new RefValues(startTid, endTid, start, fullRef);
 	}
 		
-	static private int [] add1sForMissingLevels(int [] levels,int textDepth){
+	static private int [] add1sForMissingLevels(int [] levels, int textDepth, boolean startVsend){
+		int additionalNum;
+		if(startVsend){
+			 //I just have to assume that it's referring to the 1st object
+			additionalNum = 1;
+		}else{
+			// will use 0 to get to end of item
+			additionalNum = 0;
+		}
 		if(levels.length < textDepth){
 			int [] tempLevels = new int [textDepth];
 			int diff = textDepth - levels.length;
 			for(int i=0;i<diff;i++){
-				tempLevels[i] = 1; //I just have to assume that it's referring to the 1st object
+				tempLevels[i] = additionalNum;
 			}
 			for(int i= diff;i<tempLevels.length;i++){
 				tempLevels[i] = levels[i-diff];

@@ -332,7 +332,7 @@ public class Huffman extends SQLite{
 			Connection c = getDBConnection(newDB);
 			c.prepareStatement("ATTACH DATABASE \"" + oldDB + "\" AS oldDB").execute();
 			copyTable(c, "Books", Book.CREATE_BOOKS_TABLE, newDB);
-			copyTable(c, "Links_small", Link.CREATE_LINKS_SMALL, newDB, "tid1,tid2");
+			copyTable(c, "Links_small", Link.CREATE_LINKS_SMALL, newDB, "tid1,tid2,connType");
 			copyTable(c, "Nodes", Node.CREATE_NODE_TABLE, newDB);
 			
 			/*
