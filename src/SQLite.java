@@ -23,7 +23,7 @@ import org.json.JSONTokener;
 
 
 public class SQLite {
-	protected static final int DB_VERION_NUM = 266;
+	protected static final int DB_VERION_NUM = 277;
 	public static final String DB_NAME_PART = "test" + DB_VERION_NUM;
 	public static final String DB_NAME_FULL = "testDBs/" + DB_NAME_PART + ".db";
 	public static final String DB_NAME_COPY = "testDBs/UpdateForSefariaMobileDatabase.db";//copy_" + DB_NAME_PART + ".db";
@@ -37,6 +37,8 @@ public class SQLite {
 	private static final boolean CREATE_FRESH_FULL_DB = true;
 	private static final boolean CREATE_API = true;
 	private static final boolean CREATE_COPY = true;
+	
+	
 	private static final boolean CREATE_HE_ONLY_COPY = false;
 	private static final Searching.SEARCH_METHOD USE_SEARCH_METHOD_IN_COPY = Searching.SEARCH_METHOD.COPY;
 
@@ -62,6 +64,12 @@ public class SQLite {
 	protected static int textsFailedToUpload = 0;
 	protected static int textsUploaded = 0;
 
+	private static long lastTime = System.currentTimeMillis();
+	private static void timer(){
+		long time = System.currentTimeMillis();
+		System.err.println("\n" + (time - lastTime) + "\n");
+		lastTime  = time;
+	}
 
 	public static void println(String message){
 		System.out.println(message);
@@ -75,8 +83,11 @@ public class SQLite {
 			Class.forName("org.sqlite.JDBC");
 			if(CREATE_FRESH_FULL_DB){
 				System.out.println("\n\nREMEMBER TO RUN PYTHON FIRST!\n\n");
+				timer();
 				createTables();
+				timer();
 				insertStuff();
+				timer();
 			}
 			if(CREATE_API){
 				if(CREATE_FRESH_FULL_DB)
@@ -197,6 +208,7 @@ public class SQLite {
 			int count = 0;
 			int failedBooksCount = 0;
 			List<String> lines = getFileLines();
+			timer();
 			for(int i =0;i<lines.size();i++){
 				String line = lines.get(i);
 				System.out.println(String.valueOf(++count) + ". " + line);
@@ -275,31 +287,42 @@ public class SQLite {
 			System.out.println("Good Books: " + String.valueOf(count - failedBooksCount) + "\nFailed Books: " + failedBooksCount);
 			//System.out.println("TEXTS: en: " + Text.en + " he: " + Text.he + " u2: " + Text.u2 + " u3: " + Text.u3 + " u4: " + Text.u4);
 
-
+			timer();
 			Searching.putInCountWords(c, Searching.SEARCH_METHOD.FRESH_COMPRESS_INDEX);
 			c.commit();
+			timer();
+			
 			System.out.println("ADDING LINKS...");
 			CSVReader reader = new CSVReader(new InputStreamReader(new FileInputStream("scripts/links/links0.csv")));
 			Link.addLinkFile(c, reader);
 			c.commit();
-
+			timer();
+			
 			System.out.println("CHANGING displayNum (on Texts)...");
 			Text.displayNum(c);
 			c.commit();
+			timer();
+			
 			System.out.println("CHANGING hasLink (on Texts)...");
 			Text.setHasLink(c);
 			c.commit();
+			timer();
+			
 			System.out.println("CHANGING book commentary wherePage to 3...");
 			Book.convertCommWherePage(c);
+			timer();
+			
 			System.out.println("setTidMinMax...");
 			Book.setTidMinMax(c);
 			c.commit();
+			timer();
+			
 			System.out.println("ADDING HEADERS:");
 			String folderName = "scripts/headers/headers/";
 			Header.addAllHeaders(c, folderName);
-
-
 			c.commit();
+			timer();
+			
 			c.close();
 			System.out.println("Records created successfully\nTextUploaded: " + textsUploaded + "\nTextFailed: " + textsFailedToUpload);
 

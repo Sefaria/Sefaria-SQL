@@ -33,11 +33,12 @@ public class Link extends SQLite{
 			//"		ON DELETE CASCADE\r\n" + 
 			")";
 	
+	private static final int CONN_TYPE_LENGTH = 2;
 	public static final String CREATE_LINKS_SMALL = "CREATE TABLE " + LINKS_SMALL +  " (" +
 			"_id INTEGER PRIMARY KEY, " +
 			"tid1 INTEGER NOT NULL," +
 			"tid2 INTEGER NOT NULL, " +
-			//KconnType + " CHAR(3), " +
+			KconnType + " CHAR(" + CONN_TYPE_LENGTH + "), " +
 			"CONSTRAINT LinkSmallUni UNIQUE(tid1, tid2)," +
 			
 			"	FOREIGN KEY (tid1) \r\n" + 
@@ -82,15 +83,18 @@ public class Link extends SQLite{
 		int parentNode = 0;
 		int textDepth = 0;
 		Node.NodePair nodePair = null;
-		for(int i=0;i<nodes.length;i++){
+		for(int i=0; i<nodes.length; i++){
 			Node.NodeInfo nodeInfo = new Node.NodeInfo(bid, parentNode, nodes[i]);
 			nodePair = allNodesInDB.get(nodeInfo);
+			if(nodePair == null){
+				break;
+			}
 			parentNode = nodePair.nid;
 		}
 		if(nodePair != null)
 			textDepth = nodePair.textDepth;
 		
-		return new Node.NodePair(parentNode,textDepth);
+		return new Node.NodePair(parentNode, textDepth);
 	}
 	
 	static void addLinkFile(Connection c, CSVReader reader){
@@ -120,7 +124,7 @@ public class Link extends SQLite{
 							noBookLinksFailed++;
 							continue;
 						}
-						int bida =  booksInDBbid.get(titleA);
+						int bida = booksInDBbid.get(titleA);
 						int bidb = booksInDBbid.get(titleB);
 						
 						
@@ -144,14 +148,14 @@ public class Link extends SQLite{
 						String select2 = "SELECT T2._id FROM Texts T2 WHERE T2.bid = ? AND T2.level1 = ? AND T2.level2 = ? AND T2.level3 = ? AND T2.level4 = ? AND T2.level5 = ? AND T2.level6 = ? AND T2.parentNode = " + parentIDb;
 						String sql = "INSERT INTO Links_small (" +
 								" tid1, tid2 " +
-								//", connType" +
+								", connType" +
 								" ) VALUES (" +
 								"(" + select1 + ")," + 
 								"(" + select2 + ")" +
-								//",?" + 
+								",?" + 
 								");";
 						PreparedStatement stmt = c.prepareStatement(sql);
-						stmt = putValues(stmt, next,bida, bidb, false);
+						stmt = putValues(stmt, next, bida, bidb, true);
 						stmt.executeUpdate();
 						stmt.close();
 						
@@ -239,7 +243,7 @@ public class Link extends SQLite{
 
 			try {
 				if(addConnType)
-					stmt.setString(15, row[14]);
+					stmt.setString(15, row[14].substring(0, CONN_TYPE_LENGTH).toLowerCase());
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
