@@ -407,7 +407,7 @@ public class SQLite {
 			return LANG_EN;
 		else if(langString.equals("he"))
 			return LANG_HE;
-		System.err.println("unrecignized lang:" + langString);
+		System.err.println("unrecognized lang:" + langString);
 		return 0;
 
 	}
