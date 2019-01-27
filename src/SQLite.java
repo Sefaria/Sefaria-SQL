@@ -158,7 +158,7 @@ public class SQLite {
 			stmt.executeUpdate(Node.CREATE_NODE_TABLE);
 			stmt.executeUpdate(Searching.CREATE_SEARCH);
 			stmt.executeUpdate(Book.CREATE_BOOKS_TABLE);
-			stmt.executeUpdate(Header.CREATE_HEADES_TABLE);
+			stmt.executeUpdate(Header.CREATE_HEADERS_TABLE);
 
 
 			stmt.executeUpdate(CREATE_TABLE_SETTINGS);

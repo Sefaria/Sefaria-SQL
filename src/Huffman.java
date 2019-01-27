@@ -337,7 +337,7 @@ public class Huffman extends SQLite{
 			
 			/*
 			 * copyTable(c, "Texts", Text.CREATE_TEXTS_TABLE, newDB);
-			 * copyTable(c, "Headers", Header.CREATE_HEADES_TABLE, newDB);
+			 * copyTable(c, "Headers", Header.CREATE_HEADERS_TABLE, newDB);
 			 * copyTable(c, "Links", Link.CREATE_TABLE_LINKS, newDB);
 			 */
 			copyTable(c, "android_metadata", CREATE_TABLE_METADATA, newDB);

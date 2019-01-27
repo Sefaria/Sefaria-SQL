@@ -13,7 +13,7 @@ public class Header extends SQLite {
 	static int headersFailed = 0;
 	
 	
-	public static final String CREATE_HEADES_TABLE = "CREATE TABLE " + TABLE_HEADERS + "(\r\n" + 
+	public static final String CREATE_HEADERS_TABLE = "CREATE TABLE " + TABLE_HEADERS + "(\r\n" + 
 			"	_id INTEGER PRIMARY KEY,\r\n" + 
 			"	bid INTEGER,\r\n" + 
 			"	heHeader TEXT,\r\n" + 
