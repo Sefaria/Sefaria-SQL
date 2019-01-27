@@ -191,7 +191,7 @@ public class Link extends SQLite{
 	}
 	
 	/**
-	 *  repositions the row so that it will be consistant (ignoring textdepth) when trying to get the values at each level.
+	 *  repositions the row so that it will be consistent (ignoring textdepth) when trying to get the values at each level.
 	 * @param row
 	 * @param bida
 	 * @param textDeptha
