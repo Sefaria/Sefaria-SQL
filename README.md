@@ -20,7 +20,7 @@ The java code is in src/
 
 SQLite.java is the highest level code (it run at startup). Book.java contains methods for inputting the data about each book into the database. Simularly, Header, Link, Searching, and Text are responsible for putting their respective items into the database (in their own table). Node.java is responsible for putting in Nodes for complex texts and/or alternate structures.
 
-There are some preprocessing python srcipts in scripts/
+There are some preprocessing python scripts in scripts/
 
 scripts/fileList/createFileList.py creates a list of files to be upload based on the index and exported files.
 
