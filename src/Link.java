@@ -207,7 +207,7 @@ public class Link extends SQLite{
 				row[i - 1] = row[i];
 			}
 			row[startingNum] = "0";
-			//Log.d("sql_link_values", "preforming fix row[x] A-" + booka.title + " " + whileLoopC++);
+			//Log.d("sql_link_values", "performing fix row[x] A-" + booka.title + " " + whileLoopC++);
 		}
 
 		startingNum = 13;
@@ -217,7 +217,7 @@ public class Link extends SQLite{
 				row[i - 1] = row[i];
 			}
 			row[startingNum] = "0";
-			//Log.d("sql_link_values", "preforming fix row[x] B-" + bookb.title+ " " + whileLoopC++ );
+			//Log.d("sql_link_values", "performing fix row[x] B-" + bookb.title+ " " + whileLoopC++ );
 		}
 		return row;
 	}
