@@ -594,7 +594,7 @@ public class Huffman extends SQLite{
 				node = tempNode;				
 			}
 		}
-		System.out.println("enflation took:" + ((new Date()).getTime() - startTime)/1000.0);
+		System.out.println("inflation took:" + ((new Date()).getTime() - startTime)/1000.0);
 		return root;
 	}
 
