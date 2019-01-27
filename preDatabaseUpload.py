@@ -134,7 +134,7 @@ def createFileList():
 
 
 def reorderFiles(unordered):
-	#note: this only works for the list of Commentaries that serperated from the rest of the list.
+	#note: this only works for the list of Commentaries that separated from the rest of the list.
 	# so it doesn't include Other/Commentary2
 	specials = [
 	'^Tanakh/Torah/','^Tanakh/Prophets/', '^Tanakh/Writings/',

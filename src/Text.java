@@ -317,7 +317,7 @@ public class Text extends SQLite{
 			return -1;
 		}
 
-		//Huffman.addTextCount(theText);//commented out in order to make the copying a seperated task
+		//Huffman.addTextCount(theText);//commented out in order to make the copying a separated task
 		PreparedStatement stmt = null;
 		try{
 			stmt = c.prepareStatement("INSERT INTO Texts ("
