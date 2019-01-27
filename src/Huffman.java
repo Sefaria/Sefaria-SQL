@@ -512,14 +512,14 @@ public class Huffman extends SQLite{
 		makeTree();
 		List<Boolean> encodedText = encode(text);
 		System.out.println(decode(encodedText));
-		String defalted = getDeflatedTree();
-		System.out.println(defalted);
-		huffmanRoot = enflateTree(defalted);
+		String deflated = getDeflatedTree();
+		System.out.println(deflated);
+		huffmanRoot = enflateTree(deflated);
 		
 		//printTree(huffmanRoot, "");
 		
 		if(!text.equals(decode(encodedText)))
-			System.err.println("problem with defalted thing");
+			System.err.println("problem with deflated thing");
 		else{
 			System.out.println("\nGood Work!!\n" + decode(encodedText));
 		}
