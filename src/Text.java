@@ -310,7 +310,7 @@ public class Text extends SQLite{
 
 			//theText = convertToJH8(theText);////CONVERT FROM UTF8!!!!!!!
 			//convertFromJH8(theText);
-		}catch(Exception e){ //if there was a problem getting the text, then it probably wasn't text anyways so just leave the function.
+		}catch(Exception e){ //if there was a problem getting the text, then it probably wasn't text anyway so just leave the function.
 			System.err.println("Error: " + e);
 			System.err.println("sql_adding_text: Problem adding text " + title + " it[1] = " + it[1]);
 			textsFailedToUpload++;
