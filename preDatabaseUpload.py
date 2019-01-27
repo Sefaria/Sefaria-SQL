@@ -141,9 +141,9 @@ def reorderFiles(unordered):
 	'^Mishnah/Seder ', '^Talmud/Bavli/Seder ', '^Talmud/Yerushalmi/Seder ',
 
 	'^Tanakh/Commentary/Rashi', '^Tanakh/Targum/Onkelos', '^Tanakh/Commentary/Ibn Ezra', '^Tanakh/Commentary/Ramban', '^Tanakh/Commentary/Sforno', '^Tanakh/Commentary/Rashbam',
-	'^Tanakh/Commentary', '^Tanakh/Commentary/', '^Other/Commentary2/Tanakh/', '^Tanakh/Targum/', # make sure that the rest of the Tanakh commentaries come b/f any other category commenary
+	'^Tanakh/Commentary', '^Tanakh/Commentary/', '^Other/Commentary2/Tanakh/', '^Tanakh/Targum/', # make sure that the rest of the Tanakh commentaries come b/f any other category commentary
 	
-	'^Mishnah/Commentary/Bartenura', '^Mishnah/Commentary/Ikar Tosafot Yom Tov', '/Mishnah/Tosafot Yom Tov', '^Mishnah/Commentary/', '^Other/Commentary2/Mishnah/', # make sure that the rest of the mishna commentaries come b/f any other category commenary
+	'^Mishnah/Commentary/Bartenura', '^Mishnah/Commentary/Ikar Tosafot Yom Tov', '/Mishnah/Tosafot Yom Tov', '^Mishnah/Commentary/', '^Other/Commentary2/Mishnah/', # make sure that the rest of the mishna commentaries come b/f any other category commentary
 	
 	'^Talmud/Commentary/Rashi', '^Talmud/Commentary/Tosafot', '/Talmud/Rashba', '^Talmud/Rif/',
 	'^Talmud/Commentary/', '^Other/Commentary2/Talmud/',
