@@ -223,7 +223,7 @@ public class Link extends SQLite{
 	}
 
 	private static PreparedStatement putValues(PreparedStatement stmt, String [] row, int bida, int bidb, boolean addConnType) throws NumberFormatException, SQLException{
-		//row shuold already be repositioned
+		//row should already be repositioned
 			
 			stmt.setInt(1, bida);
 			stmt.setInt(2, catchDafs(row[6]));
