@@ -222,7 +222,7 @@ public class Searching {
 		ArrayList<Byte> blob = new ArrayList<Byte>();
 		int packetCount = bits.length()/BITS_PER_PACKET + 1;
 		if(packetCount > 255){
-			System.err.println("TO BIG PACKET COUNT... MUST CHANGE TO 8 BYTE packets...packetCouunt: " + packetCount);
+			System.err.println("TO BIG PACKET COUNT... MUST CHANGE TO 8 BYTE packets...packetCount: " + packetCount);
 			System.exit(-1);
 		}
 		
@@ -240,7 +240,7 @@ public class Searching {
 					packBits.set(j);
 				}
 				}catch(Exception e){
-					System.err.println("bitnum: " + bitNum + ".. bits.length:" + bits.length() + " (i,j): " + i + "," + j + "...packetCouunt: " + packetCount); 
+					System.err.println("bitnum: " + bitNum + ".. bits.length:" + bits.length() + " (i,j): " + i + "," + j + "...packetCount: " + packetCount); 
 					break;
 				}
 			}
