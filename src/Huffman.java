@@ -110,7 +110,7 @@ public class Huffman extends SQLite{
 		System.out.println((new Date()).getTime() + "finished deflating");
 		System.out.println("deflated size:"+ Huffman.utf8Length(deflated));
 		huffmanRoot = Huffman.inflateTree(deflated);
-		System.out.println((new Date()).getTime() + "finished enflating");
+		System.out.println((new Date()).getTime() + "finished inflating");
 		if(testStr.equals(decode(compressedTest))){
 			System.out.println("Good: decoding");
 		}else
