@@ -763,7 +763,7 @@ public class Node extends SQLite{
 		try{
 			JSONObject alts = schemas.getJSONObject("alts");
 			String bookTitle = schemas.getString("title");
-			String default_struct = "__UNUSED__"; //didn't leave it blank in case 2 sturcts both have no name and I push them together.
+			String default_struct = "__UNUSED__"; //didn't leave it blank in case 2 structs both have no name and I push them together.
 			try{
 				default_struct = schemas.getString("default_struct");
 			}catch(Exception e){
