@@ -229,7 +229,7 @@ public class Book extends SQLite{
 			}
 			textDepth = str2strArray(sectionNames).length;
 			if(str2strArray(heSectionNames).length != textDepth){
-				System.err.println("section names convertion problem:" + heSectionNames);
+				System.err.println("section names conversion problem:" + heSectionNames);
 				System.exit(-1);
 			}
 
