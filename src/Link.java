@@ -69,7 +69,7 @@ public class Link extends SQLite{
 	}
 	
 	public static Node.NodePair getParentID(String title, String fullPath, int bid){
-		if(title.equals(fullPath)){ //it's referencing the book directly... A good example of this is when there's a default structre that it's referencing (or anything without subnodes)
+		if(title.equals(fullPath)){ //it's referencing the book directly... A good example of this is when there's a default structure that it's referencing (or anything without subnodes)
 			Node.NodePair nodePair = null;
 			if(booksIsComplex.get(bid)){
 				nodePair = allDefaultNodesByBID.get(bid);
