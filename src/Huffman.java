@@ -345,7 +345,7 @@ public class Huffman extends SQLite{
 			//copyTable(c, "Searching", Searching.CREATE_SEARCH, newDB);
 			Searching.makeSearching(searchMethod, c, oldDB, newDB);
 			
-			setSettings("version", DB_VERION_NUM +"", c);
+			setSettings("version", DB_VERSION_NUM +"", c);
 			
 			copyTextTable(c, oldDB);
 			c.close();
@@ -378,7 +378,7 @@ public class Huffman extends SQLite{
 			c.prepareStatement("INSERT INTO heTexts (" + columns + ") SELECT " + "heTextCompress" + " FROM oldDB.Texts").execute();
 						
 			Searching.makeSearching(searchMethod, c, oldDB, newDB);
-			setSettings("version", DB_VERION_NUM +"", c);
+			setSettings("version", DB_VERSION_NUM +"", c);
 			
 			c.close();
 
@@ -402,7 +402,7 @@ public class Huffman extends SQLite{
 			copyTable(c, "android_metadata", CREATE_TABLE_METADATA, newDB);
 			
 			setSettings("api", ""+1, c);
-			setSettings("version", DB_VERION_NUM +"", c);
+			setSettings("version", DB_VERSION_NUM +"", c);
 			c.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
