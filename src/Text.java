@@ -310,14 +310,14 @@ public class Text extends SQLite{
 
 			//theText = convertToJH8(theText);////CONVERT FROM UTF8!!!!!!!
 			//convertFromJH8(theText);
-		}catch(Exception e){ //if there was a problem getting the text, then it probably wasn't text anyways so just leave the function.
+		}catch(Exception e){ //if there was a problem getting the text, then it probably wasn't text anyway so just leave the function.
 			System.err.println("Error: " + e);
 			System.err.println("sql_adding_text: Problem adding text " + title + " it[1] = " + it[1]);
 			textsFailedToUpload++;
 			return -1;
 		}
 
-		//Huffman.addTextCount(theText);//commented out in order to make the copying a seperated task
+		//Huffman.addTextCount(theText);//commented out in order to make the copying a separated task
 		PreparedStatement stmt = null;
 		try{
 			stmt = c.prepareStatement("INSERT INTO Texts ("

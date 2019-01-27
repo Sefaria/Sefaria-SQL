@@ -547,7 +547,7 @@ public class JSONArray {
     /**
      * Get the optional string value associated with an index. It returns an
      * empty string if there is no value at that index. If the value is not a
-     * string and is not null, then it is coverted to a string.
+     * string and is not null, then it is converted to a string.
      *
      * @param index
      *            The index must be between 0 and length() - 1.
@@ -934,7 +934,7 @@ public class JSONArray {
      * @param indentFactor
      *            The number of spaces to add to each level of indentation.
      * @param indent
-     *            The indention of the top level.
+     *            The indentation of the top level.
      * @return The writer.
      * @throws JSONException
      */

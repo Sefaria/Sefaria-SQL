@@ -23,11 +23,11 @@ import org.json.JSONTokener;
 
 
 public class SQLite {
-	protected static final int DB_VERION_NUM = 277;
-	public static final String DB_NAME_PART = "test" + DB_VERION_NUM;
+	protected static final int DB_VERSION_NUM = 277;
+	public static final String DB_NAME_PART = "test" + DB_VERSION_NUM;
 	public static final String DB_NAME_FULL = "testDBs/" + DB_NAME_PART + ".db";
 	public static final String DB_NAME_COPY = "testDBs/UpdateForSefariaMobileDatabase.db";//copy_" + DB_NAME_PART + ".db";
-	public static final String DB_NAME_HE_ONLY_COPY = "testDBs/heTexts_" + DB_VERION_NUM + ".db";
+	public static final String DB_NAME_HE_ONLY_COPY = "testDBs/heTexts_" + DB_VERSION_NUM + ".db";
 	public static final String DB_NAME_API = "testDBs/API_UpdateForSefariaMobileDatabase.db";
 
 	private static final int OLD_DB_NUM_TO_COPY_FROM = 265;
@@ -158,7 +158,7 @@ public class SQLite {
 			stmt.executeUpdate(Node.CREATE_NODE_TABLE);
 			stmt.executeUpdate(Searching.CREATE_SEARCH);
 			stmt.executeUpdate(Book.CREATE_BOOKS_TABLE);
-			stmt.executeUpdate(Header.CREATE_HEADES_TABLE);
+			stmt.executeUpdate(Header.CREATE_HEADERS_TABLE);
 
 
 			stmt.executeUpdate(CREATE_TABLE_SETTINGS);
@@ -169,7 +169,7 @@ public class SQLite {
 			stmt.executeUpdate(" INSERT INTO \"android_metadata\" VALUES ('en_US')");
 
 			stmt.close();
-			setSettings("version", ""+DB_VERION_NUM, c);
+			setSettings("version", ""+DB_VERSION_NUM, c);
 			setSettings("api", ""+0, c);
 			System.out.println("Created tables");
 		} catch ( Exception e ) {
@@ -407,7 +407,7 @@ public class SQLite {
 			return LANG_EN;
 		else if(langString.equals("he"))
 			return LANG_HE;
-		System.err.println("unrecignized lang:" + langString);
+		System.err.println("unrecognized lang:" + langString);
 		return 0;
 
 	}

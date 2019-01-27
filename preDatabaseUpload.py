@@ -50,7 +50,7 @@ def links():
 						thisLine += convert2Levels(row[0].replace(row[3] + " " ,"").split(':'), row[5], row[0])
 						thisLine += [row[4]]
 						thisLine += convert2Levels(row[1].replace(row[4] + " " ,"").split(':'), row[6], row[1])
-						thisLine += [conncetionType(row[2])]
+						thisLine += [connectionType(row[2])]
 						writer.writerow(thisLine)
 						numberOfLines += 1
 			in_file_number += 1
@@ -81,7 +81,7 @@ def daf2Num(daf):
 	return value;
 
 	
-def conncetionType(connString):
+def connectionType(connString):
 	return connString[0:3].lower()
 	#map = {'quotation': 1, 'commentary':2, 'reference':3,'related':4,'midrash':5,  'allusion':6, 'mesorat hashas': 7, 'summary':8, 'Law':9,'ein mishpat':10,'Liturgy':11,'explication':12, 'targum':13,'Ellucidation':14};
 	#if connString not in map.keys():
@@ -134,16 +134,16 @@ def createFileList():
 
 
 def reorderFiles(unordered):
-	#note: this only works for the list of Commentaries that serperated from the rest of the list.
+	#note: this only works for the list of Commentaries that separated from the rest of the list.
 	# so it doesn't include Other/Commentary2
 	specials = [
 	'^Tanakh/Torah/','^Tanakh/Prophets/', '^Tanakh/Writings/',
 	'^Mishnah/Seder ', '^Talmud/Bavli/Seder ', '^Talmud/Yerushalmi/Seder ',
 
 	'^Tanakh/Commentary/Rashi', '^Tanakh/Targum/Onkelos', '^Tanakh/Commentary/Ibn Ezra', '^Tanakh/Commentary/Ramban', '^Tanakh/Commentary/Sforno', '^Tanakh/Commentary/Rashbam',
-	'^Tanakh/Commentary', '^Tanakh/Commentary/', '^Other/Commentary2/Tanakh/', '^Tanakh/Targum/', # make sure that the rest of the Tanakh commentaries come b/f any other category commenary
+	'^Tanakh/Commentary', '^Tanakh/Commentary/', '^Other/Commentary2/Tanakh/', '^Tanakh/Targum/', # make sure that the rest of the Tanakh commentaries come b/f any other category commentary
 	
-	'^Mishnah/Commentary/Bartenura', '^Mishnah/Commentary/Ikar Tosafot Yom Tov', '/Mishnah/Tosafot Yom Tov', '^Mishnah/Commentary/', '^Other/Commentary2/Mishnah/', # make sure that the rest of the mishna commentaries come b/f any other category commenary
+	'^Mishnah/Commentary/Bartenura', '^Mishnah/Commentary/Ikar Tosafot Yom Tov', '/Mishnah/Tosafot Yom Tov', '^Mishnah/Commentary/', '^Other/Commentary2/Mishnah/', # make sure that the rest of the mishna commentaries come b/f any other category commentary
 	
 	'^Talmud/Commentary/Rashi', '^Talmud/Commentary/Tosafot', '/Talmud/Rashba', '^Talmud/Rif/',
 	'^Talmud/Commentary/', '^Other/Commentary2/Talmud/',

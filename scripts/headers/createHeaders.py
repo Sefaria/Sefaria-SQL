@@ -56,7 +56,7 @@ def int2heb(num):
 					heb = "" + hChar1 + heb;
 		place+=1;	
 	#now search for 15 & 16 to replace
-	ka = "й" + "д"; #carefull...don't join these strings
+	ka = "й" + "д"; #careful...don't join these strings
 	ku = "й" + "е";
 	heb = heb.replace(ka,"ие");
 	heb = heb.replace(ku,"иж");

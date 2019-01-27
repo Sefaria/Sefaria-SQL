@@ -6,9 +6,9 @@ Converts [Sefaria-Export](https://github.com/Sefaria/Sefaria-Export) to SQLite d
 ## How to use
 1. git clone https://github.com/Sefaria/Sefaria-SQL.git 
 2. git clone https://github.com/Sefaria/Sefaria-Export.git (into the same dir that Sefaria-SQL is in)
-3. Go to scripts/links and run: pytyhon2 createLinks.py
-4. Go to scripts/fileList and run: pytyhon2 createFileList.py
-5. (Not really needed b/c headers are part of clone) go to Sefaria-SQL/scripts/headers and run: pytyhon2 createHeaders.py 
+3. Go to scripts/links and run: python2 createLinks.py
+4. Go to scripts/fileList and run: python2 createFileList.py
+5. (Not really needed b/c headers are part of clone) go to Sefaria-SQL/scripts/headers and run: python2 createHeaders.py 
 6. Open Sefaria-SQL in [Eclipse](http://www.eclipse.org/downloads/) for Java (File -> import -> Existing Projects into Workspace)
 7. In src/SQLite.java, you can change variables
 8. Run project
@@ -18,9 +18,9 @@ Converts [Sefaria-Export](https://github.com/Sefaria/Sefaria-Export) to SQLite d
 
 The java code is in src/
 
-SQLite.java is the highest level code (it run at startup). Book.java contains methods for inputing the data about each book into the database. Simularly, Header, Link, Searching, and Text are responsible for putting their respective items into the database (in their own table). Node.java is responsible for putting in Nodes for complex texts and/or alternate structures.
+SQLite.java is the highest level code (it run at startup). Book.java contains methods for inputting the data about each book into the database. Similarly, Header, Link, Searching, and Text are responsible for putting their respective items into the database (in their own table). Node.java is responsible for putting in Nodes for complex texts and/or alternate structures.
 
-There are some preprocessing python srcipts in scripts/
+There are some preprocessing python scripts in scripts/
 
 scripts/fileList/createFileList.py creates a list of files to be upload based on the index and exported files.
 

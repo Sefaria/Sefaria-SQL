@@ -109,8 +109,8 @@ public class Huffman extends SQLite{
 		String deflated = Huffman.getDeflatedTree();
 		System.out.println((new Date()).getTime() + "finished deflating");
 		System.out.println("deflated size:"+ Huffman.utf8Length(deflated));
-		huffmanRoot = Huffman.enflateTree(deflated);
-		System.out.println((new Date()).getTime() + "finished enflating");
+		huffmanRoot = Huffman.inflateTree(deflated);
+		System.out.println((new Date()).getTime() + "finished inflating");
 		if(testStr.equals(decode(compressedTest))){
 			System.out.println("Good: decoding");
 		}else
@@ -337,7 +337,7 @@ public class Huffman extends SQLite{
 			
 			/*
 			 * copyTable(c, "Texts", Text.CREATE_TEXTS_TABLE, newDB);
-			 * copyTable(c, "Headers", Header.CREATE_HEADES_TABLE, newDB);
+			 * copyTable(c, "Headers", Header.CREATE_HEADERS_TABLE, newDB);
 			 * copyTable(c, "Links", Link.CREATE_TABLE_LINKS, newDB);
 			 */
 			copyTable(c, "android_metadata", CREATE_TABLE_METADATA, newDB);
@@ -345,7 +345,7 @@ public class Huffman extends SQLite{
 			//copyTable(c, "Searching", Searching.CREATE_SEARCH, newDB);
 			Searching.makeSearching(searchMethod, c, oldDB, newDB);
 			
-			setSettings("version", DB_VERION_NUM +"", c);
+			setSettings("version", DB_VERSION_NUM +"", c);
 			
 			copyTextTable(c, oldDB);
 			c.close();
@@ -378,7 +378,7 @@ public class Huffman extends SQLite{
 			c.prepareStatement("INSERT INTO heTexts (" + columns + ") SELECT " + "heTextCompress" + " FROM oldDB.Texts").execute();
 						
 			Searching.makeSearching(searchMethod, c, oldDB, newDB);
-			setSettings("version", DB_VERION_NUM +"", c);
+			setSettings("version", DB_VERSION_NUM +"", c);
 			
 			c.close();
 
@@ -402,7 +402,7 @@ public class Huffman extends SQLite{
 			copyTable(c, "android_metadata", CREATE_TABLE_METADATA, newDB);
 			
 			setSettings("api", ""+1, c);
-			setSettings("version", DB_VERION_NUM +"", c);
+			setSettings("version", DB_VERSION_NUM +"", c);
 			c.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -512,14 +512,14 @@ public class Huffman extends SQLite{
 		makeTree();
 		List<Boolean> encodedText = encode(text);
 		System.out.println(decode(encodedText));
-		String defalted = getDeflatedTree();
-		System.out.println(defalted);
-		huffmanRoot = enflateTree(defalted);
+		String deflated = getDeflatedTree();
+		System.out.println(deflated);
+		huffmanRoot = inflateTree(deflated);
 		
 		//printTree(huffmanRoot, "");
 		
 		if(!text.equals(decode(encodedText)))
-			System.err.println("problem with defalted thing");
+			System.err.println("problem with deflated thing");
 		else{
 			System.out.println("\nGood Work!!\n" + decode(encodedText));
 		}
@@ -556,7 +556,7 @@ public class Huffman extends SQLite{
 		}
 	}
 
-	public static Huffman enflateTree(String deflated){
+	public static Huffman inflateTree(String deflated){
 		Date date = new Date();
 		long startTime = date.getTime();
 		Huffman root = new Huffman();
@@ -594,7 +594,7 @@ public class Huffman extends SQLite{
 				node = tempNode;				
 			}
 		}
-		System.out.println("enflation took:" + ((new Date()).getTime() - startTime)/1000.0);
+		System.out.println("inflation took:" + ((new Date()).getTime() - startTime)/1000.0);
 		return root;
 	}
 

@@ -69,7 +69,7 @@ public class Link extends SQLite{
 	}
 	
 	public static Node.NodePair getParentID(String title, String fullPath, int bid){
-		if(title.equals(fullPath)){ //it's referencing the book directly... A good example of this is when there's a default structre that it's referencing (or anything without subnodes)
+		if(title.equals(fullPath)){ //it's referencing the book directly... A good example of this is when there's a default structure that it's referencing (or anything without subnodes)
 			Node.NodePair nodePair = null;
 			if(booksIsComplex.get(bid)){
 				nodePair = allDefaultNodesByBID.get(bid);
@@ -191,7 +191,7 @@ public class Link extends SQLite{
 	}
 	
 	/**
-	 *  repositions the row so that it will be consistant (ignoring textdepth) when trying to get the values at each level.
+	 *  repositions the row so that it will be consistent (ignoring textdepth) when trying to get the values at each level.
 	 * @param row
 	 * @param bida
 	 * @param textDeptha
@@ -207,7 +207,7 @@ public class Link extends SQLite{
 				row[i - 1] = row[i];
 			}
 			row[startingNum] = "0";
-			//Log.d("sql_link_values", "preforming fix row[x] A-" + booka.title + " " + whileLoopC++);
+			//Log.d("sql_link_values", "performing fix row[x] A-" + booka.title + " " + whileLoopC++);
 		}
 
 		startingNum = 13;
@@ -217,13 +217,13 @@ public class Link extends SQLite{
 				row[i - 1] = row[i];
 			}
 			row[startingNum] = "0";
-			//Log.d("sql_link_values", "preforming fix row[x] B-" + bookb.title+ " " + whileLoopC++ );
+			//Log.d("sql_link_values", "performing fix row[x] B-" + bookb.title+ " " + whileLoopC++ );
 		}
 		return row;
 	}
 
 	private static PreparedStatement putValues(PreparedStatement stmt, String [] row, int bida, int bidb, boolean addConnType) throws NumberFormatException, SQLException{
-		//row shuold already be repositioned
+		//row should already be repositioned
 			
 			stmt.setInt(1, bida);
 			stmt.setInt(2, catchDafs(row[6]));
