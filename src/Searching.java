@@ -90,7 +90,7 @@ public class Searching {
 
 	
 	private static String [] getWords(String text){
-		//String orgTetx = ""+ text;
+		//String orgText = ""+ text;
 		text = text.replaceAll("[\u05be]", " ");
 		text = text.replaceAll("[\u0591-\u05C7\u05f3\u05f4\'\"]", "");
 		text = text.replaceAll("([^\u05d0-\u05ea])", " ");
