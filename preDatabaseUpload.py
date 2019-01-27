@@ -50,7 +50,7 @@ def links():
 						thisLine += convert2Levels(row[0].replace(row[3] + " " ,"").split(':'), row[5], row[0])
 						thisLine += [row[4]]
 						thisLine += convert2Levels(row[1].replace(row[4] + " " ,"").split(':'), row[6], row[1])
-						thisLine += [conncetionType(row[2])]
+						thisLine += [connectionType(row[2])]
 						writer.writerow(thisLine)
 						numberOfLines += 1
 			in_file_number += 1
@@ -81,7 +81,7 @@ def daf2Num(daf):
 	return value;
 
 	
-def conncetionType(connString):
+def connectionType(connString):
 	return connString[0:3].lower()
 	#map = {'quotation': 1, 'commentary':2, 'reference':3,'related':4,'midrash':5,  'allusion':6, 'mesorat hashas': 7, 'summary':8, 'Law':9,'ein mishpat':10,'Liturgy':11,'explication':12, 'targum':13,'Ellucidation':14};
 	#if connString not in map.keys():
