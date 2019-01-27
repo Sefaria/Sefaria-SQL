@@ -55,9 +55,9 @@ public class Node extends SQLite{
 			"	structNum INTEGER NOT NULL default 1,\r\n" + 
 			"	textDepth INTEGER,\r\n" + 
 
-			"	startTid INTEGER,\r\n" +  //maybe only used with refferences on alt structure
-			"	endTid INTEGER,\r\n" +  //maybe only used with refferences on alt structure
-			"	extraTids TEXT,\r\n" +  //maybe only used with refferences on alt structure ex. "[34-70,98-200]"
+			"	startTid INTEGER,\r\n" +  //maybe only used with references on alt structure
+			"	endTid INTEGER,\r\n" +  //maybe only used with references on alt structure
+			"	extraTids TEXT,\r\n" +  //maybe only used with references on alt structure ex. "[34-70,98-200]"
 			"	startLevels TEXT,\r\n" +  //
 			"	key TEXT,\r\n" +  //
 			//maybe some stuff like to display chap name and or number (ei. maybe add some displaying info)
